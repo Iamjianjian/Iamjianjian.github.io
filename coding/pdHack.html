@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/coding/pdHack.html">
+  <link rel="alternate" type="application/rss+xml" title="I am JianJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans">
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>crack PD Hack</title>
+  <meta name="description" content="外挂使用这个外挂是通过网络验证的,要先通过服务器注册,再充值,每次使用登陆通过服务器的验证后才可以使用。外挂长这样:">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+
+    <center><div class="post-title" itemprop="name headline">crack PD Hack</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="03 Jan 2019" itemprop="datePublished">Jan 3 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">jianjian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">crack</a>
+        
+		<a class="post-tags-item" href="/tags/">code</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>长期打魔兽争霸被虐产生的歹念</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="外挂使用">外挂使用</h2>
+<p>这个外挂是通过网络验证的,要先通过服务器注册,再充值,每次使用登陆通过服务器的验证后才可以使用。<br />
+外挂长这样:
+<img src="/img/pdhack/ui.png" alt="PDHackUI" /></p>
+
+<h2 id="od分析">od分析</h2>
+<p>知道了网络验证之后思路就基本确定了,找recv send 这些windowsAPI去<br />
+先打开od载入看看内存<br />
+发现401000那里那个段内存是空的什么也没有<br />
+<img src="/img/pdhack/m401000.png" alt="m401000" />
+<br />
+<strong>F9让它跑一下,停下来回来发现代码已经被解压出来了</strong>
+<br />
+<img src="/img/pdhack/m40release.png" alt="m40release" />
+先给recv下个断点然后跑起来,断下来的时候看一下函数调用盏
+<img src="/img/pdhack/recvFuncCallStack.png" alt="recvFuncCallStack" />
+但是这里的调用只是给了一部分是不完整的其实前面还有很多，我也不知道怎么让它显示更多。我们直接在右下角的堆栈里找，没猜错的话我们可以找到一些返回40xxxx的地址
+<br />
+果不其然
+<img src="/img/pdhack/stackfind40.png" alt="stackfind40" />
+<br />
+回车回去
+<img src="/img/pdhack/callRecv.png" alt="callRecv" />
+现在上下拉拉看看就可以找到相关信息,或者直接搜字符串都可以看见了
+<img src="/img/pdhack/string.png" alt="string" />
+剩下的就是怎么让跳的问题了，没什么技术可言了
+<br />
+还有一个就是这个外挂是用易语言写的直接搜ff55fc5f5e可以来到易语言的按钮事件的入口(你总要按登陆吧)，跟进去也可以找到相关的地方</p>
+<h2 id="写外挂补丁">写外挂补丁</h2>
+<p>那么现在问题来了，我难道每次打魔兽都要开一次od？
+<br />
+别说我不会脱壳哦，老夫可是会脱upx的男人。除了upx…em<br />
+<img src="/img/expression/zhishimangqu.png" alt="zhishimangqu" />
+谁说破解一定要脱壳的，我不是不会只是不需要！！！
+这个外挂每次开了之后都有一个界面,那么这个时候代码是一定已经解压出来了的，所以我们可以等它自己把代码解压出来之后再把跳转点改过来就ok了。
+其实就是开一个进程调试pdhack，然后模拟od的过程把pdhack的代码改了。<br />
+具体py代码这样子</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import time
+from his_debugger_defines import *
+msvcrt=cdll.msvcrt
+# msvcrt.system(r' start path to pdHack'.encode('gbk'))
+kernel32=windll.kernel32
+# pid=int(input("input pid"))
+startupinfo=STARTUPINFO()
+memset(byref(startupinfo),0,sizeof(startupinfo))
+processinformation=PROCESS_INFORMATION()
+memset(byref(processinformation),0,sizeof(processinformation))
+startupinfo.dwFlags=0x1
+startupinfo.wShowWindow=0x1
+startupinfo.cb=sizeof(startupinfo)
+if kernel32.CreateProcessA(
+    r'path to pdHack'.encode('gbk'),
+    None,
+    None,
+    None,
+    None,
+    0x10,
+    None,
+    None,
+    byref(startupinfo),
+    byref(processinformation)
+):
+    print("success")
+    kernel32.CloseHandle(processinformation.hThread)
+    kernel32.CloseHandle(processinformation.hProcess)
+    print("close",processinformation.dwProcessId)
+    pid=processinformation.dwProcessId
+else:
+    msvcrt.system("pause".encode())
+time.sleep(2)
+pHandle=kernel32.OpenProcess(PROCESS_ALL_ACCESS,False,pid)
+pd=pHandle
+def readMemory(ph,address,length):
+    data="".encode()
+    read_buf=create_string_buffer(length)
+    count=c_ulong(0)
+    if not kernel32.ReadProcessMemory(
+            ph,
+            address,
+            read_buf,
+            length,
+            byref(count)
+        ):
+        print("read memory False")
+        return data
+    return data+read_buf.raw
+def writeMemory(pd,address,length,data):
+    count=c_ulong(0)
+    length=len(data)
+    c_data=c_char_p(data)
+    if not kernel32.WriteProcessMemory(
+            pd,
+            address,
+            c_data,
+            length,
+            byref(count)
+        ):
+        print("write memory false")
+    
+
+
+# three jmp
+address1=0x40476e
+address2=0x404794
+address3=0x404880
+l=6
+writeMemory(pd,address1,l,bytes([0x90 for i in range(6)]))
+writeMemory(pd,address2,l,bytes([0xeb,0x0e,0x90,0x90,0x90,0x90]))
+writeMemory(pd,address3,l,bytes([0x90 for i in range(6)]))
+
+#network
+address4=0x4023d0
+address5=0x4023bf  
+l2=10
+writeMemory(pd,address4,l,bytes([0x90 for i in range(6)]))
+writeMemory(pd,address5,l2,bytes([0x90 for i in range(l2)]))
+
+# along newwork
+address6=0x4053cf
+data=[0xB8,0xd5,0x53,0x40,0x00]
+data+=[0xc3,50, 48, 52, 48, 51, 52, 0]
+writeMemory(pd,address6,len(data),bytes(data))
+
+print(readMemory(pHandle,address1,l))
+print(readMemory(pHandle,address2,l))
+print(readMemory(pHandle,address3,l))
+
+#40476e   6
+#404792   eb 0e 90*4
+#404880    6
+
+#40c787 5
+
+# 404713 6
+# 40238f  15   
+# 4023d0   6
+
+# 4053cf  204034   50 48 52 48 51 52 0
+
+</code></pre></div></div>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=crack PD Hack@&amp;url=/coding/pdHack.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/coding/pdHack.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/coding/pdHack.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="">I am JianJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="http://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>

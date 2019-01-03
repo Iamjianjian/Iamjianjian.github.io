@@ -6,9 +6,187 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 01 Jan 2019 16:41:29 +0800</pubDate>
-    <lastBuildDate>Tue, 01 Jan 2019 16:41:29 +0800</lastBuildDate>
+    <pubDate>Thu, 03 Jan 2019 10:46:27 +0800</pubDate>
+    <lastBuildDate>Thu, 03 Jan 2019 10:46:27 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>crack PD Hack</title>
+        <description>&lt;h2 id=&quot;外挂使用&quot;&gt;外挂使用&lt;/h2&gt;
+&lt;p&gt;这个外挂是通过网络验证的,要先通过服务器注册,再充值,每次使用登陆通过服务器的验证后才可以使用。&lt;br /&gt;
+外挂长这样:
+&lt;img src=&quot;/img/pdhack/ui.png&quot; alt=&quot;PDHackUI&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;od分析&quot;&gt;od分析&lt;/h2&gt;
+&lt;p&gt;知道了网络验证之后思路就基本确定了,找recv send 这些windowsAPI去&lt;br /&gt;
+先打开od载入看看内存&lt;br /&gt;
+发现401000那里那个段内存是空的什么也没有&lt;br /&gt;
+&lt;img src=&quot;/img/pdhack/m401000.png&quot; alt=&quot;m401000&quot; /&gt;
+&lt;br /&gt;
+&lt;strong&gt;F9让它跑一下,停下来回来发现代码已经被解压出来了&lt;/strong&gt;
+&lt;br /&gt;
+&lt;img src=&quot;/img/pdhack/m40release.png&quot; alt=&quot;m40release&quot; /&gt;
+先给recv下个断点然后跑起来,断下来的时候看一下函数调用盏
+&lt;img src=&quot;/img/pdhack/recvFuncCallStack.png&quot; alt=&quot;recvFuncCallStack&quot; /&gt;
+但是这里的调用只是给了一部分是不完整的其实前面还有很多，我也不知道怎么让它显示更多。我们直接在右下角的堆栈里找，没猜错的话我们可以找到一些返回40xxxx的地址
+&lt;br /&gt;
+果不其然
+&lt;img src=&quot;/img/pdhack/stackfind40.png&quot; alt=&quot;stackfind40&quot; /&gt;
+&lt;br /&gt;
+回车回去
+&lt;img src=&quot;/img/pdhack/callRecv.png&quot; alt=&quot;callRecv&quot; /&gt;
+现在上下拉拉看看就可以找到相关信息,或者直接搜字符串都可以看见了
+&lt;img src=&quot;/img/pdhack/string.png&quot; alt=&quot;string&quot; /&gt;
+剩下的就是怎么让跳的问题了，没什么技术可言了
+&lt;br /&gt;
+还有一个就是这个外挂是用易语言写的直接搜ff55fc5f5e可以来到易语言的按钮事件的入口(你总要按登陆吧)，跟进去也可以找到相关的地方&lt;/p&gt;
+&lt;h2 id=&quot;写外挂补丁&quot;&gt;写外挂补丁&lt;/h2&gt;
+&lt;p&gt;那么现在问题来了，我难道每次打魔兽都要开一次od？
+&lt;br /&gt;
+别说我不会脱壳哦，老夫可是会脱upx的男人。除了upx…em&lt;br /&gt;
+&lt;img src=&quot;/img/expression/zhishimangqu.png&quot; alt=&quot;zhishimangqu&quot; /&gt;
+谁说破解一定要脱壳的，我不是不会只是不需要！！！
+这个外挂每次开了之后都有一个界面,那么这个时候代码是一定已经解压出来了的，所以我们可以等它自己把代码解压出来之后再把跳转点改过来就ok了。
+其实就是开一个进程调试pdhack，然后模拟od的过程把pdhack的代码改了。&lt;br /&gt;
+具体py代码这样子&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import time
+from his_debugger_defines import *
+msvcrt=cdll.msvcrt
+# msvcrt.system(r' start path to pdHack'.encode('gbk'))
+kernel32=windll.kernel32
+# pid=int(input(&quot;input pid&quot;))
+startupinfo=STARTUPINFO()
+memset(byref(startupinfo),0,sizeof(startupinfo))
+processinformation=PROCESS_INFORMATION()
+memset(byref(processinformation),0,sizeof(processinformation))
+startupinfo.dwFlags=0x1
+startupinfo.wShowWindow=0x1
+startupinfo.cb=sizeof(startupinfo)
+if kernel32.CreateProcessA(
+    r'path to pdHack'.encode('gbk'),
+    None,
+    None,
+    None,
+    None,
+    0x10,
+    None,
+    None,
+    byref(startupinfo),
+    byref(processinformation)
+):
+    print(&quot;success&quot;)
+    kernel32.CloseHandle(processinformation.hThread)
+    kernel32.CloseHandle(processinformation.hProcess)
+    print(&quot;close&quot;,processinformation.dwProcessId)
+    pid=processinformation.dwProcessId
+else:
+    msvcrt.system(&quot;pause&quot;.encode())
+time.sleep(2)
+pHandle=kernel32.OpenProcess(PROCESS_ALL_ACCESS,False,pid)
+pd=pHandle
+def readMemory(ph,address,length):
+    data=&quot;&quot;.encode()
+    read_buf=create_string_buffer(length)
+    count=c_ulong(0)
+    if not kernel32.ReadProcessMemory(
+            ph,
+            address,
+            read_buf,
+            length,
+            byref(count)
+        ):
+        print(&quot;read memory False&quot;)
+        return data
+    return data+read_buf.raw
+def writeMemory(pd,address,length,data):
+    count=c_ulong(0)
+    length=len(data)
+    c_data=c_char_p(data)
+    if not kernel32.WriteProcessMemory(
+            pd,
+            address,
+            c_data,
+            length,
+            byref(count)
+        ):
+        print(&quot;write memory false&quot;)
+    
+
+
+# three jmp
+address1=0x40476e
+address2=0x404794
+address3=0x404880
+l=6
+writeMemory(pd,address1,l,bytes([0x90 for i in range(6)]))
+writeMemory(pd,address2,l,bytes([0xeb,0x0e,0x90,0x90,0x90,0x90]))
+writeMemory(pd,address3,l,bytes([0x90 for i in range(6)]))
+
+#network
+address4=0x4023d0
+address5=0x4023bf  
+l2=10
+writeMemory(pd,address4,l,bytes([0x90 for i in range(6)]))
+writeMemory(pd,address5,l2,bytes([0x90 for i in range(l2)]))
+
+# along newwork
+address6=0x4053cf
+data=[0xB8,0xd5,0x53,0x40,0x00]
+data+=[0xc3,50, 48, 52, 48, 51, 52, 0]
+writeMemory(pd,address6,len(data),bytes(data))
+
+print(readMemory(pHandle,address1,l))
+print(readMemory(pHandle,address2,l))
+print(readMemory(pHandle,address3,l))
+
+#40476e   6
+#404792   eb 0e 90*4
+#404880    6
+
+#40c787 5
+
+# 404713 6
+# 40238f  15   
+# 4023d0   6
+
+# 4053cf  204034   50 48 52 48 51 52 0
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Thu, 03 Jan 2019 00:00:00 +0800</pubDate>
+        <link>/coding/pdHack.html</link>
+        <guid isPermaLink="true">/coding/pdHack.html</guid>
+        
+        <category>crack</category>
+        
+        <category>code</category>
+        
+        
+        <category>coding</category>
+        
+      </item>
+    
+      <item>
+        <title>关于这个博客</title>
+        <description>&lt;h2 id=&quot;搭建&quot;&gt;搭建&lt;/h2&gt;
+&lt;p&gt;博客部署在githubpage，只是把域名指向改了，用的jekyll做的静态网页，在&lt;a href=&quot;http://jekyllthemes.org/&quot;&gt;jekyll Theme&lt;/a&gt;找了个模板改了一下(理解一下我们这些不会前端的)!模板叫NiceBlog比较简洁，作者觉得现在的模板普遍
+&lt;strong&gt;over designed&lt;/strong&gt;,所以搞了个比较简单的！&lt;/p&gt;
+
+&lt;h2 id=&quot;目的&quot;&gt;目的&lt;/h2&gt;
+&lt;p&gt;做这个博客倒不是希望有多少人回来看我写的东西，只是给自己一个把学习的过程和成果记录下来的地方。让自己有个写文章的地方，给自己写的动力。&lt;strong&gt;只是我以为没有人看，可能一大堆暗恋我的妹子一天上好几次呢！&lt;/strong&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 01 Jan 2019 00:00:00 +0800</pubDate>
+        <link>/introduce/jekyll.html</link>
+        <guid isPermaLink="true">/introduce/jekyll.html</guid>
+        
+        <category>jekyll</category>
+        
+        <category>me</category>
+        
+        
+        <category>introduce</category>
+        
+      </item>
     
   </channel>
 </rss>
