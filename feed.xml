@@ -6,8 +6,8 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 03 Jan 2019 10:53:00 +0800</pubDate>
-    <lastBuildDate>Thu, 03 Jan 2019 10:53:00 +0800</lastBuildDate>
+    <pubDate>Fri, 04 Jan 2019 10:38:34 +0800</pubDate>
+    <lastBuildDate>Fri, 04 Jan 2019 10:38:34 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -173,7 +173,9 @@ print(readMemory(pHandle,address3,l))
 &lt;strong&gt;over designed&lt;/strong&gt;,所以搞了个比较简单的！&lt;/p&gt;
 
 &lt;h2 id=&quot;目的&quot;&gt;目的&lt;/h2&gt;
-&lt;p&gt;做这个博客倒不是希望有多少人回来看我写的东西，只是给自己一个把学习的过程和成果记录下来的地方。让自己有个写文章的地方，给自己写的动力。&lt;strong&gt;只是我以为没有人看，可能一大堆暗恋我的妹子一天上好几次呢！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;做这个博客倒不是希望有多少人回来看我写的东西，只是给自己一个把学习的过程和成果记录下来的地方。让自己有个写文章的地方，给自己写的动力。&lt;strong&gt;只是我以为没有人看，可能一大堆暗恋我的妹子一天上好几次呢！&lt;/strong&gt;
+&lt;br /&gt;
+估计我以后回走算法的路，所以以后大部分应该会是关于算法的内容，喜欢算法的同学可以多来转转！&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Jan 2019 00:00:00 +0800</pubDate>
         <link>/introduce/jekyll.html</link>
