@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/coding/installOs.html">
+  <link rel="alternate" type="application/rss+xml" title="I am JianJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans">
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>惨痛的系统史</title>
+  <meta name="description" content="第一次伟大的尝试被acer坑惨了记得那是学校运动会，身为运动健将的我蹲在宿舍打算为自己的win8找个伴装上一个高比格的centos。直到晚上我才从一堆英文文档中找到答案装上了双系统，两边各开一次确定它们不打架之后安心地睡去了。然鹅，第二天我的win8只闻其声却一脸黑屏。解决无果只好敲开了曹哥宿舍的门。“啪！”的一...">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+
+    <center><div class="post-title" itemprop="name headline">惨痛的系统史</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="04 Jan 2019" itemprop="datePublished">Jan 4 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">jianjian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">os</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>孔子:“不会装系统，你连当工具人的资格都没有!”</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="第一次伟大的尝试被acer坑惨了">第一次伟大的尝试被acer坑惨了</h2>
+<p>记得那是学校运动会，身为运动健将的我蹲在宿舍打算为自己的win8找个伴装上一个高比格的centos。直到晚上我才从一堆英文文档中找到答案装上了双系统，两边各开一次确定它们不打架之后安心地睡去了。
+然鹅，第二天我的win8只闻其声却一脸黑屏。解决无果只好敲开了曹哥宿舍的门。“啪！”的一下跪下来，曹哥救救我，我电脑爆炸了。然后曹哥果然不负我所托成功装上双系统，……之后win7又黑屏了(看吧，不是我菜,是我们都很菜！我竟然有点小开心)。具体原因至今未知。网上有的说是acer这个系列电脑都有这个问题。反正双系统没有装上，还掉级到了win7（虽然我觉得win7好像比win8好用的样子）。</p>
+
+<h2 id="有钱才是爷">有钱才是爷</h2>
+<p><img src="/img/expressions/meiqian.jpg" alt="meiqian" />
+直到去年春节之前我都是用的虚拟机。然后买了自己第一个固态，拆了光驱托子，装了双硬盘。原来的机械硬盘装光驱位，固态装原来的硬盘位可以用sata3的接口，在固态上面装了fedora。
+然鹅问题又来了，装了fedora之后win7鼠标竟然动不了了。一开始以为是驱动问题，键盘操作下了驱动安装重启发现还真的好了。然鹅问题没有那么简单。每次我切换系统，就是如果我一直不开fedora，win7是没有问题的，只要我开了fedora，再开win7都要重启一次win7鼠标才能动。至于为什么，又多了一个历史未解之谜。em…先凑合吧</p>
+<h2 id="尴尬的4个分区">尴尬的4个分区</h2>
+<p>关于mbr，如下图只有4个分区
+<br />
+<img src="/img/mbr/partition.gif" alt="mbr" />
+而我的机械硬盘windows备份用了一个分区，c盘一个，d一个，还有其他的占了用扩展分区占了一个。4个完完整整。还想装系统，是想多了。无论怎么样mbr的4个都很符合我的穷比风格。</p>
+<h2 id="拥抱gpt">拥抱gpt</h2>
+<p>人总是要装逼，呸！人总是要不断追求更高的境界的。在这个人人都用win10的社会，我跟我win7相依为命多年，电脑一开机就被人鄙视。是时候装个win10装点一下门面了。win10就意味着gpt分区。当初曹哥给我装win7用的是mbr，之后我另一个硬盘也只好用mbr（难不成要老夫每次换系统都进一次bios，把legacy换成uefi吗）。所以gpt是必须要有了的。为了避免翻车，我只好在我的固态上面实验（毕竟fedora那时候用的不多装的东西也没多少，重装就是了）。先下载win10，给bios设密码，关掉secureboot，legacy换成uefi,系统刻进u盘。直接在固态clean掉,装上win10没什么意外。这时候我把win7加进启动项开机的时候是有启动win7的，但是却提示缺少什么文件（其实是跨区不行）。上网查了很多，总结几点：</p>
+<blockquote>
+  <ol>
+    <li>引导程序(如grub)是有文件系统的，也就是说只要我把secureboot关了，把一个shell改名成那个什么uefi文件，这个shell是会被运行的</li>
+    <li>别人都是可以跨硬盘引导，我的win7好像不可以（我也找到了一个跨硬盘引导失败的人写的blog）</li>
+    <li>bootmgr（好像是这个命令，我忘了）可以根据系统添加引导所需要的文件</li>
+    <li>uefi下面win7的恢复分区没有了不会影响系统的运行与启动</li>
+  </ol>
+</blockquote>
+
+<p>那么方向就有了，既然不可以跨区就双硬盘三驱动。因为我固态还要装fedora，我想保留原生的驱动程序，不敢用grub去引导win10（还记得当年第一次装双驱动的恐惧吗？）。win7的简单，先在win10下保存原来win7的驱动（防止翻车），再直接把原来的引导格掉，换成fat（uefi好像只人这个格式），在win10下把win7引导所需要的文件丢进去。重启f12，找到win7引导，成功开启win7。老样子鼠标动不了，轻车熟路，装驱动，重启一次，ok。这时候win7的破解是没有了的，百度一下破解掉ko。然后刻fedora，直接把fedora的引导装载一个新的分区（我gpt分区就是多任性），简单。
+<br />
+现在三座大山
+<img src="/img/boot.jpg" alt="boot" /></p>
+<h2 id="至今三大未解之迷">至今三大未解之迷</h2>
+<ol>
+  <li>一个硬盘双系统为何win7黑屏有开机声音，有声音说明引导是没有问题的，估计也是驱动的问题。鼠标动不了，我可以用键盘装驱动，屏幕不亮…再见</li>
+  <li>为何每次切换系统win7都要重启一次鼠标才能用（win10并不会，win7这个锅要背，可能我之前黑屏也可以重启试试，重启果然很强大）</li>
+  <li>为何我不能跨硬盘引导呢。还要补充一个我fedora升级之后蓝牙用不了，明明驱动都是好的，等以后再找机会求求老卢教我。</li>
+</ol>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=惨痛的系统史@&amp;url=/coding/installOs.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/coding/installOs.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/coding/installOs.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="">I am JianJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="http://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>
