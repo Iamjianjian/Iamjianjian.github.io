@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/machine%20learning/linearRegression.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans">
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>linearRegression</title>
+  <meta name="description" content="regression一个regression就是找一个输出数字的函数。step1：set up a model设计一个函数集合用于估计输出，如：改变b和wi就是不同的function，属于同一个modelstep2: goodness of function判断function的好坏，找一组数据作为trainin...">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+
+    <center><div class="post-title" itemprop="name headline">linearRegression</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="05 Jan 2019" itemprop="datePublished">Jan 5 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">ml</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>毕业设计要学机器学习，第一课linearRegression</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="regression">regression</h2>
+<p>一个regression就是找一个输出数字的函数。</p>
+<h2 id="step1set-up-a-model">step1：set up a model</h2>
+<p>设计一个函数集合用于估计输出，如：<img src="/img/formula/sigema.gif" alt="Sigema" />
+改变b和wi就是不同的function，属于同一个model</p>
+<h2 id="step2-goodness-of-function">step2: goodness of function</h2>
+<p>判断function的好坏，找一组数据作为training data,用loss function衡量function的好坏，输入function输出function的好坏数值L(f)。如：
+<img src="/img/formula/lossFunc.gif" alt="lossFunc" /></p>
+<h2 id="step3-gradient-descent-find-best-function">step3: gradient descent find Best function</h2>
+<p><img src="/img/linear/bestfunction.png" alt="bestFunc" />
+<br />
+<strong>介绍了gradient descent的方法</strong>
+<br />
+<strong>说白了就是求导数,逐步逼近导数为零的点</strong>
+<img src="/img/linear/oneparameter.png" alt="oneparameter" />
+<strong>两个的时候，求两个偏微分，多个就多个偏微分</strong>
+<img src="/img/linear/twoparameter.png" alt="twoparameter" /></p>
+<h2 id="gradient-descent-的缺陷">gradient descent 的缺陷</h2>
+<p>缺陷就十分明显了，偏微分求到的是极值点，不一定是最值点，还会可能是saddlePoint马鞍点，或者是plateau(偏微分近似为0的地方)
+<img src="/img/linear/plateauSaddleLocal.png" alt="plateauSaddleLocal" /></p>
+
+<h2 id="select-another-model">select another model</h2>
+<p>为了降低loss，设计新的model(泰勒展开是不是说明函数可以展开成多项式，所以就直接用多项式代替)，如加入x的2次方3次方等。
+从下图就可以看出从4次方开始会有overfitting的现象，trainingData的error小而Test就十分的差
+<img src="/img/linear/trainTestError.png" alt="trainTestError" />
+<strong>所以为了图像更加平滑(这是因为我们都愿意相信平滑的图像更可能符合)我们要regulazation，从新设计lossFunction加入landa</strong>
+<img src="/img/linear/regulazation.png" alt="regulazation" />
+<strong>以这里不对b进行调整，因为b与图像平滑与否无关，然后要自己手动调整landa的值</strong>
+<img src="/img/linear/ajustLanda.png" alt="ajustLanda" /></p>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=linearRegression@&amp;url=/machine%20learning/linearRegression.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/machine%20learning/linearRegression.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/machine%20learning/linearRegression.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="http://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>

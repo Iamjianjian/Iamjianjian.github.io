@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>I am JianJian</title>
+    <title>sofiesJian</title>
     <description>Nothing # this means to ignore newlines until &quot;baseurl:&quot;
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 05 Jan 2019 09:06:00 +0800</pubDate>
-    <lastBuildDate>Sat, 05 Jan 2019 09:06:00 +0800</lastBuildDate>
+    <pubDate>Mon, 07 Jan 2019 21:49:19 +0800</pubDate>
+    <lastBuildDate>Mon, 07 Jan 2019 21:49:19 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>linearRegression</title>
+        <description>&lt;h2 id=&quot;regression&quot;&gt;regression&lt;/h2&gt;
+&lt;p&gt;一个regression就是找一个输出数字的函数。&lt;/p&gt;
+&lt;h2 id=&quot;step1set-up-a-model&quot;&gt;step1：set up a model&lt;/h2&gt;
+&lt;p&gt;设计一个函数集合用于估计输出，如：&lt;img src=&quot;/img/formula/sigema.gif&quot; alt=&quot;Sigema&quot; /&gt;
+改变b和wi就是不同的function，属于同一个model&lt;/p&gt;
+&lt;h2 id=&quot;step2-goodness-of-function&quot;&gt;step2: goodness of function&lt;/h2&gt;
+&lt;p&gt;判断function的好坏，找一组数据作为training data,用loss function衡量function的好坏，输入function输出function的好坏数值L(f)。如：
+&lt;img src=&quot;/img/formula/lossFunc.gif&quot; alt=&quot;lossFunc&quot; /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;step3-gradient-descent-find-best-function&quot;&gt;step3: gradient descent find Best function&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/img/linear/bestfunction.png&quot; alt=&quot;bestFunc&quot; /&gt;
+&lt;br /&gt;
+&lt;strong&gt;介绍了gradient descent的方法&lt;/strong&gt;
+&lt;br /&gt;
+&lt;strong&gt;说白了就是求导数,逐步逼近导数为零的点&lt;/strong&gt;
+&lt;img src=&quot;/img/linear/oneparameter.png&quot; alt=&quot;oneparameter&quot; /&gt;
+&lt;strong&gt;两个的时候，求两个偏微分，多个就多个偏微分&lt;/strong&gt;
+&lt;img src=&quot;/img/linear/twoparameter.png&quot; alt=&quot;twoparameter&quot; /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;gradient-descent-的缺陷&quot;&gt;gradient descent 的缺陷&lt;/h2&gt;
+&lt;p&gt;缺陷就十分明显了，偏微分求到的是极值点，不一定是最值点，还会可能是saddlePoint马鞍点，或者是plateau(偏微分近似为0的地方)
+&lt;img src=&quot;/img/linear/plateauSaddleLocal.png&quot; alt=&quot;plateauSaddleLocal&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;select-another-model&quot;&gt;select another model&lt;/h2&gt;
+&lt;p&gt;为了降低loss，设计新的model(泰勒展开是不是说明函数可以展开成多项式，所以就直接用多项式代替)，如加入x的2次方3次方等。
+从下图就可以看出从4次方开始会有overfitting的现象，trainingData的error小而Test就十分的差
+&lt;img src=&quot;/img/linear/trainTestError.png&quot; alt=&quot;trainTestError&quot; /&gt;
+&lt;strong&gt;所以为了图像更加平滑(这是因为我们都愿意相信平滑的图像更可能符合)我们要regulazation，从新设计lossFunction加入landa&lt;/strong&gt;
+&lt;img src=&quot;/img/linear/regulazation.png&quot; alt=&quot;regulazation&quot; /&gt;
+&lt;strong&gt;以这里不对b进行调整，因为b与图像平滑与否无关，然后要自己手动调整landa的值&lt;/strong&gt;
+&lt;img src=&quot;/img/linear/ajustLanda.png&quot; alt=&quot;ajustLanda&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 05 Jan 2019 00:00:00 +0800</pubDate>
+        <link>/machine%20learning/linearRegression.html</link>
+        <guid isPermaLink="true">/machine%20learning/linearRegression.html</guid>
+        
+        <category>ml</category>
+        
+        
+        <category>machine learning</category>
+        
+      </item>
     
       <item>
         <title>惨痛的系统史</title>
