@@ -6,9 +6,75 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 07 Jan 2019 21:49:19 +0800</pubDate>
-    <lastBuildDate>Mon, 07 Jan 2019 21:49:19 +0800</lastBuildDate>
+    <pubDate>Tue, 08 Jan 2019 10:25:03 +0800</pubDate>
+    <lastBuildDate>Tue, 08 Jan 2019 10:25:03 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>where error comes</title>
+        <description>&lt;h2 id=&quot;明确几点&quot;&gt;明确几点&lt;/h2&gt;
+&lt;p&gt;回忆我们上次做的事情，我们根据pokemon的数据选择了一个model然后training一个函数，用这个函数来估计pokemon的CP值。一下称我们的targetFucntion为tf，training出来的函数为ef，
+显然才概率的角度出发，ef大多数情况不与tf一致（除了常函数吧）。而我们要想这些error为什么存在，如何解决。而且上次还出现了overFitting的现象。老师给了两个来源一个bias一个variance
+&lt;img src=&quot;/img/errorCome/errorCome.png&quot; alt=&quot;twoErrorSource&quot; /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;parallel-universe&quot;&gt;parallel Universe&lt;/h2&gt;
+&lt;p&gt;这个例子我觉得很契合，想象我们在多个平行宇宙用同一个model来training一个ef，而ef是跟我们手上拿到的trainingData有关的，显然我们的ef就会有误差有自己的分布函数。这是确立model之后error的来源就是variance，可以理解为方差，也就是概率分布那个误差。这是第一个错误来源variance。而且指出简单的model的variance更小，是因为简单的model受到trainingData的影响更小。
+像下图，我们选择简单的model，那么平行宇宙的我们training出来的ef是比较集中在一个区域的。因此variance带来的error就较小。
+&lt;img src=&quot;/img/errorCome/variance.png&quot; alt=&quot;variance&quot; /&gt;
+第二个错误来源是bias,这个错误是来自于我们选择的model,因为复杂的model包含是简单的model的超集，包含了简单的model。简单的model可能并没有把tf包含在内。相应地functionSet大了，variance也就大了，bias小了。
+&lt;img src=&quot;/img/errorCome/space.png&quot; alt=&quot;space&quot; /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;不同model图像比较&quot;&gt;不同model图像比较&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;黑线是tf，蓝线是ef，红线…就当是平行宇宙吧。&lt;/strong&gt;
+可以看到复杂的model曲线分布十分散乱，但数量大时比之简单的model更加逼近tf
+&lt;img src=&quot;/img/errorCome/variousModels.png&quot; alt=&quot;variousModels&quot; /&gt;
+&lt;br /&gt;
+———————————————————————————————————————-
+&lt;br /&gt;
+&lt;img src=&quot;/img/errorCome/tf.png&quot; alt=&quot;tf&quot; /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;which-large&quot;&gt;which Large&lt;/h2&gt;
+&lt;p&gt;那么我们什么时候我们的model包含了tf呢？或者说bias和variance哪个更大？
+当我们的training出来的ef&lt;strong&gt;不能&lt;/strong&gt;很好地契合trainingData的时候就是underFitting，就是没有把tf包含在fucntionSet中。
+当我们的training出来的ef&lt;strong&gt;可以&lt;/strong&gt;很好地契合trainingData，&lt;strong&gt;但是不能fit TestingData&lt;/strong&gt;的时候就是overFitting，就是tf包含在fucntionSet中，但是在给定的model中，我们的trainingData的数量不能把variance降低下来（也就是范围大了，打中红心的几率小了，打到外面几率大），而且我们的ef并没有幸运地命中tf较近的地方&lt;/p&gt;
+&lt;h2 id=&quot;deal-with-bias-and-variance&quot;&gt;deal with bias and variance&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;对于bias大，就是model的function小，有两个途径：&lt;/strong&gt;
+&lt;br /&gt;
+1 是redesign model，2 是加入更多的变量（如pokemon的血量）
+两个方法其实都是加大了functionSet
+&lt;br /&gt;
+&lt;img src=&quot;/img/errorCome/whichLarge.png&quot; alt=&quot;whichLarge&quot; /&gt;
+&lt;br /&gt;
+&lt;strong&gt;对于variance大，就是function很大，而数据量不足&lt;/strong&gt;
+&lt;br /&gt;
+1 增加数据量，2 regularization,而regularization会损害bias，因为只包含了比较平滑的曲线，使functionSet变小
+&lt;img src=&quot;/img/errorCome/doWithVariance.png&quot; alt=&quot;doWithVariance&quot; /&gt;
+那么在给定的数据中，我们就要选择bias与variance的平衡。
+&lt;img src=&quot;/img/errorCome/bVv.png&quot; alt=&quot;bVv&quot; /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;dont-do-this&quot;&gt;Don’t do this&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;不该做的事&lt;/strong&gt;:
+&lt;br /&gt;
+选择出来几个model用trainingData trainging出来ef之后，然后比较他们在TestingData上面的error来选择model中的一个。但是因为TestingData身为数据本身是有bias的，TestingData应该仅仅用来test
+&lt;img src=&quot;/img/errorCome/notDo.png&quot; alt=&quot;notDo&quot; /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;正确做法&quot;&gt;正确做法&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;trainingData分两部分一部分选用来training，另一部分反选择model，然后用全部的data来train这个ef，这时候在publicTestingData上的error才真正反映在privateData上的error
+&lt;img src=&quot;/img/errorCome/CrossValid.png&quot; alt=&quot;CrossValid&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;避免某一次分数据带来的错误，nFoldCross,也就是把trainingData分多份，一次用其中一份来做反选model.我在想多次随即分两份数据可不可以呢？
+&lt;img src=&quot;/img/errorCome/nFold.png&quot; alt=&quot;nFold&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Tue, 08 Jan 2019 00:00:00 +0800</pubDate>
+        <link>/machine%20learning/errorCome.html</link>
+        <guid isPermaLink="true">/machine%20learning/errorCome.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>machine learning</category>
+        
+      </item>
     
       <item>
         <title>linearRegression</title>
