@@ -6,9 +6,56 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 08 Jan 2019 10:25:03 +0800</pubDate>
-    <lastBuildDate>Tue, 08 Jan 2019 10:25:03 +0800</lastBuildDate>
+    <pubDate>Thu, 10 Jan 2019 20:28:55 +0800</pubDate>
+    <lastBuildDate>Thu, 10 Jan 2019 20:28:55 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>gradient descent</title>
+        <description>&lt;h2 id=&quot;review&quot;&gt;review&lt;/h2&gt;
+&lt;p&gt;首先回忆一下什么是gradient descent。为training一个function:f=b+wx我们定义出来一个Loss Function:&lt;img src=&quot;/img/formula/lossFunc.gif&quot; alt=&quot;lossFunc&quot; /&gt;,Loss Function是为了找到Loss最小的参数。
+过程中首先init参数，然后&lt;img src=&quot;/img/gradientDescent/GDprocess.png&quot; alt=&quot;GDprocess&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;tip1tuning-lr&quot;&gt;tip1:tuning LR&lt;/h2&gt;
+&lt;p&gt;一句话LR别太小或太大
+&lt;img src=&quot;/img/gradientDescent/tuningLR.png&quot; alt=&quot;tuningLR&quot; /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;adaptive-learging-rate&quot;&gt;adaptive Learging Rate&lt;/h3&gt;
+&lt;p&gt;之后是调节LR的方法,LR应该动态改变，给出了两个点:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;开始我们离destination远之后近，所以呢LR要大，之后LR要小&lt;/li&gt;
+  &lt;li&gt;不同的参数要不同的LR&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;介绍了adagrad
+&lt;img src=&quot;/img/gradientDescent/ada1.png&quot; alt=&quot;ada1.png&quot; /&gt;
+&lt;img src=&quot;/img/gradientDescent/ada2.png&quot; alt=&quot;ada2.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;然后提出了一个contradiction，在原来的gradient descent中梯度越大，learning越大，但是在adagrad中呢，就越小。(觉得这里说的不对，应该是这一次之后的LR越小)&lt;/strong&gt;。
+&lt;br /&gt;然后老师解释了，为什么要这样。他是从二元二次函数的角度出发的，说adagrad的分母是二次导数的近似。而我觉得这屁关系没有，所以就不写下来了。
+&lt;br /&gt;
+还有adagrad在最后LR会特别的小，小的令人发指。&lt;/p&gt;
+
+&lt;h2 id=&quot;tip-2-stochastic-gradient-descent&quot;&gt;Tip 2: Stochastic Gradient Descent&lt;/h2&gt;
+&lt;p&gt;很简单Gradient Descent每一次更新参数都是用所以的data的偏导，Stochastic则是随机选一个或者按序轮流都可以
+&lt;img src=&quot;/img/gradientDescent/stochastic.png&quot; alt=&quot;stochastic.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;tip-3-feature-scaling&quot;&gt;Tip 3: Feature Scaling&lt;/h2&gt;
+&lt;p&gt;就是有一些输入的参数特别大的时候，对输入参数进行调整。如果不作调整一些参数影响会过大，调整之后的在图像上更像一个圆形(二维)。
+&lt;img src=&quot;/img/gradientDescent/circle.png&quot; alt=&quot;circle.png&quot; /&gt;
+下面是调整的方法
+&lt;img src=&quot;/img/gradientDescent/featureScaling.png&quot; alt=&quot;featureScaling.png&quot; /&gt;
+最后是gradient descent的数学正确性证明了，好像还是挺简单，不赘述。但是要注意一点，gradient descent正确是建立在LR足够小的前提下，着也就说明了开始的时候为什么LR过大会出现我们不喜欢的情况。&lt;/p&gt;
+</description>
+        <pubDate>Wed, 09 Jan 2019 00:00:00 +0800</pubDate>
+        <link>/machine%20learning/gradientDescent.html</link>
+        <guid isPermaLink="true">/machine%20learning/gradientDescent.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>machine learning</category>
+        
+      </item>
     
       <item>
         <title>where error comes</title>
