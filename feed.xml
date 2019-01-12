@@ -6,9 +6,64 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 10 Jan 2019 20:28:55 +0800</pubDate>
-    <lastBuildDate>Thu, 10 Jan 2019 20:28:55 +0800</lastBuildDate>
+    <pubDate>Sat, 12 Jan 2019 11:16:35 +0800</pubDate>
+    <lastBuildDate>Sat, 12 Jan 2019 11:16:35 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>classification</title>
+        <description>&lt;h2 id=&quot;如果当作regression来做存在的问题&quot;&gt;如果当作regression来做存在的问题&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;由于regression的使ef尽可能接近曲线的特性，会被一些非常正确的点,如图显然右边regression得到的结果是不好的&lt;/li&gt;
+  &lt;li&gt;如果用数字表示某类，而用regression来做，由于数字接近的class在regression上面意味着它们有某种关系，而这是不一定的，因为数字是我们人为设定的。
+&lt;img src=&quot;/img/classification/tooCorrect.png&quot; alt=&quot;tooCorrect&quot; /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;ideal-alternative&quot;&gt;ideal alternative&lt;/h2&gt;
+&lt;p&gt;尝试用regression，但是这存在很多问题。
+虽然可以用perceptron或SVM，但目前只学过gradient descent 我们不会training function
+&lt;img src=&quot;/img/classification/idealAlternative.png&quot; alt=&quot;idealAlternative&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;generative-model&quot;&gt;generative model&lt;/h2&gt;
+&lt;p&gt;然后介绍正确的做法了，就像是用贝叶斯公式一样，(假设是二元分类)如果我们知道p(c1),p(c2)和p(x|c1),p(x|c2)我们就可以求到p(c1|x)和p(c2|x)。
+由training data可以得到,P(c1) P(c2) (如data中有79个水系小精灵，61个普通系，那么P(c1)=79/140)。
+&lt;img src=&quot;/img/classification/generativeModel.png&quot; alt=&quot;generativeModel&quot; /&gt;
+然后不同的class的feature服从不同的分布,只要找出这个分布就可以知道P(x|c)，老师用的是正太的概率分布。
+&lt;img src=&quot;/img/classification/gaussian.png&quot; alt=&quot;gaussian&quot; /&gt;
+然后由极大拟然估计估计先出mean(算出来mean就是均值拉)再求出covariance(对称矩阵).
+&lt;img src=&quot;/img/classification/maxiLike.png&quot; alt=&quot;maxiLike&quot; /&gt;
+&lt;br /&gt;
+&lt;strong&gt;注意图片当中的x是vector(例子中是二维，一个是防御力，一个是特殊防御力)&lt;/strong&gt;
+&lt;br /&gt;
+&lt;img src=&quot;/img/classification/meanCovariance.png&quot; alt=&quot;meanCovariance&quot; /&gt;
+因为二元分类，老师的例子只要判断p(c|x)&amp;gt;0.5就可以分类，然后
+&lt;br /&gt;
+&lt;strong&gt;老师就gg了，老师就gg了，老师就gg了……，二维结果只有47%，7维只有54%&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;modifying-model&quot;&gt;modifying model&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;老师说两个class都用不同的covariance的话他们的参数太多，那么variance就太大，所以强制让他们的covariance相同(这样子就缩小了model的fucntion set 从而减小了variance，而增大了bias)。为什么可以这么做可以在bishop4.2.2找答案。期望值的计算方法还是跟covariance不一样的时候(54%那个)一样的极大似然估计方法,结果也是均值。而新的covariance是原来的两个covariance的加权平均。最后做出来的结果正确率有73%&lt;/strong&gt;
+&lt;img src=&quot;/img/classification/sameCovariance.png&quot; alt=&quot;sameCovariance&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;three-steps&quot;&gt;three steps&lt;/h2&gt;
+&lt;p&gt;总结做法，分三部，确定model，也就是贝叶斯公式拉！然后就是定一个class的distribution求出参数确定这个分布(就是这里老师强制各个分类的covariance相等提高了正确率),这样就有P(x|c)拉，加上算一下training data中各个分类的个数就有p(c)拉，就可以作估计了。
+&lt;img src=&quot;/img/classification/threeStep.png&quot; alt=&quot;threeStep&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;probability-distribution&quot;&gt;probability distribution&lt;/h2&gt;
+&lt;p&gt;model的选择(probability distribution)是人为选择的。但是同样的，简单的distribution的bias大，复杂的variance大。
+如果人为去掉各个feature之间的相关性，当作他们独立的话叫naive bayes classifier，但pokemon的例子gg了&lt;/p&gt;
+
+&lt;p&gt;最后又是warning of math的时间了，证明了为什么强制不同的类用一样的covariance之后它的图像是直线(二维中)的。&lt;/p&gt;
+</description>
+        <pubDate>Fri, 11 Jan 2019 00:00:00 +0800</pubDate>
+        <link>/machine%20learning/classification.html</link>
+        <guid isPermaLink="true">/machine%20learning/classification.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>machine learning</category>
+        
+      </item>
     
       <item>
         <title>gradient descent</title>
