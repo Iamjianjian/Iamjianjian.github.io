@@ -38,13 +38,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>linearRegression</title>
-  <meta name="description" content="regression一个regression就是找一个输出数字的函数。step1：set up a model设计一个函数集合用于估计输出，如：改变b和wi就是不同的function，属于同一个modelstep2: goodness of function判断function的好坏，找一组数据作为trainin...">
+  <meta name="description" content="regression一个regression就是找一个输出数字的函数。step1：set up a model设计一个函数集合用于估计输出，如：改变b和就是不同的function，属于同一个modelstep2: goodness of function判断function的好坏，找一组数据作为training ...">
 </head>
 
 
   <div class="wrapper">
           <header class="post-header">
-
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
     <center><div class="post-title" itemprop="name headline">linearRegression</div>
 
 		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="05 Jan 2019" itemprop="datePublished">Jan 5 2019</time>
@@ -80,11 +80,12 @@
     <h2 id="regression">regression</h2>
 <p>一个regression就是找一个输出数字的函数。</p>
 <h2 id="step1set-up-a-model">step1：set up a model</h2>
-<p>设计一个函数集合用于估计输出，如：<img src="/img/formula/sigema.gif" alt="Sigema" />
-改变b和wi就是不同的function，属于同一个model</p>
+<p>设计一个函数集合用于估计输出，如：<script type="math/tex">f(x)=\Sigma w_{i}x_{i}+b</script>
+改变b和<script type="math/tex">w_{i}</script>就是不同的function，属于同一个model</p>
 <h2 id="step2-goodness-of-function">step2: goodness of function</h2>
 <p>判断function的好坏，找一组数据作为training data,用loss function衡量function的好坏，输入function输出function的好坏数值L(f)。如：
-<img src="/img/formula/lossFunc.gif" alt="lossFunc" /></p>
+<script type="math/tex">L(w_{i},b)=(\hat{y}-(\Sigma w_{i}x_{i}+b))^{2}</script>
+<!-- ![lossFunc](/img/formula/lossFunc.gif) --></p>
 <h2 id="step3-gradient-descent-find-best-function">step3: gradient descent find Best function</h2>
 <p><img src="/img/linear/bestfunction.png" alt="bestFunc" />
 <br />

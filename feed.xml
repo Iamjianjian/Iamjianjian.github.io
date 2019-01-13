@@ -6,9 +6,82 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 12 Jan 2019 11:16:35 +0800</pubDate>
-    <lastBuildDate>Sat, 12 Jan 2019 11:16:35 +0800</lastBuildDate>
+    <pubDate>Sun, 13 Jan 2019 09:32:26 +0800</pubDate>
+    <lastBuildDate>Sun, 13 Jan 2019 09:32:26 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Logistic Regression</title>
+        <description>&lt;h2 id=&quot;review&quot;&gt;review&lt;/h2&gt;
+&lt;p&gt;老规矩review，这是我看了第一遍之后在回来做的review，蓝瘦×3!&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;linear regression,之前一直记的都是一个参数的linear regression。这里review一下多个参数的function,&lt;script type=&quot;math/tex&quot;&gt;f(x)=\Sigma w_{i}x_{i}&lt;/script&gt;，看清楚了这里的输入x是vector。Loss Function,&lt;script type=&quot;math/tex&quot;&gt;L(w,b)=(\hat y-(w_{i}*x_{i}+b))^{2}&lt;/script&gt;。用 gradient descent 求偏导数update参数,&lt;script type=&quot;math/tex&quot;&gt;w_{i+1}=w_{i}-\eta \frac{\partial f(x)}{\partial w_{i}}\|_{w=w_{i},b=b{i}}&lt;/script&gt; 。看清楚这里的updata过程的对L求偏导的结果&lt;script type=&quot;math/tex&quot;&gt;-2(\hat{y}-f(x))   \frac{\partial f}{\partial w_{i}}&lt;/script&gt;,而&lt;script type=&quot;math/tex&quot;&gt;\frac{\partial f}{\partial w}=x&lt;/script&gt;。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;回忆上次的classification，抽样知道P(c1),P(c2),令p(x|c1)为多维正太分布&lt;script type=&quot;math/tex&quot;&gt;f_{\mu,\Sigma}(x)=\frac{1}{(2\pi)^{\frac{D}{2}}}\frac{1}{\left \| \Sigma \right \|^{\frac{1}{2}}}exp\{-\frac{1}{2}(x-\mu)\Sigma ^{-1}\} (x-\mu)&lt;/script&gt;(note：左边这个公式的sigma是一个绝对值,那是绝对值号应该是一个竖线),此处的covariance&lt;script type=&quot;math/tex&quot;&gt;\Sigma&lt;/script&gt;是矩阵,x &lt;script type=&quot;math/tex&quot;&gt;\mu&lt;/script&gt;都是vector。令两个class的&lt;script type=&quot;math/tex&quot;&gt;\Sigma&lt;/script&gt;一致，求出mean及 covariance,那么gaussian就出来了。对于每一个数据代入函数之后都会得到一个概率p(c|x)，如果大于0.5就是class1否则class2(二元分类)。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;上次classification最后欠下的债，最后的warning of math，以为例行的听不懂第二天的太阳还是会升起来，但是最后的结论很重要，如果我们通过数学在covariance一致的情况下化简一下，发现z是线性的&lt;br /&gt;&lt;script type=&quot;math/tex&quot;&gt;z=\Sigma w_{i}x_{i}&lt;/script&gt;,&lt;script type=&quot;math/tex&quot;&gt;p(c\|x)=\frac{1}{1+e^{-z}}&lt;/script&gt;那么我们可不可以直接找出w和b呢，这就是这节课做的事情。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;discrimination&quot;&gt;discrimination&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;首先我们的function set 跟上一次课用的generative是一致的(covariance一致的时候).&lt;/strong&gt;
+&lt;img src=&quot;/img/logisticRegression/functionSet.png&quot; alt=&quot;functionSet&quot; /&gt;
+&lt;br /&gt;
+然后我们就要training这个function出来了，写出概率的函数&lt;/p&gt;
+
+&lt;p&gt;注意了，一定要理解清楚意义，这个函数f是我们要求的那个概率函数(就是training的那个),图片上面的x跟y是data
+&lt;img src=&quot;/img/logisticRegression/logisticGoodness.png&quot; alt=&quot;logisticGoodness&quot; /&gt;
+然后做一些数学转换
+&lt;img src=&quot;/img/logisticRegression/mathCot.png&quot; alt=&quot;mathConvert，图片有部分错误等待新图&quot; /&gt;
+转换完之后就要用gradient descent做偏微分了，理解下图的公式中字母的意义，L是概率函数，y跟x都是data，n其实是sigma的标号
+&lt;img src=&quot;/img/logisticRegression/findBest.png&quot; alt=&quot;findBest&quot; /&gt;
+&lt;br /&gt;
+那么找出来的结果，我们可以看到update参数的式子跟linear regression的是一样的
+&lt;img src=&quot;/img/logisticRegression/outcome.png&quot; alt=&quot;outcome&quot; /&gt;
+&lt;img src=&quot;/img/logisticRegression/compare.png&quot; alt=&quot;compare&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;why-onto-square-error&quot;&gt;why onto square error&lt;/h2&gt;
+
+&lt;p&gt;无论&lt;script type=&quot;math/tex&quot;&gt;\hat{y}&lt;/script&gt;是1还是0，距离目标特别远或特别近，偏微分都几乎是0(理论上微分应该大一点，这样速度大),所以用像linear regression一样的Loss function的时候f(x)在接近0或者1的时候都非常的慢跟在target差不多&lt;/p&gt;
+
+&lt;h2 id=&quot;discrimination-vs-generative&quot;&gt;discrimination vs generative&lt;/h2&gt;
+&lt;p&gt;前面提到了两者的function set 是一致的，显然我们通过两种方法找到的w跟b 是不一样的。在discrimination中我们对w和b是没有任何假设的，而我们在generative中是由假设的，例如我们把它假设为gaussian。二在实际中discrimination通常比generative结果要好。老师举了一个naive bays的例子说为什么，但是我觉得这样是因为认为的用naive bays，这个例子没有说服力。
+&lt;img src=&quot;/img/logisticRegression/naive.png&quot; alt=&quot;naive&quot; /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;benefits-of-generative-model&quot;&gt;benefits of generative model&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;当只有很少data的时候可以依靠generative的”脑补”能力(因为他要假设概率模型)来提高准确率&lt;/li&gt;
+  &lt;li&gt;more robust to noise&lt;/li&gt;
+  &lt;li&gt;说是p(c)跟P(x|c)可以分开算，这里视频里面老师举的例子没有出现，估计是现场有其他的设备展示(蓝瘦！)。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;multi-class-classificatin&quot;&gt;multi-class classificatin&lt;/h2&gt;
+
+&lt;p&gt;如下图，在多个class的时候呢。我们用softmax就可以直接求到概率&lt;script type=&quot;math/tex&quot;&gt;\hat{y}=&lt;/script&gt;\p(c1|x),
+&lt;img src=&quot;/img/logisticRegression/softmax.png&quot; alt=&quot;softmax&quot; /&gt;
+老师说从一开始假设Gaussian而且共用covariance matrix出发可以推导出来这个式子，然而他没有讲怎么推导。然后就有把cross entropy的式子丢出来了，没有推导多个class的情况二是直接给出来 (cross entropy的表达式)。也就是说p(c|x)=&lt;script type=&quot;math/tex&quot;&gt;y_{i} =\frac{e^{z_{i}}}{\sum_{j=1}^{n} e^{z_{j}}}&lt;/script&gt;。由feature data求得的&lt;script type=&quot;math/tex&quot;&gt;y_{i}&lt;/script&gt;跟data&lt;script type=&quot;math/tex&quot;&gt;\hat{y}&lt;/script&gt;cross entropy之后就可以等到概率L的表达式.
+&lt;img src=&quot;/img/logisticRegression/multiCrossEntropy.png&quot; alt=&quot;multiCrossEntropy&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;limitation-of-logistic-regression&quot;&gt;limitation of logistic regression&lt;/h2&gt;
+
+&lt;p&gt;如题啊。如图，一条线无法分开这两个class，可以通过feature transformation 来解决。这是用来引出下节课要讲的内容deep learning。
+&lt;img src=&quot;/img/logisticRegression/limitation.png&quot; alt=&quot;limitation&quot; /&gt;
+&lt;strong&gt;终于写完了好他妈长&lt;/strong&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 12 Jan 2019 00:00:00 +0800</pubDate>
+        <link>/machine%20learning/LogisticRegression.html</link>
+        <guid isPermaLink="true">/machine%20learning/LogisticRegression.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>machine learning</category>
+        
+      </item>
     
       <item>
         <title>classification</title>
@@ -183,11 +256,12 @@
         <description>&lt;h2 id=&quot;regression&quot;&gt;regression&lt;/h2&gt;
 &lt;p&gt;一个regression就是找一个输出数字的函数。&lt;/p&gt;
 &lt;h2 id=&quot;step1set-up-a-model&quot;&gt;step1：set up a model&lt;/h2&gt;
-&lt;p&gt;设计一个函数集合用于估计输出，如：&lt;img src=&quot;/img/formula/sigema.gif&quot; alt=&quot;Sigema&quot; /&gt;
-改变b和wi就是不同的function，属于同一个model&lt;/p&gt;
+&lt;p&gt;设计一个函数集合用于估计输出，如：&lt;script type=&quot;math/tex&quot;&gt;f(x)=\Sigma w_{i}x_{i}+b&lt;/script&gt;
+改变b和&lt;script type=&quot;math/tex&quot;&gt;w_{i}&lt;/script&gt;就是不同的function，属于同一个model&lt;/p&gt;
 &lt;h2 id=&quot;step2-goodness-of-function&quot;&gt;step2: goodness of function&lt;/h2&gt;
 &lt;p&gt;判断function的好坏，找一组数据作为training data,用loss function衡量function的好坏，输入function输出function的好坏数值L(f)。如：
-&lt;img src=&quot;/img/formula/lossFunc.gif&quot; alt=&quot;lossFunc&quot; /&gt;&lt;/p&gt;
+&lt;script type=&quot;math/tex&quot;&gt;L(w_{i},b)=(\hat{y}-(\Sigma w_{i}x_{i}+b))^{2}&lt;/script&gt;
+&lt;!-- ![lossFunc](/img/formula/lossFunc.gif) --&gt;&lt;/p&gt;
 &lt;h2 id=&quot;step3-gradient-descent-find-best-function&quot;&gt;step3: gradient descent find Best function&lt;/h2&gt;
 &lt;p&gt;&lt;img src=&quot;/img/linear/bestfunction.png&quot; alt=&quot;bestFunc&quot; /&gt;
 &lt;br /&gt;
