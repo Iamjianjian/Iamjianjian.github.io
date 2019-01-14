@@ -6,9 +6,40 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 13 Jan 2019 10:15:19 +0800</pubDate>
-    <lastBuildDate>Sun, 13 Jan 2019 10:15:19 +0800</lastBuildDate>
+    <pubDate>Mon, 14 Jan 2019 20:53:44 +0800</pubDate>
+    <lastBuildDate>Mon, 14 Jan 2019 20:53:44 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>deep learning</title>
+        <description>&lt;h2 id=&quot;日常review&quot;&gt;日常review&lt;/h2&gt;
+&lt;p&gt;插入review，一开始我们要做分类，通过classification知道二元分类的时候强行用一样的covariance最终找到的funciton是线性的。之后我们尝试直接找到w，b，而不是先假设概率分布再通过极大拟然估计求分布。之后我们把一个二元分类，之前知道p(c|x)=&lt;script type=&quot;math/tex&quot;&gt;\frac{1}{1+e^{-z}}&lt;/script&gt;而z是线性的。
+&lt;img src=&quot;/img/logisticRegression/z.png&quot; alt=&quot;z的表达式&quot; /&gt;
+然后f是z的simog就是概率，data的概率相乘通过数学转换等价与于求cross entropy。然后通过gradient descent求最佳的function偏微分之后形式跟linear regression是一致的。之后对于多元分类，(老师没给出推到)说可以通过跟classification一样通过假设一样的covariance matrix，求到p{c|x}就是z做softmax得到的结果y（这里的的y是未知的他只是一个表达式）.最后用loss function也是跟二元的一样做cross entropy,之后就是求偏微分找最好的function了。&lt;/p&gt;
+
+&lt;h2 id=&quot;three-steps&quot;&gt;three steps&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/img/deepLearning/threeSteps.png&quot; alt=&quot;threeSteps&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;define-a-set-of-functions-也就是一个neuron-network&quot;&gt;define a set of functions 也就是一个neuron network&lt;/h3&gt;
+&lt;p&gt;把logistic regression（也可以不用logistic）连接在一起，一个logistic regression就是一个neuron，所有连接起来就是一个neuron network。每个logistic regression都有自己的parameter(weight,bias)，所有这些parameter就是neuron network的parameter。至于怎么连接是手动连接的，要自己设计。例如fully connect feedforward network。
+&lt;img src=&quot;/img/deepLearning/fullyconnectfeedforwardnetwork.png&quot; alt=&quot;fullyconnectfeedforwardnetwork&quot; /&gt;
+我们定好一个neuron network的连接结构也就定好了一个function set，当我们定好了neuron network中每个logistic regression 的parameter ，那么我们的function就定下来了。通常用矩阵来做运算，这样可以用gpu加速。除了输入的data那一层和输出结果的那一层，中间的都是hiddenlayer。hidden对feature加工给最后一层的output layer作为输入。最后一层output layer司机哦一个multi-class classifier。多少层和多少个neuron只可以靠经验和直觉&lt;/p&gt;
+&lt;h3 id=&quot;goodness-of-a-function-cross-entropy&quot;&gt;goodness of a function cross entropy&lt;/h3&gt;
+&lt;p&gt;这一步就要找loss function拉，因为最后一层是multi class classifier,所以跟上节课的一样对y跟y hat用cross entropy就可以了。
+&lt;img src=&quot;/img/deepLearning/loss.png&quot; alt=&quot;loss&quot; /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;pick-the-best-function&quot;&gt;pick the best function&lt;/h3&gt;
+&lt;p&gt;emmmmmm……gradient descent&lt;/p&gt;
+</description>
+        <pubDate>Mon, 14 Jan 2019 00:00:00 +0800</pubDate>
+        <link>/machine%20learning/deepLearning.html</link>
+        <guid isPermaLink="true">/machine%20learning/deepLearning.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>machine learning</category>
+        
+      </item>
     
       <item>
         <title>Logistic Regression</title>
@@ -36,7 +67,7 @@
 &lt;p&gt;注意了，一定要理解清楚意义，这个函数f是我们要求的那个概率函数(就是training的那个),图片上面的x跟y是data
 &lt;img src=&quot;/img/logisticRegression/logisticGoodness.png&quot; alt=&quot;logisticGoodness&quot; /&gt;
 然后做一些数学转换
-&lt;img src=&quot;/img/logisticRegression/mathCot.png&quot; alt=&quot;mathConvert，图片有部分错误等待新图&quot; /&gt;
+&lt;img src=&quot;/img/logisticRegression/mathConvert.png&quot; alt=&quot;mathConvert，图片有部分错误等待新图&quot; /&gt;
 转换完之后就要用gradient descent做偏微分了，理解下图的公式中字母的意义，L是概率函数，y跟x都是data，n其实是sigma的标号
 &lt;img src=&quot;/img/logisticRegression/findBest.png&quot; alt=&quot;findBest&quot; /&gt;
 &lt;br /&gt;
