@@ -6,9 +6,116 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 14 Jan 2019 20:53:44 +0800</pubDate>
-    <lastBuildDate>Mon, 14 Jan 2019 20:53:44 +0800</lastBuildDate>
+    <pubDate>Tue, 05 Feb 2019 21:08:02 +0800</pubDate>
+    <lastBuildDate>Tue, 05 Feb 2019 21:08:02 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Hello World</title>
+        <description>&lt;h2 id=&quot;安装keras&quot;&gt;安装keras&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;弱鸡不要用centos&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;弱鸡不要用centos&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;弱鸡不要用centos&lt;/strong&gt;&lt;br /&gt;
+一开始用的centos，别提多坑爹了，各种gcc版本低，各种g++链接库不匹配。装完一个又一个，没完没了。直接pip安装tensorflow和keras就可以，只是服务器(ubuntu)没有pip，安装还会缺少某些东西，百度一下就好了。&lt;/p&gt;
+
+&lt;h2 id=&quot;swap&quot;&gt;swap&lt;/h2&gt;
+&lt;p&gt;一开始还是紧紧跟着老师的步伐。用老师的手写字识别的例子。keras上面可以下载数据，昨晚睡觉前用服务器下载就去睡了（服务器：委屈）。在此load进来。接下来又到了喜闻乐见的ctrl c ctrl v 时间了。照着视频敲。
+&lt;br /&gt;
+好景不长啊！从mnist down下来的数据是二维数组不可以直接用。要先换为一维数组。本来想在py上换了保存下来的。但python会自己被kill掉，百度一下发现是因为py占用内存过高。用的腾讯学生版服务器内存就2g，free看看发现没有swap分区，建个文件分区&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dd if=/dev/zero of=~/swapfile bs=1M count=1024
+mkswap ~/swapfile
+swapon /root/swapfile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;hello-world&quot;&gt;hello world&lt;/h2&gt;
+
+&lt;p&gt;然后用代码换一下保存成numpy数组&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from keras.layers import Dense,Activation
+from keras.models import Sequential,model_from_json
+import keras
+import numpy as np
+def func(xtrain,ytrain,name):
+    xx=[]
+    for i in xtrain:
+        temp=[]
+        for ii in i:
+            temp+=list(ii)
+        xx.append(temp)
+    xxx=np.array(xx,np.uint8)
+    del xx
+    yy=[]
+    for i in ytrain:
+        temp=[0 for ii in range(10)]
+        temp[i]=1
+        yy.append(temp)
+    yyy=np.array(yy,np.uint8)
+    np.save('x'+name+'.npy',xxx)
+    np.save('y'+name+'.npy',yyy)
+    print(&quot;save success&quot;)
+(xtr,ytr)=keras.datasets.mnist.load_data()[0]
+func(xtr,ytr,'train')
+(xtr,ytr)=keras.datasets.mnist.load_data()[1]
+func(xtr,ytr,'test')
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;接下来training出来结果保存就ok&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from keras.layers import Dense,Activation
+from keras.models import Sequential,model_from_json
+import keras
+import numpy as np
+xxx=np.load('xtrain.npy')
+yyy=np.load('ytrain.npy')
+model=keras.models.Sequential()
+model.add(Dense(input_dim=28*28,output_dim=500))
+model.add(Activation('sigmoid'))
+model.add(Dense(output_dim=500))
+model.add(Activation('sigmoid'))
+model.add(Dense(output_dim=10))
+model.add(Activation('softmax'))
+model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
+model.fit(xxx,yyy,batch_size=60,epochs=30)
+json_string = model.to_json()
+try:
+    with open(r'/home/ubuntu/my_model_architecture.json','w') as f:
+        f.write(json_string)
+    model.save_weights(r'/home/ubuntu/my_model_weights.h5')
+except Exception as e:
+    with open(r'/home/ubuntu/exception','w')as f:
+        f.write(str(e))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;loadModel&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loadModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model_from_json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'my_model_architecture.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; 
+    &lt;span class=&quot;k&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load_weights&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'my_model_weights.h5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;model&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;arg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;28&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;之前看一下结果还不错，就不会去截图来了&lt;/p&gt;
+</description>
+        <pubDate>Tue, 05 Feb 2019 00:00:00 +0800</pubDate>
+        <link>/machine%20learning/MLhelloWorld.html</link>
+        <guid isPermaLink="true">/machine%20learning/MLhelloWorld.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>machine learning</category>
+        
+      </item>
     
       <item>
         <title>deep learning</title>
