@@ -6,9 +6,93 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 05 Feb 2019 21:08:02 +0800</pubDate>
-    <lastBuildDate>Tue, 05 Feb 2019 21:08:02 +0800</lastBuildDate>
+    <pubDate>Wed, 06 Feb 2019 09:46:22 +0800</pubDate>
+    <lastBuildDate>Wed, 06 Feb 2019 09:46:22 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>novel spider</title>
+        <description>&lt;h2 id=&quot;劳模&quot;&gt;劳模&lt;/h2&gt;
+&lt;p&gt;过了一年回到家。发现一件惊悚的事情。我妈竟然用手机看小说。更惊悚的是她在微信公众号看了。这中公众号多如牛毛，其实都不是原创，都是从别人那里爬下来，然后让这群傻逼大妈有钱的充钱买没钱的来签到。更更家惊悚的是老妈竟然 &lt;strong&gt;连续&lt;/strong&gt;&lt;strong&gt;连续&lt;/strong&gt;&lt;strong&gt;连续&lt;/strong&gt; 签到了 &lt;strong&gt;200&lt;/strong&gt; &lt;strong&gt;200&lt;/strong&gt; &lt;strong&gt;200&lt;/strong&gt; 多天。我拿过来一看还是那种不太健康的言情小说。我的天啊都100多斤的人了，还有一颗少女心稳重点ok？看着她的连续200多天签到我都于心不忍。&lt;/p&gt;
+
+&lt;h2 id=&quot;spider&quot;&gt;spider&lt;/h2&gt;
+&lt;p&gt;一般小说的网页结构都比较简单。就是一个目录，目录下面就是第几张第几张。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source=r'https://www.kanshu.la/75/75996/'
+a=reqfun.myget(source)
+a.encoding='utf8'
+b=lxml.etree.HTML(a.text,parser=lxml.etree.HTMLParser())#用HTMLParser的容错能力强
+c=b.xpath(r'/html/body/div[1]/div[5]/div[2]/div/dl/dd/a')#xpath直接用浏览器F12 copy下来copy自己的正确的
+cc=[index+i.attrib['href'] for i in c][14:]#拿到标签的href属性就可以组合成每一章小说的连接了
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;拿到没一章的连接之后，直接打开xpath把title跟内容拿下来就可以了&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def getText(href,titleXpath,contentXpath):
+    response=reqfun.myget(href)
+    response.encoding='utf8'
+    #用HTMLParser 的容错性比较高
+    lt=lxml.etree.HTML(response.text,parser=lxml.etree.HTMLParser())
+    title=lt.xpath(titleXpath)[0].text
+    content=lt.xpath(contentXpath)[0].xpath('string(.)')
+    return (title,content)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;然后就是保存，注意可能有一些字符的无法decode的，如果有就直接replace成’‘就可以了&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def save(title,text,number,filePath):
+    try:
+        with open(filePath,'a',encoding='utf8')as f:
+            f.write('\n'+title+'\n')
+            f.write(text)
+        print('save sucess'+str(number)+'  '+title)
+    except Exception as e:
+        print(e,title,number)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;code&quot;&gt;code&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import reqfun
+import lxml
+def getText(href,titleXpath,contentXpath):
+    response=reqfun.myget(href)
+    response.encoding='utf8'
+    #用HTMLParser 的容错性比较高
+    lt=lxml.etree.HTML(response.text,parser=lxml.etree.HTMLParser())
+    title=lt.xpath(titleXpath)[0].text
+    content=lt.xpath(contentXpath)[0].xpath('string(.)')
+    return (title,content)
+    
+def save(title,text,number,filePath):
+    try:
+        with open(filePath,'a',encoding='utf8')as f:
+            f.write('\n'+title+'\n')
+            f.write(text)
+        print('save sucess'+str(number)+'  '+title)
+    except Exception as e:
+        print(e,title,number)
+
+
+def download(source,hxp,txp,cxp,fp):
+    source=r'https://www.kanshu.la/75/75996/'
+    index=r'https://www.kanshu.la/'
+    a=reqfun.myget(source)
+    a.encoding='utf8'
+    b=lxml.etree.HTML(a.text,parser=lxml.etree.HTMLParser())
+    # c=b.xpath(r'/html/body/div[1]/div[5]/div[2]/div/dl/dd/a')
+    c=b.xpath(hxp)
+    cc=[index+i.attrib['href'] for i in c][14:]
+    num=0
+    while num&amp;lt;len(cc):
+        save(*getText(cc[num],txp,cxp),num,fp)
+        num+=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Wed, 06 Feb 2019 00:00:00 +0800</pubDate>
+        <link>/coding/novelSpider.html</link>
+        <guid isPermaLink="true">/coding/novelSpider.html</guid>
+        
+        <category>spider</category>
+        
+        <category>coding</category>
+        
+        
+        <category>coding</category>
+        
+      </item>
     
       <item>
         <title>Hello World</title>
@@ -634,30 +718,6 @@ print(readMemory(pHandle,address3,l))
         
         
         <category>coding</category>
-        
-      </item>
-    
-      <item>
-        <title>关于这个博客</title>
-        <description>&lt;h2 id=&quot;搭建&quot;&gt;搭建&lt;/h2&gt;
-&lt;p&gt;博客部署在githubpage，只是把域名指向改了，用的jekyll做的静态网页，在&lt;a href=&quot;http://jekyllthemes.org/&quot;&gt;jekyll Theme&lt;/a&gt;找了个模板改了一下(理解一下我们这些不会前端的)!模板叫NiceBlog比较简洁，作者觉得现在的模板普遍
-&lt;strong&gt;over designed&lt;/strong&gt;,所以搞了个比较简单的！&lt;/p&gt;
-
-&lt;h2 id=&quot;目的&quot;&gt;目的&lt;/h2&gt;
-&lt;p&gt;做这个博客倒不是希望有多少人回来看我写的东西，只是给自己一个把学习的过程和成果记录下来的地方。让自己有个写文章的地方，给自己写的动力。&lt;strong&gt;只是我以为没有人看，可能一大堆暗恋我的妹子一天上好几次呢！&lt;/strong&gt;
-&lt;br /&gt;
-估计我以后回走算法的路，所以以后大部分应该会是关于算法的内容，喜欢算法的同学可以多来转转！&lt;/p&gt;
-</description>
-        <pubDate>Tue, 01 Jan 2019 00:00:00 +0800</pubDate>
-        <link>/introduce/jekyll.html</link>
-        <guid isPermaLink="true">/introduce/jekyll.html</guid>
-        
-        <category>jekyll</category>
-        
-        <category>me</category>
-        
-        
-        <category>introduce</category>
         
       </item>
     
