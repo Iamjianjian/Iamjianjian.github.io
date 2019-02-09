@@ -6,9 +6,51 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 09 Feb 2019 17:08:06 +0800</pubDate>
-    <lastBuildDate>Sat, 09 Feb 2019 17:08:06 +0800</lastBuildDate>
+    <pubDate>Sat, 09 Feb 2019 19:19:05 +0800</pubDate>
+    <lastBuildDate>Sat, 09 Feb 2019 19:19:05 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>sudo python package not found</title>
+        <description>&lt;h2 id=&quot;problem&quot;&gt;problem&lt;/h2&gt;
+&lt;p&gt;由于用scapy发包要用到root权限，发现了问题。直接sudo的话会出现module not found的错误。但是我的却已经安装了scapy的google一下是用sudo之后的模块导入路径与之前不一样。细想也应该是这么个事。因为这些模块都是我普通用户用 &lt;strong&gt;pip3&lt;/strong&gt; &lt;strong&gt;–user&lt;/strong&gt;装的。
+&lt;br /&gt;
+在普通用户下执行下面的shell命令&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 -c &quot;import sys;print(sys.path)&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;
+输出&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;['', '/usr/lib64/python37.zip', '/usr/lib64/python3.7', '/usr/lib64/python3.7/lib-dynload', '/home/jianjian/.local/lib/python3.7/site-packages',  '/usr/local/lib64/python3.7/site-packages', '/usr/local/lib/python3.7/site-packages', '/usr/lib64/python3.7/site-packages', '/usr/lib/python3.7/site-packages']
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;在root用户下执行下面的shell命令&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 -c &quot;import sys;print(sys.path)&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;['', '/usr/lib64/python37.zip', '/usr/lib64/python3.7', '/usr/lib64/python3.7/lib-dynload', '/usr/local/lib64/python3.7/site-packages', '/usr/local/lib/python3.7/site-packages', '/usr/lib64/python3.7/site-packages', '/usr/lib/python3.7/site-packages']
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;solution&lt;/h2&gt;
+&lt;p&gt;在&lt;a href=&quot;https://python3-cookbook.readthedocs.io/zh_CN/latest/c10/p09_add_directories_to_sys_path.html&quot;&gt;python的官方文档&lt;/a&gt;找到一些关于path和import module的说明。
+&lt;br /&gt;
+我平时装的module都是在 &lt;strong&gt;/home/jianjian/.local/lib/python3.7/site-packages&lt;/strong&gt;这个目录里。在root权限下的python的sys.path是没有这个path的。
+我自己在~/.local/lib/python3/site-packages下面是建有.pth文件的。但我又不想把他装到系统级的python解释其里面。想到个方法就是在每个需要运用root权限的py文件的头两行就加入两行&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import time,sys
+sys.path.append('/home/jianjian/.local/lib/python3.7/site-packages')#  your path to site-packages
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;成功sudo&lt;/p&gt;
+</description>
+        <pubDate>Sat, 09 Feb 2019 00:00:00 +0800</pubDate>
+        <link>/linux/sudoPackage.html</link>
+        <guid isPermaLink="true">/linux/sudoPackage.html</guid>
+        
+        <category>linux</category>
+        
+        <category>python</category>
+        
+        
+        <category>linux</category>
+        
+      </item>
     
       <item>
         <title>error with virtual when update python</title>
@@ -555,58 +597,10 @@ except Exception as e:
         <link>/machine%20learning/linearRegression.html</link>
         <guid isPermaLink="true">/machine%20learning/linearRegression.html</guid>
         
-        <category>ml</category>
+        <category>ML</category>
         
         
         <category>machine learning</category>
-        
-      </item>
-    
-      <item>
-        <title>惨痛的系统史</title>
-        <description>&lt;h2 id=&quot;第一次伟大的尝试被acer坑惨了&quot;&gt;第一次伟大的尝试被acer坑惨了&lt;/h2&gt;
-&lt;p&gt;记得那是学校运动会，身为运动健将的我蹲在宿舍打算为自己的win8找个伴装上一个高比格的centos。直到晚上我才从一堆英文文档中找到答案装上了双系统，两边各开一次确定它们不打架之后安心地睡去了。
-然鹅，第二天我的win8只闻其声却一脸黑屏。解决无果只好敲开了曹哥宿舍的门。“啪！”的一下跪下来，曹哥救救我，我电脑爆炸了。然后曹哥果然不负我所托成功装上双系统，……之后win7又黑屏了(看吧，不是我菜,是我们都很菜！我竟然有点小开心)。具体原因至今未知。网上有的说是acer这个系列电脑都有这个问题。反正双系统没有装上，还掉级到了win7（虽然我觉得win7好像比win8好用的样子）。&lt;/p&gt;
-
-&lt;h2 id=&quot;有钱才是爷&quot;&gt;有钱才是爷&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/img/expressions/meiqian.jpg&quot; alt=&quot;meiqian&quot; /&gt;
-直到去年春节之前我都是用的虚拟机。然后买了自己第一个固态，拆了光驱托子，装了双硬盘。原来的机械硬盘装光驱位，固态装原来的硬盘位可以用sata3的接口，在固态上面装了fedora。
-然鹅问题又来了，装了fedora之后win7鼠标竟然动不了了。一开始以为是驱动问题，键盘操作下了驱动安装重启发现还真的好了。然鹅问题没有那么简单。每次我切换系统，就是如果我一直不开fedora，win7是没有问题的，只要我开了fedora，再开win7都要重启一次win7鼠标才能动。至于为什么，又多了一个历史未解之谜。em…先凑合吧&lt;/p&gt;
-&lt;h2 id=&quot;尴尬的4个分区&quot;&gt;尴尬的4个分区&lt;/h2&gt;
-&lt;p&gt;关于mbr，如下图只有4个分区
-&lt;br /&gt;
-&lt;img src=&quot;/img/mbr/partition.gif&quot; alt=&quot;mbr&quot; /&gt;
-而我的机械硬盘windows备份用了一个分区，c盘一个，d一个，还有其他的占了用扩展分区占了一个。4个完完整整。还想装系统，是想多了。无论怎么样mbr的4个都很符合我的穷比风格。&lt;/p&gt;
-&lt;h2 id=&quot;拥抱gpt&quot;&gt;拥抱gpt&lt;/h2&gt;
-&lt;p&gt;人总是要装逼，呸！人总是要不断追求更高的境界的。在这个人人都用win10的社会，我跟我win7相依为命多年，电脑一开机就被人鄙视。是时候装个win10装点一下门面了。win10就意味着gpt分区。当初曹哥给我装win7用的是mbr，之后我另一个硬盘也只好用mbr（难不成要老夫每次换系统都进一次bios，把legacy换成uefi吗）。所以gpt是必须要有了的。为了避免翻车，我只好在我的固态上面实验（毕竟fedora那时候用的不多装的东西也没多少，重装就是了）。先下载win10，给bios设密码，关掉secureboot，legacy换成uefi,系统刻进u盘。直接在固态clean掉,装上win10没什么意外。这时候我把win7加进启动项开机的时候是有启动win7的，但是却提示缺少什么文件（其实是跨区不行）。上网查了很多，总结几点：&lt;/p&gt;
-&lt;blockquote&gt;
-  &lt;ol&gt;
-    &lt;li&gt;引导程序(如grub)是有文件系统的，也就是说只要我把secureboot关了，把一个shell改名成那个什么uefi文件，这个shell是会被运行的&lt;/li&gt;
-    &lt;li&gt;别人都是可以跨硬盘引导，我的win7好像不可以（我也找到了一个跨硬盘引导失败的人写的blog）&lt;/li&gt;
-    &lt;li&gt;bootmgr（好像是这个命令，我忘了）可以根据系统添加引导所需要的文件&lt;/li&gt;
-    &lt;li&gt;uefi下面win7的恢复分区没有了不会影响系统的运行与启动&lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;那么方向就有了，既然不可以跨区就双硬盘三驱动。因为我固态还要装fedora，我想保留原生的驱动程序，不敢用grub去引导win10（还记得当年第一次装双驱动的恐惧吗？）。win7的简单，先在win10下保存原来win7的驱动（防止翻车），再直接把原来的引导格掉，换成fat（uefi好像只人这个格式），在win10下把win7引导所需要的文件丢进去。重启f12，找到win7引导，成功开启win7。老样子鼠标动不了，轻车熟路，装驱动，重启一次，ok。这时候win7的破解是没有了的，百度一下破解掉ko。然后刻fedora，直接把fedora的引导装载一个新的分区（我gpt分区就是多任性），简单。
-&lt;br /&gt;
-现在三座大山
-&lt;img src=&quot;/img/boot.jpg&quot; alt=&quot;boot&quot; /&gt;&lt;/p&gt;
-&lt;h2 id=&quot;至今三大未解之迷&quot;&gt;至今三大未解之迷&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;一个硬盘双系统为何win7黑屏有开机声音，有声音说明引导是没有问题的，估计也是驱动的问题。鼠标动不了，我可以用键盘装驱动，屏幕不亮…再见&lt;/li&gt;
-  &lt;li&gt;为何每次切换系统win7都要重启一次鼠标才能用（win10并不会，win7这个锅要背，可能我之前黑屏也可以重启试试，重启果然很强大）&lt;/li&gt;
-  &lt;li&gt;为何我不能跨硬盘引导呢。还要补充一个我fedora升级之后蓝牙用不了，明明驱动都是好的，等以后再找机会求求老卢教我。&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        <pubDate>Fri, 04 Jan 2019 00:00:00 +0800</pubDate>
-        <link>/coding/installOs.html</link>
-        <guid isPermaLink="true">/coding/installOs.html</guid>
-        
-        <category>os</category>
-        
-        
-        <category>coding</category>
         
       </item>
     
