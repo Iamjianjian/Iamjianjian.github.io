@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/linux/virtualenv.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>error with virtual when update python</title>
+  <meta name="description" content="problem之前用的fedora28python的版本还是3.6的时候建立了一个virtualenv的环境但是在升级fedora的时候，python3也升级了。导致virtualenv中的python出现问题。error while loading shared libraries: libpython3.6m...">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">error with virtual when update python</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="07 Feb 2019" itemprop="datePublished">Feb 7 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">linux</a>
+        
+		<a class="post-tags-item" href="/tags/">python</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>升级python后原来的virtual出现的问题</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="problem">problem</h2>
+<p>之前用的fedora28python的版本还是3.6的时候建立了一个virtualenv的环境但是在升级fedora的时候，python3也升级了。
+导致virtualenv中的python出现问题。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>error while loading shared libraries: libpython3.6m.so.1.0: cannot open shared object file: No such file or directory
+</code></pre></div></div>
+<h2 id="solve">solve</h2>
+<p>用ldd查看会发现软连接指向的文件没找到。估计是因为升级旧的连接库就删除掉了。google一下知道是连接库的问题。
+<a href="https://forum.manjaro.org/t/virtualenv-issue-after-update-to-python-3-7/55462/4">指路</a>
+<br />
+有两种做法</p>
+<h3 id="replace-old-python">replace old python</h3>
+<p>That is your issue. Please create a new environment as the given one is still looking for python 3.6. In this case it is your ~/virtualenvs/pelican/bin/python which is looking for the non existing lib-file.
+<br />
+Quick fix would be to create a new one and copy the bin/python over and update that broken environment. Always do a backup, though.</p>
+
+<p>就是用新的python另外建一个virtualenv，把里面的python复制到旧的里面代替它，这样新的就是指向python3.7的连接库了。</p>
+<h3 id="use-always-copy-or-pyenv">use –always-copy or pyenv</h3>
+<p>You could use following parameter when creating your new virtualenv, when you want to decide when it’s time to upgrade your virtualenv to a newer python version.
+<br />
+ –always-copy         Always copy files rather than symlinking.
+<br />
+但是我的virtualenv用–always-copy会出错google了一顿也没找到答案
+Another approach is with pyenv, where you can install different python versions and then with mkvirtualenv you point to a specific python version.
+<br /></p>
+
+<p>for example:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pyenv install 3.6.6 
+mkvirtualenv -p ~/.pyenv/versions/3.6.6/bin/python testenv     
+</code></pre></div></div>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=error with virtual when update python@&amp;url=/linux/virtualenv.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/linux/virtualenv.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/linux/virtualenv.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>
