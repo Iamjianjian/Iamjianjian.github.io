@@ -6,9 +6,151 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 09 Feb 2019 19:19:05 +0800</pubDate>
-    <lastBuildDate>Sat, 09 Feb 2019 19:19:05 +0800</lastBuildDate>
+    <pubDate>Wed, 06 Mar 2019 10:04:48 +0800</pubDate>
+    <lastBuildDate>Wed, 06 Mar 2019 10:04:48 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>novel spider 2nd</title>
+        <description>&lt;h2 id=&quot;analysis&quot;&gt;analysis&lt;/h2&gt;
+&lt;p&gt;爬下面这个小说&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://big5.quanben5.com/n/zhongshengzhichaojifuerdai/xiaoshuo.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;一开始直接xpath一写就搞定很开心，但是发现每一章小说都只有前面一半。打开其中一章的html，F12，然后查看网络，刷新。
+&lt;br /&gt;
+第一个就是&lt;strong&gt;get http://big5.quanben5.com/n/yidaoguantu/25859.html&lt;/strong&gt;
+&lt;br /&gt;
+发现返回的html文档中小说内容确实只有一半，往下找看到有一个post请求，返回的就是下一半小说的内容，然后看他的参数。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pinyin	yidaoguantu
+content_id	25859
+sky	1b76786fcfca2a471a8fc4463513f5d8
+t	1551849855
+_type	ajax
+rndval	1551836182529
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;其中多数参数可以理解含义。
+但是有两个看着像是时间戳的东西，和一个叫做sky的参数。不管了先试试是不是时间戳。post之后拿到了一个标准的404。病急乱求医复制sky参数在查看器。找到一段script&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ajax_post('book','ajax_content','pinyin','yidaoguantu','content_id','25859','sky','1b76786fcfca2a471a8fc4463513f5d8','t','1551849855')
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;然后找到了ajax_post的函数描述&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function ajax_post(){
+	var c = arguments[0] ? arguments[0] : '';
+	var a = arguments[1] ? arguments[1] : '';
+	for (var i=2;i&amp;lt;arguments.length;i=i+2){
+		var field_name=arguments[i] ? arguments[i] : '';
+		var field_value=arguments[i+1] ? arguments[i+1] : '';
+		ajax.setVar(field_name,field_value);
+	}
+	ajax.setVar('_type','ajax');
+	ajax.requestFile =_cms+'/index.php?c='+c+'&amp;amp;a='+a;
+	ajax.method='POST';
+	ajax.onCompletion = whenCompleted;
+	ajax.onError = whenError;
+	ajax.runAJAX();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;但是还是少一个叫rndval的参数,再search ajax可以在&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;script type=&quot;text/javascript&quot; src=&quot;/app_quanben5/view/skin/ajax.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;找到ajax这个对象的定义&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function ajax(file) {
+this.xmlhttp = null;
+this.resetData=function(){this.method=&quot;POST&quot;;this.queryStringSeparator=&quot;?&quot;;this.argumentSeparator=&quot;&amp;amp;&quot;;this.URLString=&quot;&quot;;this.encodeURIString=true;this.execute=false;this.element=null;this.elementObj=null;this.requestFile=file;this.vars=new Object();this.responseStatus=new Array(2)};
+this.resetFunctions=function(){this.onLoading=function(){};this.onLoaded=function(){};this.onInteractive=function(){};this.onCompletion=function(){};this.onError=function(){};this.onFail=function(){}};
+this.reset = function() {this.resetFunctions();this.resetData();};
+this.createAJAX=function(){try{this.xmlhttp=new ActiveXObject(&quot;Msxml2.XMLHTTP&quot;)}catch(e1){try{this.xmlhttp=new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;)}catch(e2){this.xmlhttp=null}}if(!this.xmlhttp){if(typeof XMLHttpRequest!=&quot;undefined&quot;){this.xmlhttp=new XMLHttpRequest()}else{this.failed=true}}};
+this.setVar = function(name,value){this.vars[name] = Array(value, false);};
+this.encVar = function(name,value,returnvars){if(true == returnvars){return Array(encodeURIComponent(name),encodeURIComponent(value));}else{this.vars[encodeURIComponent(name)] = Array(encodeURIComponent(value), true);}}
+this.processURLString=function(string,encode){encoded=encodeURIComponent(this.argumentSeparator);regexp=new RegExp(this.argumentSeparator+&quot;|&quot;+encoded);varArray=string.split(regexp);for(i=0;i&amp;lt;varArray.length;i++){urlVars=varArray[i].split(&quot;=&quot;);if(true==encode){this.encVar(urlVars[0],urlVars[1])}else{this.setVar(urlVars[0],urlVars[1])}}}
+this.createURLString=function(urlstring){if(this.encodeURIString&amp;amp;&amp;amp;this.URLString.length){this.processURLString(this.URLString,true)}if(urlstring){if(this.URLString.length){this.URLString+=this.argumentSeparator+urlstring}else{this.URLString=urlstring}}this.setVar(&quot;rndval&quot;,new Date().getTime());urlstringtemp=new Array();for(key in this.vars){if(false==this.vars[key][1]&amp;amp;&amp;amp;true==this.encodeURIString){encoded=this.encVar(key,this.vars[key][0],true);delete this.vars[key];this.vars[encoded[0]]=Array(encoded[1],true);key=encoded[0]}urlstringtemp[urlstringtemp.length]=key+&quot;=&quot;+this.vars[key][0]}if(urlstring){this.URLString+=this.argumentSeparator+urlstringtemp.join(this.argumentSeparator)}else{this.URLString+=urlstringtemp.join(this.argumentSeparator)}}
+this.runResponse = function() {eval(this.response);}
+this.runAJAX=function(urlstring){if(this.failed){this.onFail()}else{this.createURLString(urlstring);if(this.element){this.elementObj=document.getElementById(this.element)}if(this.xmlhttp){var self=this;if(this.method==&quot;GET&quot;){totalurlstring=this.requestFile+this.queryStringSeparator+this.URLString;this.xmlhttp.open(this.method,totalurlstring,true)}else{this.xmlhttp.open(this.method,this.requestFile,true);try{this.xmlhttp.setRequestHeader(&quot;Content-Type&quot;,&quot;application/x-www-form-urlencoded&quot;)}catch(e){}}this.xmlhttp.onreadystatechange=function(){switch(self.xmlhttp.readyState){case 1:self.onLoading();break;case 2:self.onLoaded();break;case 3:self.onInteractive();break;case 4:self.response=self.xmlhttp.responseText;self.responseXML=self.xmlhttp.responseXML;self.responseStatus[0]=self.xmlhttp.status;self.responseStatus[1]=self.xmlhttp.statusText;if(self.execute){self.runResponse()}if(self.elementObj){elemNodeName=self.elementObj.nodeName;elemNodeName.toLowerCase();if(elemNodeName==&quot;input&quot;||elemNodeName==&quot;select&quot;||elemNodeName==&quot;option&quot;||elemNodeName==&quot;textarea&quot;){self.elementObj.value=self.response}else{self.elementObj.innerHTML=self.response}}if(self.responseStatus[0]==&quot;200&quot;){self.onCompletion()}else{self.onError()}self.URLString=&quot;&quot;;break}};this.xmlhttp.send(this.URLString)}}};
+this.reset();
+this.createAJAX();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;注意这一行，最后一个未知参数找到确实是时间戳
+&lt;strong&gt;this.setVar(“rndval”,new Date().getTime());&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;##code&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import reqfun,re
+import lxml,time,requests,random
+ips=reqfun.getip()
+source=r'http://big5.quanben5.com/n/zhongshengzhichaojifuerdai/xiaoshuo.html'
+index=r'http://big5.quanben5.com/'
+a=reqfun.myget(source,proxies=random.choice(ips))
+a.encoding='utf8'
+b=lxml.etree.HTML(a.text)
+c=b.xpath(r'//ul[@class=&quot;list&quot;]/li/a')
+cc=[index+i.attrib['href'] for i in c]
+titles=[i.text for i in b.xpath(r'//ul[@class=&quot;list&quot;]/li/a/span')]
+headers={
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0',
+    'host':'big5.quanben5.com',
+    'DNT':'1',
+    'Content-Type': 'application/x-www-form-urlencoded'
+}
+def getText(href):
+    ret=r&quot;ajax_post\('book','ajax_content','pinyin','zhongshengzhichaojifuerdai','content_id','(\d\d\d\d)','sky','(.+?)','t','(\d{10})'&quot;
+    global headers
+    print(&quot;getting params &quot;)
+    while True:
+        response=reqfun.myget(href,proxies=random.choice(ips))
+        if response!=None:
+            break
+        print(&quot;return None ,sleeping now,rework after 60s&quot;)
+        time.sleep(60)
+    response.encoding='utf8'
+    par=re.findall(ret,response.text)[0]
+    ss=&quot;rndval=%s&quot;%(str(int(time.time())+2833)+str(random.randint(100,999)))
+    data='pinyin=zhongshengzhichaojifuerdai&amp;amp;content_id=%s&amp;amp;sky=%s&amp;amp;t=%s&amp;amp;_type=ajax&amp;amp;'%par
+    data+=ss
+    headers['Referer']=href
+    while True:
+        # response=requests.post(r'http://big5.quanben5.com/index.php?c=book&amp;amp;a=ajax_content',headers=headers,data=data,proxies={'http':'http://127.0.0.1:8080'})
+        print(&quot;posting&quot;)
+        response=requests.post(r'http://big5.quanben5.com/index.php?c=book&amp;amp;a=ajax_content',headers=headers,data=data,proxies=random.choice(ips))
+        if response!=None:
+            break
+        print(&quot;return None ,sleeping now,rework after 60s&quot;)
+        time.sleep(60)
+    response.encoding='utf8'
+    content=response.text
+    content=content.replace('\xa0','')
+    content=content.replace('&amp;lt;p&amp;gt;','\n')
+    content=content.replace('&amp;lt;/p&amp;gt;','')
+    return content
+    
+def save(title,text,number):
+    try:
+        with open(r'D:\python\myCode\zuiguizhizheng\重生之超级富二代.txt','a',encoding='utf8')as f:
+            f.write('\n'+title+'\n')
+            f.write(text)
+        print('save sucess'+str(number)+'  '+title)
+    except Exception as e:
+        print(e,title,number)
+
+num=8
+while num&amp;lt;len(cc):
+    save(titles[num],getText(cc[num]),num)
+    num+=1
+    time.sleep(0.2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Wed, 06 Mar 2019 00:00:00 +0800</pubDate>
+        <link>/coding/novelSpider2nd.html</link>
+        <guid isPermaLink="true">/coding/novelSpider2nd.html</guid>
+        
+        <category>spider</category>
+        
+        <category>coding</category>
+        
+        
+        <category>coding</category>
+        
+      </item>
     
       <item>
         <title>sudo python package not found</title>
@@ -552,50 +694,6 @@ except Exception as e:
         <pubDate>Tue, 08 Jan 2019 00:00:00 +0800</pubDate>
         <link>/machine%20learning/errorCome.html</link>
         <guid isPermaLink="true">/machine%20learning/errorCome.html</guid>
-        
-        <category>ML</category>
-        
-        
-        <category>machine learning</category>
-        
-      </item>
-    
-      <item>
-        <title>linearRegression</title>
-        <description>&lt;h2 id=&quot;regression&quot;&gt;regression&lt;/h2&gt;
-&lt;p&gt;一个regression就是找一个输出数字的函数。&lt;/p&gt;
-&lt;h2 id=&quot;step1set-up-a-model&quot;&gt;step1：set up a model&lt;/h2&gt;
-&lt;p&gt;设计一个函数集合用于估计输出，如：&lt;script type=&quot;math/tex&quot;&gt;f(x)=\Sigma w_{i}x_{i}+b&lt;/script&gt;
-改变b和&lt;script type=&quot;math/tex&quot;&gt;w_{i}&lt;/script&gt;就是不同的function，属于同一个model&lt;/p&gt;
-&lt;h2 id=&quot;step2-goodness-of-function&quot;&gt;step2: goodness of function&lt;/h2&gt;
-&lt;p&gt;判断function的好坏，找一组数据作为training data,用loss function衡量function的好坏，输入function输出function的好坏数值L(f)。如：
-&lt;script type=&quot;math/tex&quot;&gt;L(w_{i},b)=(\hat{y}-(\Sigma w_{i}x_{i}+b))^{2}&lt;/script&gt;
-&lt;!-- ![lossFunc](/img/formula/lossFunc.gif) --&gt;&lt;/p&gt;
-&lt;h2 id=&quot;step3-gradient-descent-find-best-function&quot;&gt;step3: gradient descent find Best function&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/img/linear/bestfunction.png&quot; alt=&quot;bestFunc&quot; /&gt;
-&lt;br /&gt;
-&lt;strong&gt;介绍了gradient descent的方法&lt;/strong&gt;
-&lt;br /&gt;
-&lt;strong&gt;说白了就是求导数,逐步逼近导数为零的点&lt;/strong&gt;
-&lt;img src=&quot;/img/linear/oneparameter.png&quot; alt=&quot;oneparameter&quot; /&gt;
-&lt;strong&gt;两个的时候，求两个偏微分，多个就多个偏微分&lt;/strong&gt;
-&lt;img src=&quot;/img/linear/twoparameter.png&quot; alt=&quot;twoparameter&quot; /&gt;&lt;/p&gt;
-&lt;h2 id=&quot;gradient-descent-的缺陷&quot;&gt;gradient descent 的缺陷&lt;/h2&gt;
-&lt;p&gt;缺陷就十分明显了，偏微分求到的是极值点，不一定是最值点，还会可能是saddlePoint马鞍点，或者是plateau(偏微分近似为0的地方)
-&lt;img src=&quot;/img/linear/plateauSaddleLocal.png&quot; alt=&quot;plateauSaddleLocal&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;select-another-model&quot;&gt;select another model&lt;/h2&gt;
-&lt;p&gt;为了降低loss，设计新的model(泰勒展开是不是说明函数可以展开成多项式，所以就直接用多项式代替)，如加入x的2次方3次方等。
-从下图就可以看出从4次方开始会有overfitting的现象，trainingData的error小而Test就十分的差
-&lt;img src=&quot;/img/linear/trainTestError.png&quot; alt=&quot;trainTestError&quot; /&gt;
-&lt;strong&gt;所以为了图像更加平滑(这是因为我们都愿意相信平滑的图像更可能符合)我们要regulazation，从新设计lossFunction加入landa&lt;/strong&gt;
-&lt;img src=&quot;/img/linear/regulazation.png&quot; alt=&quot;regulazation&quot; /&gt;
-&lt;strong&gt;以这里不对b进行调整，因为b与图像平滑与否无关，然后要自己手动调整landa的值&lt;/strong&gt;
-&lt;img src=&quot;/img/linear/ajustLanda.png&quot; alt=&quot;ajustLanda&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sat, 05 Jan 2019 00:00:00 +0800</pubDate>
-        <link>/machine%20learning/linearRegression.html</link>
-        <guid isPermaLink="true">/machine%20learning/linearRegression.html</guid>
         
         <category>ML</category>
         
