@@ -6,16 +6,17 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 06 Mar 2019 10:04:48 +0800</pubDate>
-    <lastBuildDate>Wed, 06 Mar 2019 10:04:48 +0800</lastBuildDate>
+    <pubDate>Wed, 06 Mar 2019 10:09:14 +0800</pubDate>
+    <lastBuildDate>Wed, 06 Mar 2019 10:09:14 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
         <title>novel spider 2nd</title>
         <description>&lt;h2 id=&quot;analysis&quot;&gt;analysis&lt;/h2&gt;
 &lt;p&gt;爬下面这个小说&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://big5.quanben5.com/n/zhongshengzhichaojifuerdai/xiaoshuo.html
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://big5.quanben5.com/n/zhongshengzhichaojifuerdai/xiaoshuo.html&quot;&gt;http://big5.quanben5.com/n/zhongshengzhichaojifuerdai/xiaoshuo.html&lt;/a&gt;&lt;/p&gt;
+
 &lt;p&gt;一开始直接xpath一写就搞定很开心，但是发现每一章小说都只有前面一半。打开其中一章的html，F12，然后查看网络，刷新。
 &lt;br /&gt;
 第一个就是&lt;strong&gt;get http://big5.quanben5.com/n/yidaoguantu/25859.html&lt;/strong&gt;
