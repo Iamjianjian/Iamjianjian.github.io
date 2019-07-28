@@ -48,7 +48,7 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
     <center><div class="post-title" itemprop="name headline">assessment and selection of model</div>
 
-		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="05 Jan 2019" itemprop="datePublished">Jan 5 2019</time>
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="23 Jul 2019" itemprop="datePublished">Jul 23 2019</time>
 
 		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
         
@@ -186,10 +186,16 @@ $$
 <ol>
   <li>新加入的点是正例，曲线树直向上。</li>
   <li>新加入的点是反例，曲线平行向右。</li>
-  <li>划分点有两个点一个是反一个是正（这是存在的，因为预测结果是实数值排序，一个反例和一个正例刚好重合，后面的AUC的计算的二分之一就是因为这个。）。斜线一段，斜率由正例和反例的数量决定。
-同样ROC曲线包围另一个是前者性能好。
-AUC就是ROC包围的面积，</li>
+  <li>划分点有两个点一个是反一个是正（这是存在的，因为预测结果是实数值排序，一个反例和一个正例刚好重合，后面的AUC的计算的二分之一就是因为这个。）。斜线一段，斜率由正例和反例的数量决定。</li>
 </ol>
+
+<p>同样ROC曲线包围另一个是前者性能好。
+AUC就是ROC包围的面积，公式的推算写在了书上。</p>
+
+<h3 id="remain">remain</h3>
+
+<p>剩下的代价敏感还好理解，但是那个基于分布的完全不知所云找不到现实案例无法理解，图2.5不动为什么那个就是期望总体代价，后面的比较检验的二项分布的假设检验不会，后面的都没看</p>
+
 
 </div>
 

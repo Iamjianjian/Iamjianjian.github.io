@@ -6,9 +6,136 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 25 Jul 2019 10:45:59 +0800</pubDate>
-    <lastBuildDate>Thu, 25 Jul 2019 10:45:59 +0800</lastBuildDate>
+    <pubDate>Sun, 28 Jul 2019 14:10:39 +0800</pubDate>
+    <lastBuildDate>Sun, 28 Jul 2019 14:10:39 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>linear model</title>
+        <description>&lt;h2 id=&quot;基本形式&quot;&gt;基本形式&lt;/h2&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;f(x)=w^{T}x+b&lt;/script&gt;
+书上说许多功能强大的nonlinear model 可在linear model的基础上通过层级结构或高维映射而得。&lt;br /&gt;
+&lt;strong&gt;然而我并不知道什么叫做层级结构或高维映射&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;然而我并不知道什么叫做层级结构或高维映射&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;然而我并不知道什么叫做层级结构或高维映射&lt;/strong&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;linear-regression&quot;&gt;linear regression&lt;/h2&gt;
+
+&lt;p&gt;linear regression就是预测&lt;strong&gt;实数值&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;离散属性的处理&quot;&gt;离散属性的处理&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;有序关系则化为一项属性的连续值如身高{高 中 矮}分别使 身高属性为1.0 0.5 0.0&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;无序关系的通过多个属性表示，瓜类{南瓜 冬瓜} 使得属性 南瓜 冬瓜为  1,0 或 0,1&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;一元线性回归的最小二乘法求解&quot;&gt;一元线性回归的最小二乘法求解&lt;/h3&gt;
+&lt;p&gt;我就不懂了，妈的求个导数叫个这么响的名字
+百度有一个定义觉得挺好：
+&lt;br /&gt;
+线性方程组（略）无解，求一组&lt;script type=&quot;math/tex&quot;&gt;(x_{1},x_{2},...,x_{n})&lt;/script&gt;使得这组X带进去方程组之后的平方和最小。
+下求解一元的情况&lt;br /&gt;
+f(x)=wx+b,共m组数据,那么就是m个方程组,最小化&lt;script type=&quot;math/tex&quot;&gt;\sum _{i=1}^{m} (f(x_{i})-y_{i})^{2}&lt;/script&gt;,
+看清楚这里的变量是什么,是w和b,求分别令偏导数为0得:&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\sum _{i=1}^{m}2(f(x_{i})-y_{i})\frac{\partial f(x_{i})}{\partial w}=
+\sum _{i=1}^{m}2(f(x_{i})-y_{i})x_{i}=书中的式子&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+对于b也是同理，可得书中的式子:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;b=\frac{1}{m}\sum_{i=1}^{m}(y_{i}-wx_{i})&lt;/script&gt;
+
+&lt;p&gt;把b变为:&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;b=\sum _{i=1}^{m} y_{i} -w\bar x&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+w的偏导数式子化为:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;0=w\sum _{i=1}^{m}x^{2}-\sum _{i=1}^{m}y_{i}x_{i}+\sum _{i=1}^{m}bx_{i}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+带入b:&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;0=w\sum _{i=1}^{m}x^{2}-\sum _{i=1}^{m}y_{i}x_{i}+\sum _{i=1}^{m}x_{i}\frac{1}{m}\sum _{j=1}^{m}y_{j}-\sum _{i=1}^{m}x_{i}w\bar x&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+把第三项的&lt;script type=&quot;math/tex&quot;&gt;\frac{1}{m}&lt;/script&gt;提前可以得到书中的&lt;script type=&quot;math/tex&quot;&gt;\bar x&lt;/script&gt;,仔细想一想&lt;script type=&quot;math/tex&quot;&gt;\sum _{i=1}^{m}x_{i}\bar x&lt;/script&gt;把&lt;script type=&quot;math/tex&quot;&gt;\frac{1}{m}&lt;/script&gt;提出来就是书中的
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{m}(\sum_{i=1}^{m}x_{i})^{2}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+把w提出来就是书中的式子了。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;写公式好难&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;写公式好难&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;写公式好难&lt;/strong&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;多元的求解&quot;&gt;多元的求解&lt;/h3&gt;
+
+&lt;p&gt;因为那个矩阵求导数死活理解不了只能暂时放下这里的推导过程了&lt;/p&gt;
+
+&lt;p&gt;令导数为0可得书中式子，&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;X^{T}X&lt;/script&gt;满秩就可以求逆矩阵得到唯一的解 &lt;script type=&quot;math/tex&quot;&gt;\hat w^{*}=(X^{T}X)^{-1}X^{T}y&lt;/script&gt;（此时必有m大于等于(d+1)，书中还加了一句或正定矩阵完全不用，正定必然满秩）&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;X^{T}X&lt;/script&gt;不满秩,就会有多个解使得均方误差最小，结果有归纳偏好决定&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;广义线性模型&quot;&gt;广义线性模型&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;单调可微单调可微单调可微&lt;/strong&gt;函数g(单调可微有逆函数),可得:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;y=g^{-1}(w^{T}x+b)&lt;/script&gt;
+
+&lt;h2 id=&quot;对数几率回归&quot;&gt;对数几率回归&lt;/h2&gt;
+
+&lt;p&gt;对数几率函数从图像轻易可以看出是x是类c的几率。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y=1|x)=\frac{e^{w^{T}x+b}}{1+e^{w^{T}x+b}}&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y=0|x)=\frac{1}{1+e^{w^{T}x+b}}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;利用极大似然估计(后面用书中的&lt;script type=&quot;math/tex&quot;&gt;\beta&lt;/script&gt;x也是指书中的后面的x)&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+目标是最大化下式
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;l(\beta)=\sum_{i=1}^{m} ln(p(y_{i}|x_{i};\beta))&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+此时应该要转换了，但是书中的&lt;strong&gt;公式3.27有误公式3.27有误公式3.27有误&lt;/strong&gt;，不知道是作者笔误还是没写清楚，害我化了半天还搞不出来，最后又跑区番自己的看李宏毅写的帖子和视频看了才发现这里错了。
+&lt;br /&gt;
+书中的式子是把这个带入:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y_{i}|x_{i};w,b)=y_{i}p_{1}(\hat x_{i};\beta)+(1-y_{i})p_{0}(\hat x_{i};\beta)&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+如果直接带入3.25是化不出来的，正确的式子应该是:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;ln(p(y_{i}|x_{i};w,b))=y_{i}ln(p_{1}(\hat x_{i};\beta))+(1-y_{i})ln(p_{0}(\hat x_{i};\beta))&lt;/script&gt;
+
+</description>
+        <pubDate>Fri, 26 Jul 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/linearModel.html</link>
+        <guid isPermaLink="true">/watermelon/linearModel.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
     
       <item>
         <title>math warning</title>
@@ -27,12 +154,148 @@ ds=(dx,dy,dz)分解成三个方向。即&lt;script type=&quot;math/tex&quot;&gt;
 
 &lt;p&gt;由此可得到结论约束曲面与该曲面的梯度正交，例如：&lt;br /&gt;
 g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲面的切面方向与各个方向的偏导数的内积为0，即该曲面的切面方向与梯度(与各个方向的偏导数方向一样)内积为0，故正交。&lt;/p&gt;
+
+&lt;h2 id=&quot;矩阵&quot;&gt;矩阵&lt;/h2&gt;
+&lt;p&gt;A乘以列 后面的列选A的列
+行乘以A 前面的行选A的行&lt;/p&gt;
 </description>
         <pubDate>Thu, 25 Jul 2019 00:00:00 +0800</pubDate>
         <link>/watermelon/mathWarning.html</link>
         <guid isPermaLink="true">/watermelon/mathWarning.html</guid>
         
         <category>math</category>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
+    
+      <item>
+        <title>assessment and selection of model</title>
+        <description>&lt;h2 id=&quot;经验误差与过拟合&quot;&gt;经验误差与过拟合&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;训练集上的误差:训练误差&lt;/li&gt;
+  &lt;li&gt;新样本上的误差:泛化误差&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;评估方法&quot;&gt;评估方法&lt;/h2&gt;
+&lt;h3 id=&quot;留出法&quot;&gt;留出法。&lt;/h3&gt;
+&lt;p&gt;注意要尽可能保持数据分布的一致性。例如在分类中保持类别比例相似。进行多次划分重复实验&lt;/p&gt;
+&lt;h3 id=&quot;交叉验证法&quot;&gt;交叉验证法。&lt;/h3&gt;
+&lt;p&gt;同样尽可能保持数据分布的一致性，分层采样。分类数k==样本数m时退化为leave one out。&lt;/p&gt;
+&lt;h3 id=&quot;自助法&quot;&gt;自助法。&lt;/h3&gt;
+&lt;p&gt;对于数据集D有放回抽样m次得到训练集E，由下式可知最少约36.8%的样本未在E中出现过。D\E用作测试集。&lt;center&gt;$$
+\lim_{x\to 0}(1-\frac{1}{m})^{m}=\frac{1}{e}\approx0.368$$&lt;/center&gt;&lt;/p&gt;
+&lt;p&gt;该方法适用于数据集较小的情况。但因为改变了初始数据集，这会引用估计误差。&lt;/p&gt;
+&lt;!-- 上面莫名其妙没了个p标签自己套上去。汗！ --&gt;
+
+&lt;h3 id=&quot;调参与最终模型&quot;&gt;调参与最终模型。&lt;/h3&gt;
+&lt;p&gt;原始数据集分为训练集和测试集。训练集分出验证集用于调参。训练集用于训练模型，测试集评估泛化性能。最后的模型用全部data训练。&lt;/p&gt;
+
+&lt;h2 id=&quot;性能度量&quot;&gt;性能度量&lt;/h2&gt;
+
+&lt;h3 id=&quot;查准查全率&quot;&gt;查准查全率&lt;/h3&gt;
+&lt;p&gt;markdown表格不能合并单元格，随后补新的&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;第一个字母代表了预测的结果对了还是错了。&lt;/li&gt;
+  &lt;li&gt;第二个字母代表预测的结果，预测是反还是正。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;真实情况&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;预测&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;结果&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;正例&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;反例&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;正例&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;TP&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;FN&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;反例&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;FP&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;TN&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;查准率P（猜测是正的对了多少）和查全率R（猜测是正的当中正例占总数正例的比例）&lt;/p&gt;
+&lt;center&gt;
+$$
+P=\frac{TP}{TP+FP}
+$$
+&lt;/center&gt;
+&lt;center&gt;
+$$
+R=\frac{TP}{TP+FN}
+$$
+&lt;/center&gt;
+
+&lt;h3 id=&quot;p-r曲线图&quot;&gt;P-R曲线图&lt;/h3&gt;
+
+&lt;p&gt;根据预测结果对样例排序。依次划分前面的正例后面的反例可以得到P-R曲线图。为了方便书中的图（2.3）是光滑的，实际曲线常是非光滑的。&lt;br /&gt;
+例如新进取的样本是正例那个分子分母都加1，P和R都会增大。如果是反例，P减小但R是不变的。
+&lt;br /&gt;
+分类器的P-R曲线完全包住另一个的可以断言前者好。
+&lt;br /&gt;
+BEP就是P=R的点。&lt;br /&gt;
+F1什么的又长又臭。记住F1是基于调和平均定义的就算了&lt;/p&gt;
+&lt;center&gt;
+$$
+\frac{1}{F1}=\frac{1}{2}(\frac{1}{P}+\frac{1}{R})
+$$
+&lt;/center&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;F_{B}&lt;/script&gt;则是加权调和。&lt;/p&gt;
+
+&lt;center&gt;
+&lt;br /&gt;
+$$
+F_{B}=\frac{1}{1+B^{2}}(\frac{1}{P}+\frac{B^{2}}{R})
+$$
+
+&lt;/center&gt;
+
+&lt;h3 id=&quot;roc与auc&quot;&gt;ROC与AUC&lt;/h3&gt;
+
+&lt;p&gt;TPR和FPR这个东西记住真的不容易，总结三点&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;首先一点分母一定是样本的全部正例或者反例。&lt;/li&gt;
+  &lt;li&gt;前两个字母所代表的样本真实结果是什么分母就是什么&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;所以TPR代表预测为正的占了全部正例的比例，FPR代表反力被预测为正例占全部反例的比例。同样根据预测结果对样例排序。依次划分前面的正例后面的反例，二者递增（分母不变一直分子增大）。
+&lt;br /&gt;
+依上面的过程以FPR为横轴TPR为纵轴可得RPC曲线。
+曲线是梯形图，分三种情况:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;新加入的点是正例，曲线树直向上。&lt;/li&gt;
+  &lt;li&gt;新加入的点是反例，曲线平行向右。&lt;/li&gt;
+  &lt;li&gt;划分点有两个点一个是反一个是正（这是存在的，因为预测结果是实数值排序，一个反例和一个正例刚好重合，后面的AUC的计算的二分之一就是因为这个。）。斜线一段，斜率由正例和反例的数量决定。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;同样ROC曲线包围另一个是前者性能好。
+AUC就是ROC包围的面积，公式的推算写在了书上。&lt;/p&gt;
+
+&lt;h3 id=&quot;remain&quot;&gt;remain&lt;/h3&gt;
+
+&lt;p&gt;剩下的代价敏感还好理解，但是那个基于分布的完全不知所云找不到现实案例无法理解，图2.5不动为什么那个就是期望总体代价，后面的比较检验的二项分布的假设检验不会，后面的都没看&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 23 Jul 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/assessAndSelect.html</link>
+        <guid isPermaLink="true">/watermelon/assessAndSelect.html</guid>
         
         <category>ML</category>
         
@@ -558,108 +821,6 @@ except Exception as e:
         <pubDate>Sat, 12 Jan 2019 00:00:00 +0800</pubDate>
         <link>/machine%20learning/LogisticRegression.html</link>
         <guid isPermaLink="true">/machine%20learning/LogisticRegression.html</guid>
-        
-        <category>ML</category>
-        
-        
-        <category>machine learning</category>
-        
-      </item>
-    
-      <item>
-        <title>classification</title>
-        <description>&lt;h2 id=&quot;如果当作regression来做存在的问题&quot;&gt;如果当作regression来做存在的问题&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;由于regression的使ef尽可能接近曲线的特性，会被一些非常正确的点,如图显然右边regression得到的结果是不好的&lt;/li&gt;
-  &lt;li&gt;如果用数字表示某类，而用regression来做，由于数字接近的class在regression上面意味着它们有某种关系，而这是不一定的，因为数字是我们人为设定的。
-&lt;img src=&quot;/img/classification/tooCorrect.png&quot; alt=&quot;tooCorrect&quot; /&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;ideal-alternative&quot;&gt;ideal alternative&lt;/h2&gt;
-&lt;p&gt;尝试用regression，但是这存在很多问题。
-虽然可以用perceptron或SVM，但目前只学过gradient descent 我们不会training function
-&lt;img src=&quot;/img/classification/idealAlternative.png&quot; alt=&quot;idealAlternative&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;generative-model&quot;&gt;generative model&lt;/h2&gt;
-&lt;p&gt;然后介绍正确的做法了，就像是用贝叶斯公式一样，(假设是二元分类)如果我们知道p(c1),p(c2)和p(x|c1),p(x|c2)我们就可以求到p(c1|x)和p(c2|x)。
-由training data可以得到,P(c1) P(c2) (如data中有79个水系小精灵，61个普通系，那么P(c1)=79/140)。
-&lt;img src=&quot;/img/classification/generativeModel.png&quot; alt=&quot;generativeModel&quot; /&gt;
-然后不同的class的feature服从不同的分布,只要找出这个分布就可以知道P(x|c)，老师用的是正太的概率分布。
-&lt;img src=&quot;/img/classification/gaussian.png&quot; alt=&quot;gaussian&quot; /&gt;
-然后由极大拟然估计估计先出mean(算出来mean就是均值拉)再求出covariance(对称矩阵).
-&lt;img src=&quot;/img/classification/maxiLike.png&quot; alt=&quot;maxiLike&quot; /&gt;
-&lt;br /&gt;
-&lt;strong&gt;注意图片当中的x是vector(例子中是二维，一个是防御力，一个是特殊防御力)&lt;/strong&gt;
-&lt;br /&gt;
-&lt;img src=&quot;/img/classification/meanCovariance.png&quot; alt=&quot;meanCovariance&quot; /&gt;
-因为二元分类，老师的例子只要判断p(c|x)&amp;gt;0.5就可以分类，然后
-&lt;br /&gt;
-&lt;strong&gt;老师就gg了，老师就gg了，老师就gg了……，二维结果只有47%，7维只有54%&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;modifying-model&quot;&gt;modifying model&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;老师说两个class都用不同的covariance的话他们的参数太多，那么variance就太大，所以强制让他们的covariance相同(这样子就缩小了model的fucntion set 从而减小了variance，而增大了bias)。为什么可以这么做可以在bishop4.2.2找答案。期望值的计算方法还是跟covariance不一样的时候(54%那个)一样的极大似然估计方法,结果也是均值。而新的covariance是原来的两个covariance的加权平均。最后做出来的结果正确率有73%&lt;/strong&gt;
-&lt;img src=&quot;/img/classification/sameCovariance.png&quot; alt=&quot;sameCovariance&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;three-steps&quot;&gt;three steps&lt;/h2&gt;
-&lt;p&gt;总结做法，分三部，确定model，也就是贝叶斯公式拉！然后就是定一个class的distribution求出参数确定这个分布(就是这里老师强制各个分类的covariance相等提高了正确率),这样就有P(x|c)拉，加上算一下training data中各个分类的个数就有p(c)拉，就可以作估计了。
-&lt;img src=&quot;/img/classification/threeStep.png&quot; alt=&quot;threeStep&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;probability-distribution&quot;&gt;probability distribution&lt;/h2&gt;
-&lt;p&gt;model的选择(probability distribution)是人为选择的。但是同样的，简单的distribution的bias大，复杂的variance大。
-如果人为去掉各个feature之间的相关性，当作他们独立的话叫naive bayes classifier，但pokemon的例子gg了&lt;/p&gt;
-
-&lt;p&gt;最后又是warning of math的时间了，证明了为什么强制不同的类用一样的covariance之后它的图像是直线(二维中)的。&lt;/p&gt;
-</description>
-        <pubDate>Fri, 11 Jan 2019 00:00:00 +0800</pubDate>
-        <link>/machine%20learning/classification.html</link>
-        <guid isPermaLink="true">/machine%20learning/classification.html</guid>
-        
-        <category>ML</category>
-        
-        
-        <category>machine learning</category>
-        
-      </item>
-    
-      <item>
-        <title>gradient descent</title>
-        <description>&lt;h2 id=&quot;review&quot;&gt;review&lt;/h2&gt;
-&lt;p&gt;首先回忆一下什么是gradient descent。为training一个function:f=b+wx我们定义出来一个Loss Function:&lt;img src=&quot;/img/formula/lossFunc.gif&quot; alt=&quot;lossFunc&quot; /&gt;,Loss Function是为了找到Loss最小的参数。
-过程中首先init参数，然后&lt;img src=&quot;/img/gradientDescent/GDprocess.png&quot; alt=&quot;GDprocess&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;tip1tuning-lr&quot;&gt;tip1:tuning LR&lt;/h2&gt;
-&lt;p&gt;一句话LR别太小或太大
-&lt;img src=&quot;/img/gradientDescent/tuningLR.png&quot; alt=&quot;tuningLR&quot; /&gt;&lt;/p&gt;
-&lt;h3 id=&quot;adaptive-learging-rate&quot;&gt;adaptive Learging Rate&lt;/h3&gt;
-&lt;p&gt;之后是调节LR的方法,LR应该动态改变，给出了两个点:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;开始我们离destination远之后近，所以呢LR要大，之后LR要小&lt;/li&gt;
-  &lt;li&gt;不同的参数要不同的LR&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;介绍了adagrad
-&lt;img src=&quot;/img/gradientDescent/ada1.png&quot; alt=&quot;ada1.png&quot; /&gt;
-&lt;img src=&quot;/img/gradientDescent/ada2.png&quot; alt=&quot;ada2.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;然后提出了一个contradiction，在原来的gradient descent中梯度越大，learning越大，但是在adagrad中呢，就越小。(觉得这里说的不对，应该是这一次之后的LR越小)&lt;/strong&gt;。
-&lt;br /&gt;然后老师解释了，为什么要这样。他是从二元二次函数的角度出发的，说adagrad的分母是二次导数的近似。而我觉得这屁关系没有，所以就不写下来了。
-&lt;br /&gt;
-还有adagrad在最后LR会特别的小，小的令人发指。&lt;/p&gt;
-
-&lt;h2 id=&quot;tip-2-stochastic-gradient-descent&quot;&gt;Tip 2: Stochastic Gradient Descent&lt;/h2&gt;
-&lt;p&gt;很简单Gradient Descent每一次更新参数都是用所以的data的偏导，Stochastic则是随机选一个或者按序轮流都可以
-&lt;img src=&quot;/img/gradientDescent/stochastic.png&quot; alt=&quot;stochastic.png&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;tip-3-feature-scaling&quot;&gt;Tip 3: Feature Scaling&lt;/h2&gt;
-&lt;p&gt;就是有一些输入的参数特别大的时候，对输入参数进行调整。如果不作调整一些参数影响会过大，调整之后的在图像上更像一个圆形(二维)。
-&lt;img src=&quot;/img/gradientDescent/circle.png&quot; alt=&quot;circle.png&quot; /&gt;
-下面是调整的方法
-&lt;img src=&quot;/img/gradientDescent/featureScaling.png&quot; alt=&quot;featureScaling.png&quot; /&gt;
-最后是gradient descent的数学正确性证明了，好像还是挺简单，不赘述。但是要注意一点，gradient descent正确是建立在LR足够小的前提下，着也就说明了开始的时候为什么LR过大会出现我们不喜欢的情况。&lt;/p&gt;
-</description>
-        <pubDate>Wed, 09 Jan 2019 00:00:00 +0800</pubDate>
-        <link>/machine%20learning/gradientDescent.html</link>
-        <guid isPermaLink="true">/machine%20learning/gradientDescent.html</guid>
         
         <category>ML</category>
         

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/watermelon/linearModel.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>linear model</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="基本形式书上说许多功能强大的nonlinear model 可在linear model的基础上通过层级结构或高维映射而得。然而我并不知道什么叫做层级结构或高维映射然而我并不知道什么叫做层级结构或高维映射然而我并不知道什么叫做层级结构或高维映射">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">linear model</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="26 Jul 2019" itemprop="datePublished">Jul 26 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">ML</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>西瓜书第三章</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="基本形式">基本形式</h2>
+<p><script type="math/tex">f(x)=w^{T}x+b</script>
+书上说许多功能强大的nonlinear model 可在linear model的基础上通过层级结构或高维映射而得。<br />
+<strong>然而我并不知道什么叫做层级结构或高维映射</strong><br />
+<strong>然而我并不知道什么叫做层级结构或高维映射</strong><br />
+<strong>然而我并不知道什么叫做层级结构或高维映射</strong><br /></p>
+
+<h2 id="linear-regression">linear regression</h2>
+
+<p>linear regression就是预测<strong>实数值</strong></p>
+
+<h3 id="离散属性的处理">离散属性的处理</h3>
+<ol>
+  <li>有序关系则化为一项属性的连续值如身高{高 中 矮}分别使 身高属性为1.0 0.5 0.0<br /></li>
+  <li>无序关系的通过多个属性表示，瓜类{南瓜 冬瓜} 使得属性 南瓜 冬瓜为  1,0 或 0,1</li>
+</ol>
+
+<h3 id="一元线性回归的最小二乘法求解">一元线性回归的最小二乘法求解</h3>
+<p>我就不懂了，妈的求个导数叫个这么响的名字
+百度有一个定义觉得挺好：
+<br />
+线性方程组（略）无解，求一组<script type="math/tex">(x_{1},x_{2},...,x_{n})</script>使得这组X带进去方程组之后的平方和最小。
+下求解一元的情况<br />
+f(x)=wx+b,共m组数据,那么就是m个方程组,最小化<script type="math/tex">\sum _{i=1}^{m} (f(x_{i})-y_{i})^{2}</script>,
+看清楚这里的变量是什么,是w和b,求分别令偏导数为0得:<br /></p>
+
+<script type="math/tex; mode=display">\sum _{i=1}^{m}2(f(x_{i})-y_{i})\frac{\partial f(x_{i})}{\partial w}=
+\sum _{i=1}^{m}2(f(x_{i})-y_{i})x_{i}=书中的式子</script>
+
+<p><br />
+对于b也是同理，可得书中的式子:
+<br /></p>
+
+<script type="math/tex; mode=display">b=\frac{1}{m}\sum_{i=1}^{m}(y_{i}-wx_{i})</script>
+
+<p>把b变为:<br /></p>
+
+<script type="math/tex; mode=display">b=\sum _{i=1}^{m} y_{i} -w\bar x</script>
+
+<p><br />
+w的偏导数式子化为:
+<br /></p>
+
+<script type="math/tex; mode=display">0=w\sum _{i=1}^{m}x^{2}-\sum _{i=1}^{m}y_{i}x_{i}+\sum _{i=1}^{m}bx_{i}</script>
+
+<p><br />
+带入b:<br /></p>
+
+<script type="math/tex; mode=display">0=w\sum _{i=1}^{m}x^{2}-\sum _{i=1}^{m}y_{i}x_{i}+\sum _{i=1}^{m}x_{i}\frac{1}{m}\sum _{j=1}^{m}y_{j}-\sum _{i=1}^{m}x_{i}w\bar x</script>
+
+<p><br />
+把第三项的<script type="math/tex">\frac{1}{m}</script>提前可以得到书中的<script type="math/tex">\bar x</script>,仔细想一想<script type="math/tex">\sum _{i=1}^{m}x_{i}\bar x</script>把<script type="math/tex">\frac{1}{m}</script>提出来就是书中的
+<br /></p>
+
+<script type="math/tex; mode=display">\frac{1}{m}(\sum_{i=1}^{m}x_{i})^{2}</script>
+
+<p><br />
+把w提出来就是书中的式子了。
+<br /></p>
+
+<p><strong>写公式好难</strong><br />
+<strong>写公式好难</strong><br />
+<strong>写公式好难</strong><br /></p>
+<h3 id="多元的求解">多元的求解</h3>
+
+<p>因为那个矩阵求导数死活理解不了只能暂时放下这里的推导过程了</p>
+
+<p>令导数为0可得书中式子，</p>
+<ol>
+  <li><script type="math/tex">X^{T}X</script>满秩就可以求逆矩阵得到唯一的解 <script type="math/tex">\hat w^{*}=(X^{T}X)^{-1}X^{T}y</script>（此时必有m大于等于(d+1)，书中还加了一句或正定矩阵完全不用，正定必然满秩）</li>
+  <li><script type="math/tex">X^{T}X</script>不满秩,就会有多个解使得均方误差最小，结果有归纳偏好决定</li>
+</ol>
+
+<h3 id="广义线性模型">广义线性模型</h3>
+
+<p><strong>单调可微单调可微单调可微</strong>函数g(单调可微有逆函数),可得:
+<br /></p>
+
+<script type="math/tex; mode=display">y=g^{-1}(w^{T}x+b)</script>
+
+<h2 id="对数几率回归">对数几率回归</h2>
+
+<p>对数几率函数从图像轻易可以看出是x是类c的几率。
+<br /></p>
+
+<script type="math/tex; mode=display">p(y=1|x)=\frac{e^{w^{T}x+b}}{1+e^{w^{T}x+b}}</script>
+
+<script type="math/tex; mode=display">p(y=0|x)=\frac{1}{1+e^{w^{T}x+b}}</script>
+
+<p><br /></p>
+
+<p>利用极大似然估计(后面用书中的<script type="math/tex">\beta</script>x也是指书中的后面的x)</p>
+
+<p><br />
+目标是最大化下式
+<br /></p>
+
+<script type="math/tex; mode=display">l(\beta)=\sum_{i=1}^{m} ln(p(y_{i}|x_{i};\beta))</script>
+
+<p><br />
+此时应该要转换了，但是书中的<strong>公式3.27有误公式3.27有误公式3.27有误</strong>，不知道是作者笔误还是没写清楚，害我化了半天还搞不出来，最后又跑区番自己的看李宏毅写的帖子和视频看了才发现这里错了。
+<br />
+书中的式子是把这个带入:
+<br /></p>
+
+<script type="math/tex; mode=display">p(y_{i}|x_{i};w,b)=y_{i}p_{1}(\hat x_{i};\beta)+(1-y_{i})p_{0}(\hat x_{i};\beta)</script>
+
+<p><br />
+如果直接带入3.25是化不出来的，正确的式子应该是:
+<br /></p>
+
+<script type="math/tex; mode=display">ln(p(y_{i}|x_{i};w,b))=y_{i}ln(p_{1}(\hat x_{i};\beta))+(1-y_{i})ln(p_{0}(\hat x_{i};\beta))</script>
+
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=linear model@&amp;url=/watermelon/linearModel.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/watermelon/linearModel.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/watermelon/linearModel.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>
