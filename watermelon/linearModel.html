@@ -189,8 +189,28 @@ w的偏导数式子化为:
 如果直接带入3.25是化不出来的，正确的式子应该是:
 <br /></p>
 
-<script type="math/tex; mode=display">ln(p(y_{i}|x_{i};w,b))=y_{i}ln(p_{1}(\hat x_{i};\beta))+(1-y_{i})ln(p_{0}(\hat x_{i};\beta))</script>
+<p><script type="math/tex">ln(p(y_{i}|x_{i};w,b))=y_{i}ln(p_{1}(\hat x_{i};\beta))+(1-y_{i})ln(p_{0}(\hat x_{i};\beta))</script>
+<br />
+剩下的在李宏毅的网课那边的写过了。</p>
 
+<h2 id="线性判别分析linear-discrimination-analysis">线性判别分析(Linear Discrimination Analysis)</h2>
+
+<p>投影到线上,使得同类的尽可能近,不同类的中心点尽可能远。</p>
+
+<script type="math/tex; mode=display">X_{i}第i类的样本集合，\mu _{i} 第i类的均值向量 \sum _{i} 协方差矩阵</script>
+
+<p>同类样本尽可能近就是使协方差之和尽可能小
+<script type="math/tex">w^{T}\sum _{0}w+w^{T}\sum _{1}w</script>
+<br />
+距离尽可能大，就是类中心之间的距离大,<script type="math/tex">(w^{T}\mu _{0} - w^{T}\mu _{1})^{2}</script></p>
+
+<p><br />
+最大化的目标是书中的J，化简过程比较简单，一个用到的证明在mathwarning，过程写在了书上。
+化简之后是:
+<br />
+<script type="math/tex">J=\frac{w^{T}S_{b}w}{w^{T}S_{w}w}</script>
+<br />
+从w中提取出常数可以上下约掉，所以w的大小不影响J的大小，且<script type="math/tex">S_{b} S_{w}</script>是常数，所以可以调节w的大小使得<script type="math/tex">w^{T}S_{w}w=1</script>,即任意方向的w可以通过调节w的大小使得这个式子等于0。</p>
 
 </div>
 

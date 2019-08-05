@@ -6,8 +6,8 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 30 Jul 2019 11:16:53 +0800</pubDate>
-    <lastBuildDate>Tue, 30 Jul 2019 11:16:53 +0800</lastBuildDate>
+    <pubDate>Mon, 05 Aug 2019 19:21:15 +0800</pubDate>
+    <lastBuildDate>Mon, 05 Aug 2019 19:21:15 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -123,8 +123,28 @@ w的偏导数式子化为:
 如果直接带入3.25是化不出来的，正确的式子应该是:
 &lt;br /&gt;&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;ln(p(y_{i}|x_{i};w,b))=y_{i}ln(p_{1}(\hat x_{i};\beta))+(1-y_{i})ln(p_{0}(\hat x_{i};\beta))&lt;/script&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;ln(p(y_{i}|x_{i};w,b))=y_{i}ln(p_{1}(\hat x_{i};\beta))+(1-y_{i})ln(p_{0}(\hat x_{i};\beta))&lt;/script&gt;
+&lt;br /&gt;
+剩下的在李宏毅的网课那边的写过了。&lt;/p&gt;
 
+&lt;h2 id=&quot;线性判别分析linear-discrimination-analysis&quot;&gt;线性判别分析(Linear Discrimination Analysis)&lt;/h2&gt;
+
+&lt;p&gt;投影到线上,使得同类的尽可能近,不同类的中心点尽可能远。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;X_{i}第i类的样本集合，\mu _{i} 第i类的均值向量 \sum _{i} 协方差矩阵&lt;/script&gt;
+
+&lt;p&gt;同类样本尽可能近就是使协方差之和尽可能小
+&lt;script type=&quot;math/tex&quot;&gt;w^{T}\sum _{0}w+w^{T}\sum _{1}w&lt;/script&gt;
+&lt;br /&gt;
+距离尽可能大，就是类中心之间的距离大,&lt;script type=&quot;math/tex&quot;&gt;(w^{T}\mu _{0} - w^{T}\mu _{1})^{2}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+最大化的目标是书中的J，化简过程比较简单，一个用到的证明在mathwarning，过程写在了书上。
+化简之后是:
+&lt;br /&gt;
+&lt;script type=&quot;math/tex&quot;&gt;J=\frac{w^{T}S_{b}w}{w^{T}S_{w}w}&lt;/script&gt;
+&lt;br /&gt;
+从w中提取出常数可以上下约掉，所以w的大小不影响J的大小，且&lt;script type=&quot;math/tex&quot;&gt;S_{b} S_{w}&lt;/script&gt;是常数，所以可以调节w的大小使得&lt;script type=&quot;math/tex&quot;&gt;w^{T}S_{w}w=1&lt;/script&gt;,即任意方向的w可以通过调节w的大小使得这个式子等于0。&lt;/p&gt;
 </description>
         <pubDate>Fri, 26 Jul 2019 00:00:00 +0800</pubDate>
         <link>/watermelon/linearModel.html</link>
@@ -156,8 +176,21 @@ ds=(dx,dy,dz)分解成三个方向。即&lt;script type=&quot;math/tex&quot;&gt;
 g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲面的切面方向与各个方向的偏导数的内积为0，即该曲面的切面方向与梯度(与各个方向的偏导数方向一样)内积为0，故正交。&lt;/p&gt;
 
 &lt;h2 id=&quot;矩阵&quot;&gt;矩阵&lt;/h2&gt;
+
+&lt;h3 id=&quot;矩阵乘法计算技巧&quot;&gt;矩阵乘法计算技巧&lt;/h3&gt;
 &lt;p&gt;A乘以列 后面的列选A的列
-行乘以A 前面的行选A的行&lt;/p&gt;
+行乘以A 前面的行选A的行
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;写方差矩阵的定义和部分性质&quot;&gt;写方差矩阵的定义和部分性质&lt;/h3&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\sum _{x\epsilon X_{0} (x-\mu _{0})(x-\mu _{0})^{T}}&lt;/script&gt;
+&lt;br /&gt;
+性质:
+回去看概率论吧&lt;/p&gt;
+
+&lt;h3 id=&quot;部分计算记忆&quot;&gt;部分计算记忆&lt;/h3&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(\alpha ^{T}\beta)^{2}=\alpha ^{T}\beta\beta ^{T}\alpha，\alpha \beta 都是列向量&lt;/script&gt;
 </description>
         <pubDate>Thu, 25 Jul 2019 00:00:00 +0800</pubDate>
         <link>/watermelon/mathWarning.html</link>
