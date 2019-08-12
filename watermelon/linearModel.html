@@ -195,22 +195,46 @@ w的偏导数式子化为:
 
 <h2 id="线性判别分析linear-discrimination-analysis">线性判别分析(Linear Discrimination Analysis)</h2>
 
-<p>投影到线上,使得同类的尽可能近,不同类的中心点尽可能远。</p>
-
-<script type="math/tex; mode=display">X_{i}第i类的样本集合，\mu _{i} 第i类的均值向量 \sum _{i} 协方差矩阵</script>
-
-<p>同类样本尽可能近就是使协方差之和尽可能小
-<script type="math/tex">w^{T}\sum _{0}w+w^{T}\sum _{1}w</script>
+<p>投影到线上,使得同类的尽可能近,不同类的中心点尽可能远。
+<script type="math/tex">X_{i}第i类的样本集合，\mu _{i} 第i类的均值向量 \sum _{i} 协方差矩阵</script>
+同类样本尽可能近就是使协方差之和尽可能小,<script type="math/tex">w^{T}\sum _{0}w+w^{T}\sum _{1}w</script>
+距离尽可能大，就是类中心之间的距离大,<script type="math/tex">(w^{T}\mu _{0} - w^{T}\mu _{1})^{2}</script>。
 <br />
-距离尽可能大，就是类中心之间的距离大,<script type="math/tex">(w^{T}\mu _{0} - w^{T}\mu _{1})^{2}</script></p>
+最大化的目标是书中的J，化简过程比较简单，一个用到的证明在mathwarning。
+化简之后是:
+<br /></p>
+
+<script type="math/tex; mode=display">J=\frac{w^{T}S_{b}w}{w^{T}S_{w}w}</script>
 
 <p><br />
-最大化的目标是书中的J，化简过程比较简单，一个用到的证明在mathwarning，过程写在了书上。
-化简之后是:
+<!-- 从w中提取出常数可以上下约掉，所以w的大小不影响J的大小，且$$S_{b} S_{w}$$是常数，所以可以调节w的大小使得$$w^{T}S_{w}w=1$$,即任意方向的w可以通过调节w的大小使得这个式子等于0。 -->
+<script type="math/tex">S_{b} S_{w}</script>都是实数对角阵所以都是特征值分开后相乘,所以结果与w的大小无关。选定任一方向后w再调节大小可以保持<script type="math/tex">w^{T}S_{w}w=1</script>接着拉格朗日求导一次后可得3.37。又<script type="math/tex">S_{b}</script>的定义可以看出<script type="math/tex">S_{b}w</script>的方向,调整<script type="math/tex">\lambda</script>可以让<script type="math/tex">S_{b}w=\lambda(\mu_{0}-\mu_{1})</script>
+ 。求出结果.</p>
+
+<h3 id="多分类学习">多分类学习</h3>
+
+<h4 id="ovo-ovr">OVO OVR</h4>
+
+<ol>
+  <li>
+    <p>OVO
+一对一,N个类,每个类两两配对,同时训练N(N-1)/2个分类器。对于新样本交给所有的分类器进行二分类,然后投票给胜者。</p>
+  </li>
+  <li>
+    <p>OVR
+N个类就N个分类器,每次选择一个类出来作为正类,其余的类作为反类,新样本作N次分类。如果有多个类分为正类,则考虑置信度。</p>
+  </li>
+</ol>
+
+<p>可以看出OVO的分类器多但是每次训练的样本较少,OVR分类器少但是样本多。所以在类别很多的时候OVO的训练时间开销通常比OVR少。</p>
+
+<h4 id="纠错输出码">纠错输出码</h4>
+<p>唔……….</p>
+
+<h3 id="类别不平衡">类别不平衡</h3>
+<p>对于预测正类的纪律y,当<script type="math/tex">\frac{y}{1-y}=>\frac{m^{+}}{m^{-}}</script>也就是<script type="math/tex">\frac{y}{1-y} \frac{m^{-}}{m^{+}}>=1</script>但这有一个前提是必须是无偏采样,也就是说观测几率就是实际的几率。
 <br />
-<script type="math/tex">J=\frac{w^{T}S_{b}w}{w^{T}S_{w}w}</script>
-<br />
-从w中提取出常数可以上下约掉，所以w的大小不影响J的大小，且<script type="math/tex">S_{b} S_{w}</script>是常数，所以可以调节w的大小使得<script type="math/tex">w^{T}S_{w}w=1</script>,即任意方向的w可以通过调节w的大小使得这个式子等于0。</p>
+现存的三大做法:欠采样(去掉多的),过采样(增加少的),阀值移动(基于原始数据进行学习,在训练好的分类器上用上式进行再缩放)。</p>
 
 </div>
 

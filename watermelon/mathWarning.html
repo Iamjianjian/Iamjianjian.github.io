@@ -94,7 +94,9 @@ ds=(dx,dy,dz)分解成三个方向。即<script type="math/tex">ds=(dscos\alpha,
 <br /><script type="math/tex">(cos\alpha,cos\beta,cos\gamma)=c\cdot (\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})</script></p>
 
 <p>由此可得到结论约束曲面与该曲面的梯度正交，例如：<br />
-g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲面的切面方向与各个方向的偏导数的内积为0，即该曲面的切面方向与梯度(与各个方向的偏导数方向一样)内积为0，故正交。</p>
+g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲面的切面方向与各个方向的偏导数的内积为0，即该曲面的切面方向与梯度(与各个方向的偏导数方向一样)内积为0，故正交。
+<br />
+<a href="https://zh.wikipedia.org/wiki/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E6%95%B0">拉格朗日乘数</a></p>
 
 <h2 id="矩阵">矩阵</h2>
 
@@ -103,15 +105,53 @@ g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲
 行乘以A 前面的行选A的行
 <br /></p>
 
-<h3 id="写方差矩阵的定义和部分性质">写方差矩阵的定义和部分性质</h3>
-<p><script type="math/tex">\sum _{x\epsilon X_{0} (x-\mu _{0})(x-\mu _{0})^{T}}</script>
+<h3 id="矩阵求导">矩阵求导</h3>
+
+<p><a href="https://www.cnblogs.com/pinard/p/10825264.html">我就是个彩币</a>
+<br /></p>
+<h4 id="标量的链式法则">标量的链式法则</h4>
+<p>z是标量,yx是矢量,z对x求导,即z对x上每一个分量<script type="math/tex">x_{i}</script>求导之后拼在一起,那么z对于<script type="math/tex">x_{i}</script>求导为:
+<br /></p>
+
+<script type="math/tex; mode=display">\frac{\partial z}{\partial x_{i}}=\sum_{k}^{m}\frac{\partial z}{\partial y_{k}}\frac{\partial y_{k}}{\partial x_{i}}</script>
+
+<p><br />
+可以看到x每一个的每一个分量都是z对y求导之后与y对x的分量求导的结果相乘，那么后面的y对x的分量拼起来就是结果了，所以左边是一个
+<script type="math/tex">\frac{\partial z}{\partial y_{k}}</script>
+右边是一个各个
+<script type="math/tex">x_{i}</script>
+求导之后出来的分量组成的矩阵，即矢量y对矢量x求导的矩阵。这里还需要对其做一下转至使得他们符合矩阵相乘的定义，但不影响结果了，对准位置就可以。就可以得到<a href="https://www.cnblogs.com/pinard/p/10825264.html">这里</a>的这个公式。</p>
+
+<script type="math/tex; mode=display">\frac{\partial z}{\partial y_{1}}=(\frac{\partial y_{n}}{\partial y_{n-1}} \frac{\partial y_{n-1}}{\partial y_{n-2}} ...\frac{\partial y_{2}}{\partial y_{1}})^{T}\frac{\partial z}{\partial y_{n}}</script>
+
+<p><br />
+那么书上的式子,
+<br /></p>
+
+<script type="math/tex; mode=display">E_{w}=(y-Xw)^{T}(y-Xw)=z^{T}z</script>
+
+<p><script type="math/tex">\frac{\partial E_{w}}{\partial w}=\frac{\partial E_{w}}{\partial z} \frac{\partial z}{\partial w}=-X*2z</script>
 <br />
-性质:
-回去看概率论吧</p>
+上式定义法可以证z对w的导数</p>
+
+<h3 id="对角矩阵的性质">对角矩阵的性质</h3>
+<ol>
+  <li>必有n个特征值可对角化.</li>
+  <li>书中P61的分母必不为0。<script type="math/tex">w^{T}(\sum _{0})w</script>必定大于等于0(零矩阵或矢量都在特征值为0的维度),因为对角矩阵必有n个特征值,w可以分开在n个维度上的分量与对角阵相乘之后在相加,又因为正交所以不同维度的乘积必为0.</li>
+</ol>
+
+<p><br /></p>
 
 <h3 id="部分计算记忆">部分计算记忆</h3>
 
-<script type="math/tex; mode=display">(\alpha ^{T}\beta)^{2}=\alpha ^{T}\beta\beta ^{T}\alpha，\alpha \beta 都是列向量</script>
+<ol>
+  <li>
+    <script type="math/tex; mode=display">(\alpha ^{T}\beta)^{2}=\alpha ^{T}\beta\beta ^{T}\alpha，\alpha \beta 都是列向量</script>
+  </li>
+  <li>
+    <script type="math/tex; mode=display">\frac{\partial z^{T}z}{\partial z}=2z(z为矢量)</script>
+  </li>
+</ol>
 
 </div>
 
