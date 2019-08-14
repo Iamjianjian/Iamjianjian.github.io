@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/watermelon/decisionTree.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>decision Tree</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="基本流程下为treeGenerate(D,A)一次递归中的各种情形  D中的样本属于同一类C,标为叶子节点类别为C结束。(都是用一个类了,再分没有意义)  A为空集,或D中样本取值全本相同,标为叶子节点类别为D中最多的类。(属性一样每办法分)  选取最优划分属性,该属性每个取值一个子节点递归如果为空集该子节点为叶...">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">decision Tree</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="13 Aug 2019" itemprop="datePublished">Aug 13 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">ML</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>西瓜书第四章</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="基本流程">基本流程</h2>
+<p>下为treeGenerate(D,A)一次递归中的各种情形</p>
+<ol>
+  <li>D中的样本属于同一类C,标为叶子节点类别为C结束。(都是用一个类了,再分没有意义)</li>
+  <li>A为空集,或D中样本取值全本相同,标为叶子节点类别为D中最多的类。(属性一样每办法分)</li>
+  <li>选取最优划分属性,该属性每个取值一个子节点递归
+<script type="math/tex">treeGenerate(D_v,A/a)</script>
+如果
+<script type="math/tex">D_v</script>
+为空集该子节点为叶子节点类为D中最多的类</li>
+</ol>
+
+<h2 id="划分选择">划分选择</h2>
+
+<h3 id="信息增益">信息增益</h3>
+
+<script type="math/tex; mode=display">Ent(D)=-\sum _{k=1}^{\|y\|}p_{k}\log_{2}p_{kj}</script>
+
+<p><br />
+上式中k表示第k类,这个东西信息论学过,均匀分布的时候信息熵最大。这从直觉上看也是可以理解的,均匀分布的时候信息无法猜测结果,当某一个类的概率大那么信息量就少。Ent(D)越小D的纯度越高。
+<br />
+如果我们选取某个属性来进行划分,而这个属性又有v个取值,那么利用a进行划分的可以定义信息增益。
+<br /></p>
+
+<script type="math/tex; mode=display">Gain(D,a)=Ent(D)-\sum _{v=1}^{V}\frac{\|D^{v}\|}{\|D\|}Ent(D^{v})</script>
+
+<p><br />
+我们要做的就是越往下,样本的更加同属一个类,也就是信息熵越小。在某一个节点进行划分的时候Ent(D)已经是一个常数。子节点信息熵小,也就是Gain大纯度越高。</p>
+
+<h3 id="增益率">增益率</h3>
+<p><strong>然而信息增益准则对取值多的属性有所偏好</strong>,定义增益率:</p>
+
+<script type="math/tex; mode=display">Gain\_ratio(D,a)=\frac{Gain(D,a)}{IV(a)},IV(a)=-\sum \frac{\|D^{v}\|}{\|D\|}\log_2\frac{\|D^{v}\|}{\|D\|}</script>
+
+<p><strong>增益率准则对所取的数目较少的属性有所偏好,实际中的做法是先用信息增益从中选取出高于平均水平的属性,在用信息率选取。</strong></p>
+
+<h3 id="基尼指数">基尼指数</h3>
+<p>基尼值定义为随即选取两个样本,类别不一样的概率,那么这个概率越高,纯度越低。</p>
+
+<script type="math/tex; mode=display">Gini(D)=\sum _{k=1}^{\|y\|}\sum _{l!=k}p_kp_l \\
+=1-\sum _{k=1}^{\|y\|}p_k^2</script>
+
+<p>定义基尼指数,也就是按a属性分类之后加权求和。</p>
+
+<script type="math/tex; mode=display">Gini_index(D,a)=\sum _{v=1}^V\frac{\|D^v\|}{\|D\|}Gini(D^v)</script>
+
+<p>选择划分后基尼指数最小的属性.</p>
+
+<h2 id="剪枝处理">剪枝处理</h2>
+<p>剪枝用于应对决策树分支过多导致的过拟合.</p>
+
+<h3 id="预剪枝">预剪枝</h3>
+
+<p>对节点划分时,若当前节点不能带来决策树泛华性能的提高,则停止并标为叶子节点.</p>
+<ol>
+  <li>根据当前节点选取最优划分属性.</li>
+  <li>先如果不进行划分把节点标为(好瓜 坏瓜)用验证集计算准确率.</li>
+  <li>计算划分后的准确率.比较决定是否划分.</li>
+</ol>
+
+<p>预剪枝很多分支没有分开,降低了训练时间.但是基于贪心的原则有可能导致一些后续会提高泛华性能的分支没有展开,可能带来欠拟合的风险.</p>
+
+<h3 id="后剪枝">后剪枝</h3>
+
+<p>先生成完整的决策树,再通过与前面一样的计算,剪去泛化性能会提高的分支.
+<br />
+一般后剪枝欠拟合风险小,泛化性能往往优于预剪枝.但开销大.</p>
+
+<h2 id="连续与缺失">连续与缺失</h2>
+
+<h3 id="连续值处理">连续值处理</h3>
+
+<p>假如属性a是连续属性,D有n个样本,对D中的样本按a的大小排序,把D划分成两半(此处是二分类),那么划分点就是这n个排序的样本之间的n-1个位置,令划分的位置为t,位置集合为<script type="math/tex">T_a</script>.那么信息增益为:</p>
+
+<script type="math/tex; mode=display">Gain(D,a)=\max _{t\in T_a} Gain(D,a,t)\\
+=\max _{t\in T_a} Ent(D)-\sum _{\lambda \in \{-,+\}}\frac{\|D_t^{\lambda\|}}{\|D\|}Ent(D_t^{\lambda})</script>
+
+<h3 id="缺失值的处理">缺失值的处理</h3>
+
+<p>给定D和属性a,令<script type="math/tex">\hat D</script>是属性a上没有缺失值的样本,<script type="math/tex">\hat D_k \hat D_v</script>分别表示<script type="math/tex">\hat{D}</script>上属于第k类的样本和属性a为v的样本.每个样本都有一个权值初始为1.可定义以下:</p>
+
+<script type="math/tex; mode=display">p=\frac{\sum _{x\in \hat D} w_x}{\sum _{x \in D}w_x}\\
+\hat{p_k}=\frac{\sum_{x\in \hat D_k}w_x}{\sum_{x\in \hat D}w_x}\\
+\hat r_v=\frac{\sum_{x\in \hat D_v w_x}}{\sum_{x\in \hat D w_x}}</script>
+
+<p>三个式子直观上看,分别是</p>
+<ol>
+  <li>没有缺失值的样本对所有样本的加权比例</li>
+  <li>没有缺失值的样本中各个类别的加权比例</li>
+  <li>没有缺失值的样本中按a进行划分各个属性的加权比例</li>
+</ol>
+
+<p>推广信息增益计算式:</p>
+
+<script type="math/tex; mode=display">Gain(D,a)=p \times Gain(\hat D,a)\\
+=p \times (Ent(\hat D) - \sum _{v=1}^V \hat r_v Ent(\hat D_v))</script>
+
+<p>比较原来的信息增益的计算</p>
+<ol>
+  <li>计算仅仅用了不缺失的样本集(废话缺失怎么算),只是在外面套了一个p,表示缺失的样本越少增益越大.对缺失值少的属性有偏好.</li>
+  <li>计算子集合的信息增益时又乘了一个 <script type="math/tex">\hat{r_v}</script>,代表属性的权重.</li>
+  <li>子集合的概率由<script type="math/tex">\hat p_k</script>代替.不缺失的样本各个类别的权重.</li>
+</ol>
+
+<p>对于缺失了值的样本每个子节点都会划入,但是权重有所不同,权重调为<script type="math/tex">\hat{r_v}</script>.
+<strong>真是他妈的复杂</strong></p>
+
+<h2 id="多变量划分">多变量划分</h2>
+
+<p>没什么好讲的,就是一个节点使用变量进行划分使得划分超平面变斜.</p>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=decision Tree@&amp;url=/watermelon/decisionTree.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/watermelon/decisionTree.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/watermelon/decisionTree.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>

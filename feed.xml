@@ -6,9 +6,133 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 12 Aug 2019 20:20:04 +0800</pubDate>
-    <lastBuildDate>Mon, 12 Aug 2019 20:20:04 +0800</lastBuildDate>
+    <pubDate>Wed, 14 Aug 2019 19:35:20 +0800</pubDate>
+    <lastBuildDate>Wed, 14 Aug 2019 19:35:20 +0800</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
+    
+      <item>
+        <title>decision Tree</title>
+        <description>&lt;h2 id=&quot;基本流程&quot;&gt;基本流程&lt;/h2&gt;
+&lt;p&gt;下为treeGenerate(D,A)一次递归中的各种情形&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;D中的样本属于同一类C,标为叶子节点类别为C结束。(都是用一个类了,再分没有意义)&lt;/li&gt;
+  &lt;li&gt;A为空集,或D中样本取值全本相同,标为叶子节点类别为D中最多的类。(属性一样每办法分)&lt;/li&gt;
+  &lt;li&gt;选取最优划分属性,该属性每个取值一个子节点递归
+&lt;script type=&quot;math/tex&quot;&gt;treeGenerate(D_v,A/a)&lt;/script&gt;
+如果
+&lt;script type=&quot;math/tex&quot;&gt;D_v&lt;/script&gt;
+为空集该子节点为叶子节点类为D中最多的类&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;划分选择&quot;&gt;划分选择&lt;/h2&gt;
+
+&lt;h3 id=&quot;信息增益&quot;&gt;信息增益&lt;/h3&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Ent(D)=-\sum _{k=1}^{\|y\|}p_{k}\log_{2}p_{kj}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+上式中k表示第k类,这个东西信息论学过,均匀分布的时候信息熵最大。这从直觉上看也是可以理解的,均匀分布的时候信息无法猜测结果,当某一个类的概率大那么信息量就少。Ent(D)越小D的纯度越高。
+&lt;br /&gt;
+如果我们选取某个属性来进行划分,而这个属性又有v个取值,那么利用a进行划分的可以定义信息增益。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain(D,a)=Ent(D)-\sum _{v=1}^{V}\frac{\|D^{v}\|}{\|D\|}Ent(D^{v})&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+我们要做的就是越往下,样本的更加同属一个类,也就是信息熵越小。在某一个节点进行划分的时候Ent(D)已经是一个常数。子节点信息熵小,也就是Gain大纯度越高。&lt;/p&gt;
+
+&lt;h3 id=&quot;增益率&quot;&gt;增益率&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;然而信息增益准则对取值多的属性有所偏好&lt;/strong&gt;,定义增益率:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain\_ratio(D,a)=\frac{Gain(D,a)}{IV(a)},IV(a)=-\sum \frac{\|D^{v}\|}{\|D\|}\log_2\frac{\|D^{v}\|}{\|D\|}&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;增益率准则对所取的数目较少的属性有所偏好,实际中的做法是先用信息增益从中选取出高于平均水平的属性,在用信息率选取。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;基尼指数&quot;&gt;基尼指数&lt;/h3&gt;
+&lt;p&gt;基尼值定义为随即选取两个样本,类别不一样的概率,那么这个概率越高,纯度越低。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gini(D)=\sum _{k=1}^{\|y\|}\sum _{l!=k}p_kp_l \\
+=1-\sum _{k=1}^{\|y\|}p_k^2&lt;/script&gt;
+
+&lt;p&gt;定义基尼指数,也就是按a属性分类之后加权求和。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gini_index(D,a)=\sum _{v=1}^V\frac{\|D^v\|}{\|D\|}Gini(D^v)&lt;/script&gt;
+
+&lt;p&gt;选择划分后基尼指数最小的属性.&lt;/p&gt;
+
+&lt;h2 id=&quot;剪枝处理&quot;&gt;剪枝处理&lt;/h2&gt;
+&lt;p&gt;剪枝用于应对决策树分支过多导致的过拟合.&lt;/p&gt;
+
+&lt;h3 id=&quot;预剪枝&quot;&gt;预剪枝&lt;/h3&gt;
+
+&lt;p&gt;对节点划分时,若当前节点不能带来决策树泛华性能的提高,则停止并标为叶子节点.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;根据当前节点选取最优划分属性.&lt;/li&gt;
+  &lt;li&gt;先如果不进行划分把节点标为(好瓜 坏瓜)用验证集计算准确率.&lt;/li&gt;
+  &lt;li&gt;计算划分后的准确率.比较决定是否划分.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;预剪枝很多分支没有分开,降低了训练时间.但是基于贪心的原则有可能导致一些后续会提高泛华性能的分支没有展开,可能带来欠拟合的风险.&lt;/p&gt;
+
+&lt;h3 id=&quot;后剪枝&quot;&gt;后剪枝&lt;/h3&gt;
+
+&lt;p&gt;先生成完整的决策树,再通过与前面一样的计算,剪去泛化性能会提高的分支.
+&lt;br /&gt;
+一般后剪枝欠拟合风险小,泛化性能往往优于预剪枝.但开销大.&lt;/p&gt;
+
+&lt;h2 id=&quot;连续与缺失&quot;&gt;连续与缺失&lt;/h2&gt;
+
+&lt;h3 id=&quot;连续值处理&quot;&gt;连续值处理&lt;/h3&gt;
+
+&lt;p&gt;假如属性a是连续属性,D有n个样本,对D中的样本按a的大小排序,把D划分成两半(此处是二分类),那么划分点就是这n个排序的样本之间的n-1个位置,令划分的位置为t,位置集合为&lt;script type=&quot;math/tex&quot;&gt;T_a&lt;/script&gt;.那么信息增益为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain(D,a)=\max _{t\in T_a} Gain(D,a,t)\\
+=\max _{t\in T_a} Ent(D)-\sum _{\lambda \in \{-,+\}}\frac{\|D_t^{\lambda\|}}{\|D\|}Ent(D_t^{\lambda})&lt;/script&gt;
+
+&lt;h3 id=&quot;缺失值的处理&quot;&gt;缺失值的处理&lt;/h3&gt;
+
+&lt;p&gt;给定D和属性a,令&lt;script type=&quot;math/tex&quot;&gt;\hat D&lt;/script&gt;是属性a上没有缺失值的样本,&lt;script type=&quot;math/tex&quot;&gt;\hat D_k \hat D_v&lt;/script&gt;分别表示&lt;script type=&quot;math/tex&quot;&gt;\hat{D}&lt;/script&gt;上属于第k类的样本和属性a为v的样本.每个样本都有一个权值初始为1.可定义以下:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p=\frac{\sum _{x\in \hat D} w_x}{\sum _{x \in D}w_x}\\
+\hat{p_k}=\frac{\sum_{x\in \hat D_k}w_x}{\sum_{x\in \hat D}w_x}\\
+\hat r_v=\frac{\sum_{x\in \hat D_v w_x}}{\sum_{x\in \hat D w_x}}&lt;/script&gt;
+
+&lt;p&gt;三个式子直观上看,分别是&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;没有缺失值的样本对所有样本的加权比例&lt;/li&gt;
+  &lt;li&gt;没有缺失值的样本中各个类别的加权比例&lt;/li&gt;
+  &lt;li&gt;没有缺失值的样本中按a进行划分各个属性的加权比例&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;推广信息增益计算式:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain(D,a)=p \times Gain(\hat D,a)\\
+=p \times (Ent(\hat D) - \sum _{v=1}^V \hat r_v Ent(\hat D_v))&lt;/script&gt;
+
+&lt;p&gt;比较原来的信息增益的计算&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;计算仅仅用了不缺失的样本集(废话缺失怎么算),只是在外面套了一个p,表示缺失的样本越少增益越大.对缺失值少的属性有偏好.&lt;/li&gt;
+  &lt;li&gt;计算子集合的信息增益时又乘了一个 &lt;script type=&quot;math/tex&quot;&gt;\hat{r_v}&lt;/script&gt;,代表属性的权重.&lt;/li&gt;
+  &lt;li&gt;子集合的概率由&lt;script type=&quot;math/tex&quot;&gt;\hat p_k&lt;/script&gt;代替.不缺失的样本各个类别的权重.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;对于缺失了值的样本每个子节点都会划入,但是权重有所不同,权重调为&lt;script type=&quot;math/tex&quot;&gt;\hat{r_v}&lt;/script&gt;.
+&lt;strong&gt;真是他妈的复杂&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;多变量划分&quot;&gt;多变量划分&lt;/h2&gt;
+
+&lt;p&gt;没什么好讲的,就是一个节点使用变量进行划分使得划分超平面变斜.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 13 Aug 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/decisionTree.html</link>
+        <guid isPermaLink="true">/watermelon/decisionTree.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
     
       <item>
         <title>linear model</title>
@@ -845,79 +969,6 @@ except Exception as e:
         <pubDate>Mon, 14 Jan 2019 00:00:00 +0800</pubDate>
         <link>/machine%20learning/deepLearning.html</link>
         <guid isPermaLink="true">/machine%20learning/deepLearning.html</guid>
-        
-        <category>ML</category>
-        
-        
-        <category>machine learning</category>
-        
-      </item>
-    
-      <item>
-        <title>Logistic Regression</title>
-        <description>&lt;h2 id=&quot;review&quot;&gt;review&lt;/h2&gt;
-&lt;p&gt;老规矩review，这是我看了第一遍之后在回来做的review，蓝瘦×3!&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;linear regression,之前一直记的都是一个参数的linear regression。这里review一下多个参数的function,&lt;script type=&quot;math/tex&quot;&gt;f(x)=\Sigma w_{i}x_{i}&lt;/script&gt;，看清楚了这里的输入x是vector。Loss Function,&lt;script type=&quot;math/tex&quot;&gt;L(w,b)=(\hat y-(w_{i}*x_{i}+b))^{2}&lt;/script&gt;。用 gradient descent 求偏导数update参数,&lt;script type=&quot;math/tex&quot;&gt;w_{i+1}=w_{i}-\eta \frac{\partial f(x)}{\partial w_{i}}\|_{w=w_{i},b=b{i}}&lt;/script&gt; 。看清楚这里的updata过程的对L求偏导的结果&lt;script type=&quot;math/tex&quot;&gt;-2(\hat{y}-f(x))   \frac{\partial f}{\partial w_{i}}&lt;/script&gt;,而&lt;script type=&quot;math/tex&quot;&gt;\frac{\partial f}{\partial w}=x&lt;/script&gt;。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;回忆上次的classification，抽样知道P(c1),P(c2),令p(x|c1)为多维正太分布&lt;script type=&quot;math/tex&quot;&gt;f_{\mu,\Sigma}(x)=\frac{1}{(2\pi)^{\frac{D}{2}}}\frac{1}{\left \| \Sigma \right \|^{\frac{1}{2}}}exp\{-\frac{1}{2}(x-\mu)\Sigma ^{-1}\} (x-\mu)&lt;/script&gt;(note：左边这个公式的sigma是一个绝对值,那是绝对值号应该是一个竖线),此处的covariance&lt;script type=&quot;math/tex&quot;&gt;\Sigma&lt;/script&gt;是矩阵,x &lt;script type=&quot;math/tex&quot;&gt;\mu&lt;/script&gt;都是vector。令两个class的&lt;script type=&quot;math/tex&quot;&gt;\Sigma&lt;/script&gt;一致，求出mean及 covariance,那么gaussian就出来了。对于每一个数据代入函数之后都会得到一个概率p(c|x)，如果大于0.5就是class1否则class2(二元分类)。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;上次classification最后欠下的债，最后的warning of math，以为例行的听不懂第二天的太阳还是会升起来，但是最后的结论很重要，如果我们通过数学在covariance一致的情况下化简一下，发现z是线性的&lt;br /&gt;&lt;script type=&quot;math/tex&quot;&gt;z=\Sigma w_{i}x_{i}&lt;/script&gt;,&lt;script type=&quot;math/tex&quot;&gt;p(c\|x)=\frac{1}{1+e^{-z}}&lt;/script&gt;那么我们可不可以直接找出w和b呢，这就是这节课做的事情。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;discrimination&quot;&gt;discrimination&lt;/h2&gt;
-
-&lt;p&gt;&lt;strong&gt;首先我们的function set 跟上一次课用的generative是一致的(covariance一致的时候).&lt;/strong&gt;
-&lt;img src=&quot;/img/logisticRegression/functionSet.png&quot; alt=&quot;functionSet&quot; /&gt;
-&lt;br /&gt;
-然后我们就要training这个function出来了，写出概率的函数&lt;/p&gt;
-
-&lt;p&gt;注意了，一定要理解清楚意义，这个函数f是我们要求的那个概率函数(就是training的那个),图片上面的x跟y是data
-&lt;img src=&quot;/img/logisticRegression/logisticGoodness.png&quot; alt=&quot;logisticGoodness&quot; /&gt;
-然后做一些数学转换
-&lt;img src=&quot;/img/logisticRegression/mathConvert.png&quot; alt=&quot;mathConvert，图片有部分错误等待新图&quot; /&gt;
-转换完之后就要用gradient descent做偏微分了，理解下图的公式中字母的意义，L是概率函数，y跟x都是data，n其实是sigma的标号
-&lt;img src=&quot;/img/logisticRegression/findBest.png&quot; alt=&quot;findBest&quot; /&gt;
-&lt;br /&gt;
-那么找出来的结果，我们可以看到update参数的式子跟linear regression的是一样的
-&lt;img src=&quot;/img/logisticRegression/outcome.png&quot; alt=&quot;outcome&quot; /&gt;
-&lt;img src=&quot;/img/logisticRegression/compare.png&quot; alt=&quot;compare&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;why-onto-square-error&quot;&gt;why onto square error&lt;/h2&gt;
-
-&lt;p&gt;无论&lt;script type=&quot;math/tex&quot;&gt;\hat{y}&lt;/script&gt;是1还是0，距离目标特别远或特别近，偏微分都几乎是0(理论上微分应该大一点，这样速度大),所以用像linear regression一样的Loss function的时候f(x)在接近0或者1的时候都非常的慢跟在target差不多&lt;/p&gt;
-
-&lt;h2 id=&quot;discrimination-vs-generative&quot;&gt;discrimination vs generative&lt;/h2&gt;
-&lt;p&gt;前面提到了两者的function set 是一致的，显然我们通过两种方法找到的w跟b 是不一样的。在discrimination中我们对w和b是没有任何假设的，而我们在generative中是由假设的，例如我们把它假设为gaussian。二在实际中discrimination通常比generative结果要好。老师举了一个naive bays的例子说为什么，但是我觉得这样是因为认为的用naive bays，这个例子没有说服力。
-&lt;img src=&quot;/img/logisticRegression/naive.png&quot; alt=&quot;naive&quot; /&gt;
-&lt;br /&gt;&lt;/p&gt;
-&lt;h2 id=&quot;benefits-of-generative-model&quot;&gt;benefits of generative model&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;当只有很少data的时候可以依靠generative的”脑补”能力(因为他要假设概率模型)来提高准确率&lt;/li&gt;
-  &lt;li&gt;more robust to noise&lt;/li&gt;
-  &lt;li&gt;说是p(c)跟P(x|c)可以分开算，这里视频里面老师举的例子没有出现，估计是现场有其他的设备展示(蓝瘦！)。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;multi-class-classificatin&quot;&gt;multi-class classificatin&lt;/h2&gt;
-
-&lt;p&gt;如下图，在多个class的时候呢。我们用softmax就可以直接求到概率&lt;script type=&quot;math/tex&quot;&gt;\hat{y}=&lt;/script&gt;\p(c1|x),
-&lt;img src=&quot;/img/logisticRegression/softmax.png&quot; alt=&quot;softmax&quot; /&gt;
-老师说从一开始假设Gaussian而且共用covariance matrix出发可以推导出来这个式子，然而他没有讲怎么推导。然后就有把cross entropy的式子丢出来了，没有推导多个class的情况二是直接给出来 (cross entropy的表达式)。也就是说p(c|x)=&lt;script type=&quot;math/tex&quot;&gt;y_{i} =\frac{e^{z_{i}}}{\sum_{j=1}^{n} e^{z_{j}}}&lt;/script&gt;。由feature data求得的&lt;script type=&quot;math/tex&quot;&gt;y_{i}&lt;/script&gt;跟data&lt;script type=&quot;math/tex&quot;&gt;\hat{y}&lt;/script&gt;cross entropy之后就可以等到概率L的表达式.
-&lt;img src=&quot;/img/logisticRegression/multiCrossEntropy.png&quot; alt=&quot;multiCrossEntropy&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;limitation-of-logistic-regression&quot;&gt;limitation of logistic regression&lt;/h2&gt;
-
-&lt;p&gt;如题啊。如图，一条线无法分开这两个class，可以通过feature transformation 来解决。这是用来引出下节课要讲的内容deep learning。
-&lt;img src=&quot;/img/logisticRegression/limitation.png&quot; alt=&quot;limitation&quot; /&gt;
-&lt;strong&gt;终于写完了好他妈长&lt;/strong&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sat, 12 Jan 2019 00:00:00 +0800</pubDate>
-        <link>/machine%20learning/LogisticRegression.html</link>
-        <guid isPermaLink="true">/machine%20learning/LogisticRegression.html</guid>
         
         <category>ML</category>
         
