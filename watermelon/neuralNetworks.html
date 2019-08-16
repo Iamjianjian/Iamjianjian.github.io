@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/watermelon/neuralNetworks.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>neural networks</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="感知机与多层网络">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">neural networks</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="15 Aug 2019" itemprop="datePublished">Aug 15 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">ML</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>西瓜书第五章</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="感知机与多层网络">感知机与多层网络</h2>
+
+<p>感知机由两层神经元组成<script type="math/tex">y=f(\sum _iw_ix_i-\theta)</script>,从<script type="math/tex">f</script>的输入可以看出这是一个几何空间上的线性超平面<script type="math/tex">\sum _iw_ix_i-\theta</script>．
+<br />
+把<script type="math/tex">\theta</script>的输入恒为1,可以把模型统一为对权重的学习</p>
+
+<script type="math/tex; mode=display">w_i=w_i+\Delta w_i\\
+\Delta w_i=\eta (y-\hat y)x_i</script>
+
+<p><strong>觉得上式不应该仅仅乘以xi还应该除以xi的绝对值．</strong>
+<br />
+<br />
+对于线性可分的问题感知机学习过程一定会收敛(与或非),否则则会发生振荡(异或).那么用两层感知机就可以解决异或问题<strong>(毕竟异或问题转变为与或非来表示,只是多套了一层)</strong>.所以中间多加几层就是所谓的多层网络.多层前馈网络,每层之间都是全连接,不可跨层.</p>
+
+<h2 id="error-backpropagation">error backpropagation</h2>
+<p><strong>求导</strong><br />
+<strong>求导</strong><br />
+<strong>求导</strong><br /></p>
+
+<p>标准BP算法一次只使用一个样本,参数更新较为频繁需要更多次的迭代.<br />
+累积BP算法每次使用全本的样本.<br />
+很多任务中,累积误差下降到一定程度,进一步下降就非常缓慢.此时标准BP往往会更好,尤其数据非常大时.
+<br />
+<br />
+BP神经网络缓解过拟合的两种方法.</p>
+<ol>
+  <li>早停.数据分开验证集和训练集,当验证集中的误差升高时停止.</li>
+  <li>正则化.拒绝过大的权重.</li>
+</ol>
+
+<h2 id="剩下的都没深入只是简单介绍在李宏毅那学好了">剩下的都没深入只是简单介绍,在李宏毅那学好了</h2>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=neural networks@&amp;url=/watermelon/neuralNetworks.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/watermelon/neuralNetworks.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/watermelon/neuralNetworks.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>

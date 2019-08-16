@@ -39,7 +39,7 @@
 
   <title>math warning</title>
   <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
-  <meta name="description" content="梯度从定义一步步出发偏导数所谓偏导数，就是多元函数中，对于一个变量求导数，此时其余变量当作常量，直观地看就是函数在某一点沿着x方向的变化率，也就是说在这一点沿着x方向函数会增大多少。">
+  <meta name="description" content="梯度从定义一步步出发">
 </head>
 
 
@@ -82,6 +82,7 @@
 <div class="post-content" itemprop="articleBody">
     <h2 id="梯度">梯度</h2>
 <p>从定义一步步出发</p>
+
 <h3 id="偏导数">偏导数</h3>
 <p>所谓偏导数，就是多元函数中，对于一个变量求导数，此时其余变量当作常量，直观地看就是函数在某一点沿着x方向的变化率，也就是说在这一点沿着x方向函数会增大多少。</p>
 
@@ -91,12 +92,28 @@ ds=(dx,dy,dz)分解成三个方向。即<script type="math/tex">ds=(dscos\alpha,
 那么f的变化率就是<script type="math/tex">ds\cdot(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})</script></p>
 
 <p>当ds的方向跟三个偏导数组成的方向一致时，那么f的变化率最大。即:
-<br /><script type="math/tex">(cos\alpha,cos\beta,cos\gamma)=c\cdot (\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})</script></p>
+<br /></p>
+
+<script type="math/tex; mode=display">(cos\alpha,cos\beta,cos\gamma)=c\cdot (\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})</script>
 
 <p>由此可得到结论约束曲面与该曲面的梯度正交，例如：<br />
 g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲面的切面方向与各个方向的偏导数的内积为0，即该曲面的切面方向与梯度(与各个方向的偏导数方向一样)内积为0，故正交。
+<br /></p>
+
+<h3 id="拉格朗日乘数">拉格朗日乘数</h3>
+<p><a href="https://zh.wikipedia.org/wiki/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E6%95%B0">维基百科</a>
+<a href="https://www.zhihu.com/question/38586401">知乎</a>
+此处说明一下如果两条线不是相切(梯度方向在同一直线上)就不会是极值点.在相切的点两个曲线的交点处(x,y)的梯度方向一致,又因为g是条件,所以此时在(x,y)的无穷小邻域内f沿着g的线走那么他的增量肯定为0(因为与梯度垂直),所以该点是条件极值点.同理如果不是相切那么f沿着g走增量不为0不是条件极值.根据梯度方向一致可知:(或看书本B1也可以理解)</p>
+
+<script type="math/tex; mode=display">\frac{\frac{\partial f}{\partial x}}{\frac{\partial g}{\partial x}}=\frac{\frac{\partial f}{\partial y}}{\frac{\partial g}{\partial y}}=\lambda</script>
+
+<script type="math/tex; mode=display">L=f-\lambda g</script>
+
+<p>书中的6.8式中令<script type="math/tex">\alpha >0</script>是为了排除那么在g&lt;0的情况下存在比其小的值的相切点(书中是要求最值,排除个别极值是可行的).
 <br />
-<a href="https://zh.wikipedia.org/wiki/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E6%95%B0">拉格朗日乘数</a></p>
+记住上式中拉格朗日常数因子的正负</p>
+
+<script type="math/tex; mode=display"></script>
 
 <h2 id="矩阵">矩阵</h2>
 
@@ -130,8 +147,9 @@ g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲
 
 <script type="math/tex; mode=display">E_{w}=(y-Xw)^{T}(y-Xw)=z^{T}z</script>
 
-<p><script type="math/tex">\frac{\partial E_{w}}{\partial w}=\frac{\partial E_{w}}{\partial z} \frac{\partial z}{\partial w}=-X*2z</script>
-<br />
+<script type="math/tex; mode=display">\frac{\partial E_{w}}{\partial w}=\frac{\partial E_{w}}{\partial z} \frac{\partial z}{\partial w}=-X*2z</script>
+
+<p><br />
 上式定义法可以证z对w的导数</p>
 
 <h3 id="对角矩阵的性质">对角矩阵的性质</h3>
@@ -152,6 +170,10 @@ g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲
     <script type="math/tex; mode=display">\frac{\partial z^{T}z}{\partial z}=2z(z为矢量)</script>
   </li>
 </ol>
+
+<h2 id="几何">几何</h2>
+
+<p><script type="math/tex">w^Tx+b=0</script>表示一个超平面,向量x符合x与<script type="math/tex">w^T</script>点乘之后结果都是-b,那么x在<script type="math/tex">w^T</script>方向上的分量一样大.那么<script type="math/tex">w^Tx+b>0</script>与<script type="math/tex">w^Tx+b>0</script>的点刚好分布在超平面的两边.</p>
 
 </div>
 

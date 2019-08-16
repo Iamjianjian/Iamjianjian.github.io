@@ -6,9 +6,110 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 14 Aug 2019 19:35:20 +0800</pubDate>
-    <lastBuildDate>Wed, 14 Aug 2019 19:35:20 +0800</lastBuildDate>
+    <pubDate>Fri, 16 Aug 2019 15:56:57 +0800</pubDate>
+    <lastBuildDate>Fri, 16 Aug 2019 15:56:57 +0800</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
+    
+      <item>
+        <title>support vector</title>
+        <description>&lt;h2 id=&quot;间隔与支持向量&quot;&gt;间隔与支持向量&lt;/h2&gt;
+&lt;p&gt;对于一个二分类问题,在几何上我们可以用一个线性超平面把他们划分为两部分(回忆一下三维上的平面表达式).那么方程如下:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;w^Tx+b=0&lt;/script&gt;
+
+&lt;p&gt;样本空间中样本x到该空间的距离可以表示为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;r=\frac{\|w^Tx+b\|}{\|w^T\|}(回忆三维的几何距离)&lt;/script&gt;
+
+&lt;p&gt;书中的式子:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+w^Tx_i+b&gt;=1,y_i=1\\
+w^Tx_i+b&lt;=-1,y_i=-1 %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;此处的正负一对任何可以wb都可以除以常量变为1.距离超平面最近的几个样本点使得上式成立(看书中图6.3),这些样本就称为支持向量,两个异类支持向量到超平面的距离之和为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\gamma=\frac{2}{\|w\|}&lt;/script&gt;
+
+&lt;p&gt;称为间隔.&lt;/p&gt;
+
+&lt;p&gt;那么我们现在的问题是找到一个符合上面要求的w和b,使得间隔最大即:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\max {\frac{2}{\|w\|}} s.t. y_i(w^Tx_i+b)&gt;=1 \\
+i=1,2,3......m&lt;/script&gt;
+
+&lt;p&gt;也就是最小化&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\max {\|w\|}^2&lt;/script&gt;
+
+&lt;p&gt;这就是支持向量机的基本型.&lt;/p&gt;
+
+&lt;h2 id=&quot;对偶问题&quot;&gt;对偶问题&lt;/h2&gt;
+&lt;p&gt;对于上一节的问题转化为条件&lt;strong&gt;最值&lt;/strong&gt;问题,由于这里要求的是最小值,所以书中的拉格朗日乘数&lt;script type=&quot;math/tex&quot;&gt;\alpha _i&gt;0&lt;/script&gt;,可得6.8式:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;L(w,b,\alpha)=\frac{1}{2}{\|w\|}^2+\sum _{i=1} ^m \alpha _i(1-y_i(w^Tx_i+b))&lt;/script&gt;
+
+&lt;p&gt;6.9 6.10代入进去可以得:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{2}{\|w\|}^2-{\|w\|}^2+\sum _{i=1} ^m \alpha _i -\alpha _iy_ib&lt;/script&gt;
+
+&lt;p&gt;得书中6.11(式子中没有w了,所以不用6.9的条件)&lt;/p&gt;
+</description>
+        <pubDate>Thu, 15 Aug 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/supportVector.html</link>
+        <guid isPermaLink="true">/watermelon/supportVector.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
+    
+      <item>
+        <title>neural networks</title>
+        <description>&lt;h2 id=&quot;感知机与多层网络&quot;&gt;感知机与多层网络&lt;/h2&gt;
+
+&lt;p&gt;感知机由两层神经元组成&lt;script type=&quot;math/tex&quot;&gt;y=f(\sum _iw_ix_i-\theta)&lt;/script&gt;,从&lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt;的输入可以看出这是一个几何空间上的线性超平面&lt;script type=&quot;math/tex&quot;&gt;\sum _iw_ix_i-\theta&lt;/script&gt;．
+&lt;br /&gt;
+把&lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;的输入恒为1,可以把模型统一为对权重的学习&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;w_i=w_i+\Delta w_i\\
+\Delta w_i=\eta (y-\hat y)x_i&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;觉得上式不应该仅仅乘以xi还应该除以xi的绝对值．&lt;/strong&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+对于线性可分的问题感知机学习过程一定会收敛(与或非),否则则会发生振荡(异或).那么用两层感知机就可以解决异或问题&lt;strong&gt;(毕竟异或问题转变为与或非来表示,只是多套了一层)&lt;/strong&gt;.所以中间多加几层就是所谓的多层网络.多层前馈网络,每层之间都是全连接,不可跨层.&lt;/p&gt;
+
+&lt;h2 id=&quot;error-backpropagation&quot;&gt;error backpropagation&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;求导&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;求导&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;求导&lt;/strong&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;标准BP算法一次只使用一个样本,参数更新较为频繁需要更多次的迭代.&lt;br /&gt;
+累积BP算法每次使用全本的样本.&lt;br /&gt;
+很多任务中,累积误差下降到一定程度,进一步下降就非常缓慢.此时标准BP往往会更好,尤其数据非常大时.
+&lt;br /&gt;
+&lt;br /&gt;
+BP神经网络缓解过拟合的两种方法.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;早停.数据分开验证集和训练集,当验证集中的误差升高时停止.&lt;/li&gt;
+  &lt;li&gt;正则化.拒绝过大的权重.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;剩下的都没深入只是简单介绍在李宏毅那学好了&quot;&gt;剩下的都没深入只是简单介绍,在李宏毅那学好了&lt;/h2&gt;
+</description>
+        <pubDate>Thu, 15 Aug 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/neuralNetworks.html</link>
+        <guid isPermaLink="true">/watermelon/neuralNetworks.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
     
       <item>
         <title>decision Tree</title>
@@ -309,6 +410,7 @@ N个类就N个分类器,每次选择一个类出来作为正类,其余的类作�
         <title>math warning</title>
         <description>&lt;h2 id=&quot;梯度&quot;&gt;梯度&lt;/h2&gt;
 &lt;p&gt;从定义一步步出发&lt;/p&gt;
+
 &lt;h3 id=&quot;偏导数&quot;&gt;偏导数&lt;/h3&gt;
 &lt;p&gt;所谓偏导数，就是多元函数中，对于一个变量求导数，此时其余变量当作常量，直观地看就是函数在某一点沿着x方向的变化率，也就是说在这一点沿着x方向函数会增大多少。&lt;/p&gt;
 
@@ -318,12 +420,28 @@ ds=(dx,dy,dz)分解成三个方向。即&lt;script type=&quot;math/tex&quot;&gt;
 那么f的变化率就是&lt;script type=&quot;math/tex&quot;&gt;ds\cdot(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;当ds的方向跟三个偏导数组成的方向一致时，那么f的变化率最大。即:
-&lt;br /&gt;&lt;script type=&quot;math/tex&quot;&gt;(cos\alpha,cos\beta,cos\gamma)=c\cdot (\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})&lt;/script&gt;&lt;/p&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(cos\alpha,cos\beta,cos\gamma)=c\cdot (\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})&lt;/script&gt;
 
 &lt;p&gt;由此可得到结论约束曲面与该曲面的梯度正交，例如：&lt;br /&gt;
 g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲面的切面方向与各个方向的偏导数的内积为0，即该曲面的切面方向与梯度(与各个方向的偏导数方向一样)内积为0，故正交。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;拉格朗日乘数&quot;&gt;拉格朗日乘数&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E6%95%B0&quot;&gt;维基百科&lt;/a&gt;
+&lt;a href=&quot;https://www.zhihu.com/question/38586401&quot;&gt;知乎&lt;/a&gt;
+此处说明一下如果两条线不是相切(梯度方向在同一直线上)就不会是极值点.在相切的点两个曲线的交点处(x,y)的梯度方向一致,又因为g是条件,所以此时在(x,y)的无穷小邻域内f沿着g的线走那么他的增量肯定为0(因为与梯度垂直),所以该点是条件极值点.同理如果不是相切那么f沿着g走增量不为0不是条件极值.根据梯度方向一致可知:(或看书本B1也可以理解)&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\frac{\partial f}{\partial x}}{\frac{\partial g}{\partial x}}=\frac{\frac{\partial f}{\partial y}}{\frac{\partial g}{\partial y}}=\lambda&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;L=f-\lambda g&lt;/script&gt;
+
+&lt;p&gt;书中的6.8式中令&lt;script type=&quot;math/tex&quot;&gt;\alpha &gt;0&lt;/script&gt;是为了排除那么在g&amp;lt;0的情况下存在比其小的值的相切点(书中是要求最值,排除个别极值是可行的).
 &lt;br /&gt;
-&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E6%95%B0&quot;&gt;拉格朗日乘数&lt;/a&gt;&lt;/p&gt;
+记住上式中拉格朗日常数因子的正负&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;&lt;/script&gt;
 
 &lt;h2 id=&quot;矩阵&quot;&gt;矩阵&lt;/h2&gt;
 
@@ -357,8 +475,9 @@ g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{w}=(y-Xw)^{T}(y-Xw)=z^{T}z&lt;/script&gt;
 
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\frac{\partial E_{w}}{\partial w}=\frac{\partial E_{w}}{\partial z} \frac{\partial z}{\partial w}=-X*2z&lt;/script&gt;
-&lt;br /&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial E_{w}}{\partial w}=\frac{\partial E_{w}}{\partial z} \frac{\partial z}{\partial w}=-X*2z&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
 上式定义法可以证z对w的导数&lt;/p&gt;
 
 &lt;h3 id=&quot;对角矩阵的性质&quot;&gt;对角矩阵的性质&lt;/h3&gt;
@@ -379,6 +498,10 @@ g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲
     &lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial z^{T}z}{\partial z}=2z(z为矢量)&lt;/script&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;h2 id=&quot;几何&quot;&gt;几何&lt;/h2&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;w^Tx+b=0&lt;/script&gt;表示一个超平面,向量x符合x与&lt;script type=&quot;math/tex&quot;&gt;w^T&lt;/script&gt;点乘之后结果都是-b,那么x在&lt;script type=&quot;math/tex&quot;&gt;w^T&lt;/script&gt;方向上的分量一样大.那么&lt;script type=&quot;math/tex&quot;&gt;w^Tx+b&gt;0&lt;/script&gt;与&lt;script type=&quot;math/tex&quot;&gt;w^Tx+b&gt;0&lt;/script&gt;的点刚好分布在超平面的两边.&lt;/p&gt;
 </description>
         <pubDate>Thu, 25 Jul 2019 00:00:00 +0800</pubDate>
         <link>/watermelon/mathWarning.html</link>
@@ -836,144 +959,6 @@ def download(source,hxp,txp,cxp,fp):
         
         
         <category>coding</category>
-        
-      </item>
-    
-      <item>
-        <title>Hello World</title>
-        <description>&lt;h2 id=&quot;安装keras&quot;&gt;安装keras&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;弱鸡不要用centos&lt;/strong&gt;&lt;br /&gt;
-&lt;strong&gt;弱鸡不要用centos&lt;/strong&gt;&lt;br /&gt;
-&lt;strong&gt;弱鸡不要用centos&lt;/strong&gt;&lt;br /&gt;
-一开始用的centos，别提多坑爹了，各种gcc版本低，各种g++链接库不匹配。装完一个又一个，没完没了。直接pip安装tensorflow和keras就可以，只是服务器(ubuntu)没有pip，安装还会缺少某些东西，百度一下就好了。&lt;/p&gt;
-
-&lt;h2 id=&quot;swap&quot;&gt;swap&lt;/h2&gt;
-&lt;p&gt;一开始还是紧紧跟着老师的步伐。用老师的手写字识别的例子。keras上面可以下载数据，昨晚睡觉前用服务器下载就去睡了（服务器：委屈）。在此load进来。接下来又到了喜闻乐见的ctrl c ctrl v 时间了。照着视频敲。
-&lt;br /&gt;
-好景不长啊！从mnist down下来的数据是二维数组不可以直接用。要先换为一维数组。本来想在py上换了保存下来的。但python会自己被kill掉，百度一下发现是因为py占用内存过高。用的腾讯学生版服务器内存就2g，free看看发现没有swap分区，建个文件分区&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dd if=/dev/zero of=~/swapfile bs=1M count=1024
-mkswap ~/swapfile
-swapon /root/swapfile
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;hello-world&quot;&gt;hello world&lt;/h2&gt;
-
-&lt;p&gt;然后用代码换一下保存成numpy数组&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from keras.layers import Dense,Activation
-from keras.models import Sequential,model_from_json
-import keras
-import numpy as np
-def func(xtrain,ytrain,name):
-    xx=[]
-    for i in xtrain:
-        temp=[]
-        for ii in i:
-            temp+=list(ii)
-        xx.append(temp)
-    xxx=np.array(xx,np.uint8)
-    del xx
-    yy=[]
-    for i in ytrain:
-        temp=[0 for ii in range(10)]
-        temp[i]=1
-        yy.append(temp)
-    yyy=np.array(yy,np.uint8)
-    np.save('x'+name+'.npy',xxx)
-    np.save('y'+name+'.npy',yyy)
-    print(&quot;save success&quot;)
-(xtr,ytr)=keras.datasets.mnist.load_data()[0]
-func(xtr,ytr,'train')
-(xtr,ytr)=keras.datasets.mnist.load_data()[1]
-func(xtr,ytr,'test')
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;接下来training出来结果保存就ok&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from keras.layers import Dense,Activation
-from keras.models import Sequential,model_from_json
-import keras
-import numpy as np
-xxx=np.load('xtrain.npy')
-yyy=np.load('ytrain.npy')
-model=keras.models.Sequential()
-model.add(Dense(input_dim=28*28,output_dim=500))
-model.add(Activation('sigmoid'))
-model.add(Dense(output_dim=500))
-model.add(Activation('sigmoid'))
-model.add(Dense(output_dim=10))
-model.add(Activation('softmax'))
-model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
-model.fit(xxx,yyy,batch_size=60,epochs=30)
-json_string = model.to_json()
-try:
-    with open(r'/home/ubuntu/my_model_architecture.json','w') as f:
-        f.write(json_string)
-    model.save_weights(r'/home/ubuntu/my_model_weights.h5')
-except Exception as e:
-    with open(r'/home/ubuntu/exception','w')as f:
-        f.write(str(e))
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;loadModel&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loadModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model_from_json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'my_model_architecture.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; 
-    &lt;span class=&quot;k&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load_weights&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'my_model_weights.h5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;model&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;arg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;28&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;之前看一下结果还不错，就不会去截图来了&lt;/p&gt;
-</description>
-        <pubDate>Tue, 05 Feb 2019 00:00:00 +0800</pubDate>
-        <link>/machine%20learning/MLhelloWorld.html</link>
-        <guid isPermaLink="true">/machine%20learning/MLhelloWorld.html</guid>
-        
-        <category>ML</category>
-        
-        
-        <category>machine learning</category>
-        
-      </item>
-    
-      <item>
-        <title>deep learning</title>
-        <description>&lt;h2 id=&quot;日常review&quot;&gt;日常review&lt;/h2&gt;
-&lt;p&gt;插入review，一开始我们要做分类，通过classification知道二元分类的时候强行用一样的covariance最终找到的funciton是线性的。之后我们尝试直接找到w，b，而不是先假设概率分布再通过极大拟然估计求分布。之后我们把一个二元分类，之前知道p(c|x)=&lt;script type=&quot;math/tex&quot;&gt;\frac{1}{1+e^{-z}}&lt;/script&gt;而z是线性的。
-&lt;img src=&quot;/img/logisticRegression/z.png&quot; alt=&quot;z的表达式&quot; /&gt;
-然后f是z的simog就是概率，data的概率相乘通过数学转换等价与于求cross entropy。然后通过gradient descent求最佳的function偏微分之后形式跟linear regression是一致的。之后对于多元分类，(老师没给出推到)说可以通过跟classification一样通过假设一样的covariance matrix，求到p{c|x}就是z做softmax得到的结果y（这里的的y是未知的他只是一个表达式）.最后用loss function也是跟二元的一样做cross entropy,之后就是求偏微分找最好的function了。&lt;/p&gt;
-
-&lt;h2 id=&quot;three-steps&quot;&gt;three steps&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/img/deepLearning/threeSteps.png&quot; alt=&quot;threeSteps&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;define-a-set-of-functions-也就是一个neuron-network&quot;&gt;define a set of functions 也就是一个neuron network&lt;/h3&gt;
-&lt;p&gt;把logistic regression（也可以不用logistic）连接在一起，一个logistic regression就是一个neuron，所有连接起来就是一个neuron network。每个logistic regression都有自己的parameter(weight,bias)，所有这些parameter就是neuron network的parameter。至于怎么连接是手动连接的，要自己设计。例如fully connect feedforward network。
-&lt;img src=&quot;/img/deepLearning/fullyconnectfeedforwardnetwork.png&quot; alt=&quot;fullyconnectfeedforwardnetwork&quot; /&gt;
-我们定好一个neuron network的连接结构也就定好了一个function set，当我们定好了neuron network中每个logistic regression 的parameter ，那么我们的function就定下来了。通常用矩阵来做运算，这样可以用gpu加速。除了输入的data那一层和输出结果的那一层，中间的都是hiddenlayer。hidden对feature加工给最后一层的output layer作为输入。最后一层output layer司机哦一个multi-class classifier。多少层和多少个neuron只可以靠经验和直觉&lt;/p&gt;
-&lt;h3 id=&quot;goodness-of-a-function-cross-entropy&quot;&gt;goodness of a function cross entropy&lt;/h3&gt;
-&lt;p&gt;这一步就要找loss function拉，因为最后一层是multi class classifier,所以跟上节课的一样对y跟y hat用cross entropy就可以了。
-&lt;img src=&quot;/img/deepLearning/loss.png&quot; alt=&quot;loss&quot; /&gt;&lt;/p&gt;
-&lt;h3 id=&quot;pick-the-best-function&quot;&gt;pick the best function&lt;/h3&gt;
-&lt;p&gt;emmmmmm……gradient descent&lt;/p&gt;
-</description>
-        <pubDate>Mon, 14 Jan 2019 00:00:00 +0800</pubDate>
-        <link>/machine%20learning/deepLearning.html</link>
-        <guid isPermaLink="true">/machine%20learning/deepLearning.html</guid>
-        
-        <category>ML</category>
-        
-        
-        <category>machine learning</category>
         
       </item>
     

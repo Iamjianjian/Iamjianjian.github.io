@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/watermelon/supportVector.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>support vector</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="间隔与支持向量对于一个二分类问题,在几何上我们可以用一个线性超平面把他们划分为两部分(回忆一下三维上的平面表达式).那么方程如下:">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">support vector</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="15 Aug 2019" itemprop="datePublished">Aug 15 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">ML</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>西瓜书第六章</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="间隔与支持向量">间隔与支持向量</h2>
+<p>对于一个二分类问题,在几何上我们可以用一个线性超平面把他们划分为两部分(回忆一下三维上的平面表达式).那么方程如下:</p>
+
+<script type="math/tex; mode=display">w^Tx+b=0</script>
+
+<p>样本空间中样本x到该空间的距离可以表示为:</p>
+
+<script type="math/tex; mode=display">r=\frac{\|w^Tx+b\|}{\|w^T\|}(回忆三维的几何距离)</script>
+
+<p>书中的式子:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+w^Tx_i+b>=1,y_i=1\\
+w^Tx_i+b<=-1,y_i=-1 %]]></script>
+
+<p>此处的正负一对任何可以wb都可以除以常量变为1.距离超平面最近的几个样本点使得上式成立(看书中图6.3),这些样本就称为支持向量,两个异类支持向量到超平面的距离之和为:</p>
+
+<script type="math/tex; mode=display">\gamma=\frac{2}{\|w\|}</script>
+
+<p>称为间隔.</p>
+
+<p>那么我们现在的问题是找到一个符合上面要求的w和b,使得间隔最大即:</p>
+
+<script type="math/tex; mode=display">\max {\frac{2}{\|w\|}} s.t. y_i(w^Tx_i+b)>=1 \\
+i=1,2,3......m</script>
+
+<p>也就是最小化</p>
+
+<script type="math/tex; mode=display">\max {\|w\|}^2</script>
+
+<p>这就是支持向量机的基本型.</p>
+
+<h2 id="对偶问题">对偶问题</h2>
+<p>对于上一节的问题转化为条件<strong>最值</strong>问题,由于这里要求的是最小值,所以书中的拉格朗日乘数<script type="math/tex">\alpha _i>0</script>,可得6.8式:</p>
+
+<script type="math/tex; mode=display">L(w,b,\alpha)=\frac{1}{2}{\|w\|}^2+\sum _{i=1} ^m \alpha _i(1-y_i(w^Tx_i+b))</script>
+
+<p>6.9 6.10代入进去可以得:</p>
+
+<script type="math/tex; mode=display">\frac{1}{2}{\|w\|}^2-{\|w\|}^2+\sum _{i=1} ^m \alpha _i -\alpha _iy_ib</script>
+
+<p>得书中6.11(式子中没有w了,所以不用6.9的条件)</p>
+
+</div>
+
+<div>
+	
+	<div class="tbc"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=support vector@&amp;url=/watermelon/supportVector.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/watermelon/supportVector.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/watermelon/supportVector.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>
