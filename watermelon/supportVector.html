@@ -48,7 +48,7 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
     <center><div class="post-title" itemprop="name headline">support vector</div>
 
-		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="15 Aug 2019" itemprop="datePublished">Aug 15 2019</time>
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="17 Aug 2019" itemprop="datePublished">Aug 17 2019</time>
 
 		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
         
@@ -121,11 +121,68 @@ i=1,2,3......m</script>
 
 <p>得书中6.11(式子中没有w了,所以不用6.9的条件)</p>
 
+<h2 id="软间隔与正则化">软间隔与正则化</h2>
+
+<p>现实中难以确定合适的核函数使得训练样本线性可分,即使找到了也很难确定是不是由于过拟合造成的.
+<br />
+软间隔允许某些样本不满足约束:</p>
+
+<script type="math/tex; mode=display">y_i(w^Tx_i+b)>=1</script>
+
+<p>优化目标变为</p>
+
+<script type="math/tex; mode=display">\min {w,b} \frac{1}{2}{\|w\|}^2 + C \sum _{i=1}^m l_{0/1}(y_i(w^Tx_i+b)-1)</script>
+
+<p>ps:这个常数C岂不是很难确定
+<br />
+与前面的硬间隔比较,少了s.t.条件多了优化的目标多了m项,当C无穷大的时候退化为硬间隔.0/1损失函数数学性质不好,常用三种代替</p>
+
+<script type="math/tex; mode=display">hinge Loss: \max (0,1-z)\\
+exponential Loss:exp(-z)\\
+logistic Loss : \log (1+exp(-z))</script>
+
+<p>对于hinge损失,6.29,化为:</p>
+
+<script type="math/tex; mode=display">\min {w,b} \frac{1}{2}{\|w\|}^2 + C \sum _{i=1}^m \max (0,1-y_i(w^Tx_i+b))</script>
+
+<p>注意此处的z跟6.29不一样,不知道是不是作者的笔误.
+此处<script type="math/tex">1-y_i(w^Tx_i+b)</script>正好代表了样本不满足约束的程度,也就是后面的松弛变量<script type="math/tex">\varepsilon _i</script>(未知量,要求得w和b同时调整<script type="math/tex">\varepsilon _i</script>的值使得loss最小,所以<script type="math/tex">\varepsilon _i</script>也是参数变量)
+<br />
+然后跟着书本把6.36化为6.40,过程基本跟硬间隔的一样,只是多了个<script type="math/tex">\varepsilon _i</script>结果一样约束不同,注意到<script type="math/tex">% <![CDATA[
+C=\alpha _i +\mu _i,\mu _i>0,所以,\alpha _i<C %]]></script>,得到书中的kkt条件,有一下结论:</p>
+
+<ol>
+  <li><script type="math/tex">\alpha =0</script>该样本对f没有影响.想不出实际上<script type="math/tex">\alpha _i</script>的意义是啥,但是可以想到这个样本应该是分类正确的不行的那种,头疼.</li>
+  <li><script type="math/tex">\alpha _i>0</script> ,则<script type="math/tex">y_if(x_i)=1-\varepsilon _i</script>,样本为支持向量,此处支持向量并不仅仅是边界上的点了.</li>
+  <li>若<script type="math/tex">% <![CDATA[
+\alpha _i<C %]]></script>,那么<script type="math/tex">\mu _i>0,\varepsilon _i=0</script>,那么样本刚好在边界上.</li>
+  <li>若<script type="math/tex">\alpha _i=C</script>,如果<script type="math/tex">% <![CDATA[
+\varepsilon _i<=1 %]]></script>,那么样本在最大间隔的内部,如果<script type="math/tex">\varepsilon _i>1</script>那么样本错误分类.</li>
+</ol>
+
+<p>用对率损失代替0/1损失几乎就是対率回归了(反正我不会去验证).提到了两者的优缺点:</p>
+<ol>
+  <li>二者优化目标相当,性能相当.</li>
+  <li>対率回归的输出具有自然的概率意义</li>
+  <li>対率回归可直接用于多分类任务,(李宏毅的课也提到过)</li>
+  <li>対率回归的解依赖于更多的训练样本开销更大</li>
+</ol>
+
+<h2 id="支持向量回归">支持向量回归</h2>
+<p>如果是传统回归模型,最小化的目标是均方误差,SVR最小化的目标是最小化间隔带:</p>
+
+<script type="math/tex; mode=display">\min _{w,b} \frac{1}{2} {\|w\|}^2+C\sum _{i=1}^m l_{\varepsilon}(f(x_i)-y_i)</script>
+
+<p>引入松弛变量,一边一个松弛程度,应该是每个样例只会有一个松弛不为0(刚好在间隔带内都是0)</p>
+
+<p><br />
+后面的核方法….随缘吧</p>
+
 </div>
 
 <div>
 	
-	<div class="tbc"></div>
+	<div class="eof"></div>
 	
 </div>
 

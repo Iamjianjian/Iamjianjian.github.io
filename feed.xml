@@ -6,8 +6,8 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 16 Aug 2019 15:56:57 +0800</pubDate>
-    <lastBuildDate>Fri, 16 Aug 2019 15:56:57 +0800</lastBuildDate>
+    <pubDate>Mon, 19 Aug 2019 18:21:28 +0800</pubDate>
+    <lastBuildDate>Mon, 19 Aug 2019 18:21:28 +0800</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
     
       <item>
@@ -54,8 +54,65 @@ i=1,2,3......m&lt;/script&gt;
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{2}{\|w\|}^2-{\|w\|}^2+\sum _{i=1} ^m \alpha _i -\alpha _iy_ib&lt;/script&gt;
 
 &lt;p&gt;得书中6.11(式子中没有w了,所以不用6.9的条件)&lt;/p&gt;
+
+&lt;h2 id=&quot;软间隔与正则化&quot;&gt;软间隔与正则化&lt;/h2&gt;
+
+&lt;p&gt;现实中难以确定合适的核函数使得训练样本线性可分,即使找到了也很难确定是不是由于过拟合造成的.
+&lt;br /&gt;
+软间隔允许某些样本不满足约束:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;y_i(w^Tx_i+b)&gt;=1&lt;/script&gt;
+
+&lt;p&gt;优化目标变为&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\min {w,b} \frac{1}{2}{\|w\|}^2 + C \sum _{i=1}^m l_{0/1}(y_i(w^Tx_i+b)-1)&lt;/script&gt;
+
+&lt;p&gt;ps:这个常数C岂不是很难确定
+&lt;br /&gt;
+与前面的硬间隔比较,少了s.t.条件多了优化的目标多了m项,当C无穷大的时候退化为硬间隔.0/1损失函数数学性质不好,常用三种代替&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;hinge Loss: \max (0,1-z)\\
+exponential Loss:exp(-z)\\
+logistic Loss : \log (1+exp(-z))&lt;/script&gt;
+
+&lt;p&gt;对于hinge损失,6.29,化为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\min {w,b} \frac{1}{2}{\|w\|}^2 + C \sum _{i=1}^m \max (0,1-y_i(w^Tx_i+b))&lt;/script&gt;
+
+&lt;p&gt;注意此处的z跟6.29不一样,不知道是不是作者的笔误.
+此处&lt;script type=&quot;math/tex&quot;&gt;1-y_i(w^Tx_i+b)&lt;/script&gt;正好代表了样本不满足约束的程度,也就是后面的松弛变量&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;(未知量,要求得w和b同时调整&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;的值使得loss最小,所以&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;也是参数变量)
+&lt;br /&gt;
+然后跟着书本把6.36化为6.40,过程基本跟硬间隔的一样,只是多了个&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;结果一样约束不同,注意到&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+C=\alpha _i +\mu _i,\mu _i&gt;0,所以,\alpha _i&lt;C %]]&gt;&lt;/script&gt;,得到书中的kkt条件,有一下结论:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\alpha =0&lt;/script&gt;该样本对f没有影响.想不出实际上&lt;script type=&quot;math/tex&quot;&gt;\alpha _i&lt;/script&gt;的意义是啥,但是可以想到这个样本应该是分类正确的不行的那种,头疼.&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\alpha _i&gt;0&lt;/script&gt; ,则&lt;script type=&quot;math/tex&quot;&gt;y_if(x_i)=1-\varepsilon _i&lt;/script&gt;,样本为支持向量,此处支持向量并不仅仅是边界上的点了.&lt;/li&gt;
+  &lt;li&gt;若&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\alpha _i&lt;C %]]&gt;&lt;/script&gt;,那么&lt;script type=&quot;math/tex&quot;&gt;\mu _i&gt;0,\varepsilon _i=0&lt;/script&gt;,那么样本刚好在边界上.&lt;/li&gt;
+  &lt;li&gt;若&lt;script type=&quot;math/tex&quot;&gt;\alpha _i=C&lt;/script&gt;,如果&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\varepsilon _i&lt;=1 %]]&gt;&lt;/script&gt;,那么样本在最大间隔的内部,如果&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&gt;1&lt;/script&gt;那么样本错误分类.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;用对率损失代替0/1损失几乎就是対率回归了(反正我不会去验证).提到了两者的优缺点:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;二者优化目标相当,性能相当.&lt;/li&gt;
+  &lt;li&gt;対率回归的输出具有自然的概率意义&lt;/li&gt;
+  &lt;li&gt;対率回归可直接用于多分类任务,(李宏毅的课也提到过)&lt;/li&gt;
+  &lt;li&gt;対率回归的解依赖于更多的训练样本开销更大&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;支持向量回归&quot;&gt;支持向量回归&lt;/h2&gt;
+&lt;p&gt;如果是传统回归模型,最小化的目标是均方误差,SVR最小化的目标是最小化间隔带:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\min _{w,b} \frac{1}{2} {\|w\|}^2+C\sum _{i=1}^m l_{\varepsilon}(f(x_i)-y_i)&lt;/script&gt;
+
+&lt;p&gt;引入松弛变量,一边一个松弛程度,应该是每个样例只会有一个松弛不为0(刚好在间隔带内都是0)&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+后面的核方法….随缘吧&lt;/p&gt;
 </description>
-        <pubDate>Thu, 15 Aug 2019 00:00:00 +0800</pubDate>
+        <pubDate>Sat, 17 Aug 2019 00:00:00 +0800</pubDate>
         <link>/watermelon/supportVector.html</link>
         <guid isPermaLink="true">/watermelon/supportVector.html</guid>
         
