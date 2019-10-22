@@ -1,0 +1,1005 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sofiesJian</title>
+    <description>Nothing # this means to ignore newlines until &quot;baseurl:&quot;
+</description>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 22 Oct 2019 12:21:04 +0800</pubDate>
+    <lastBuildDate>Tue, 22 Oct 2019 12:21:04 +0800</lastBuildDate>
+    <generator>Jekyll v3.8.6</generator>
+    
+      <item>
+        <title>writeup</title>
+        <description>&lt;h2 id=&quot;第一题签到题&quot;&gt;第一题签到题&lt;/h2&gt;
+
+&lt;p&gt;F12选取元素如下图:
+&lt;img src=&quot;/img/temp/1.png&quot; alt=&quot;1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;虽然我Html学得菜但是还是知道disable是不行的意思,去掉这个属性.&lt;/p&gt;
+
+&lt;h2 id=&quot;第二题cat&quot;&gt;第二题Cat&lt;/h2&gt;
+
+&lt;p&gt;直接F12发现是一个png图片,找个黑背景把猫贴上去就有flag
+&lt;img src=&quot;/img/temp/2.png&quot; alt=&quot;1&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;第三题2077&quot;&gt;第三题2077&lt;/h2&gt;
+
+&lt;p&gt;进去发现html的数字在变,F12找js&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(function () {
+      var now = new Date().toUTCString()
+      var main = document.getElementsByTagName('main')[0]
+      var ua = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) HEICORE/49.1.2623.213 Safari/537.36'
+      fetch('flag.txt', {method: 'POST', headers: {'If-Unmodified-Since': now, 'User-Agent': ua}}).then(function (res) {
+        if (res.ok) {
+          res.text().then(function (text) {
+            main.innerText = 'The flag is &quot;' + text + '&quot;.'
+          })
+        } else {
+          var lastModified = res.headers.get('Last-Modified')
+          setInterval(function () {
+            var diff = (new Date(lastModified).getTime() - Date.now()) / 1000
+            var diffSeconds = Math.floor(diff % 86400), diffDays = Math.floor(diff / 86400)
+            main.innerText = 'Not yet! The competition will start after ' + diffDays + ' days and ' + diffSeconds + ' seconds.'
+          }, 1000)
+        }
+      })
+    })()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;稍微看一下,if那块代码是打印出来flag,else在改时间.js没学过还是看懂了res应该是fetch返回的结果.可以看到fetch参数的请求头有个&lt;strong&gt;If-Unmodified-Since&lt;/strong&gt; ,ua就没什么可以怀疑的了.
+&lt;br /&gt;
+所以F12调到网络看见有flag.txt请求返回失败.
+&lt;img src=&quot;/img/temp/31.png&quot; alt=&quot;1&quot; /&gt;
+再次感叹一下老夫英语实在太牛逼了,一个过去式&lt;strong&gt;modified&lt;/strong&gt;,一个否定过去式&lt;strong&gt;Unmodified&lt;/strong&gt;.编辑重发把 &lt;strong&gt;If-Unmodified-Since&lt;/strong&gt;的日期改到2077年10月之后.返回flag
+&lt;img src=&quot;/img/temp/32.png&quot; alt=&quot;1&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;第五题网页读取&quot;&gt;第五题网页读取&lt;/h2&gt;
+
+&lt;p&gt;觉得这是在考python
+答案如下:
+&lt;br /&gt;
+&lt;strong&gt;http://web1/flag?@example.com&lt;/strong&gt;
+&lt;br /&gt;
+了解一下url的格式吧,?后面跟的好像是参数,?前面的用来拿flag,后面的用来欺骗.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 22 Oct 2019 00:00:00 +0800</pubDate>
+        <link>/introduce/writeup.html</link>
+        <guid isPermaLink="true">/introduce/writeup.html</guid>
+        
+        <category>ctf</category>
+        
+        
+        <category>introduce</category>
+        
+      </item>
+    
+      <item>
+        <title>support vector</title>
+        <description>&lt;h2 id=&quot;间隔与支持向量&quot;&gt;间隔与支持向量&lt;/h2&gt;
+&lt;p&gt;对于一个二分类问题,在几何上我们可以用一个线性超平面把他们划分为两部分(回忆一下三维上的平面表达式).那么方程如下:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;w^Tx+b=0&lt;/script&gt;
+
+&lt;p&gt;样本空间中样本x到该空间的距离可以表示为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;r=\frac{\|w^Tx+b\|}{\|w^T\|}(回忆三维的几何距离)&lt;/script&gt;
+
+&lt;p&gt;书中的式子:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+w^Tx_i+b&gt;=1,y_i=1\\
+w^Tx_i+b&lt;=-1,y_i=-1 %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;此处的正负一对任何可以wb都可以除以常量变为1.距离超平面最近的几个样本点使得上式成立(看书中图6.3),这些样本就称为支持向量,两个异类支持向量到超平面的距离之和为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\gamma=\frac{2}{\|w\|}&lt;/script&gt;
+
+&lt;p&gt;称为间隔.&lt;/p&gt;
+
+&lt;p&gt;那么我们现在的问题是找到一个符合上面要求的w和b,使得间隔最大即:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\max {\frac{2}{\|w\|}} s.t. y_i(w^Tx_i+b)&gt;=1 \\
+i=1,2,3......m&lt;/script&gt;
+
+&lt;p&gt;也就是最小化&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\max {\|w\|}^2&lt;/script&gt;
+
+&lt;p&gt;这就是支持向量机的基本型.&lt;/p&gt;
+
+&lt;h2 id=&quot;对偶问题&quot;&gt;对偶问题&lt;/h2&gt;
+&lt;p&gt;对于上一节的问题转化为条件&lt;strong&gt;最值&lt;/strong&gt;问题,由于这里要求的是最小值,所以书中的拉格朗日乘数&lt;script type=&quot;math/tex&quot;&gt;\alpha _i&gt;0&lt;/script&gt;,可得6.8式:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;L(w,b,\alpha)=\frac{1}{2}{\|w\|}^2+\sum _{i=1} ^m \alpha _i(1-y_i(w^Tx_i+b))&lt;/script&gt;
+
+&lt;p&gt;6.9 6.10代入进去可以得:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{2}{\|w\|}^2-{\|w\|}^2+\sum _{i=1} ^m \alpha _i -\alpha _iy_ib&lt;/script&gt;
+
+&lt;p&gt;得书中6.11(式子中没有w了,所以不用6.9的条件)&lt;/p&gt;
+
+&lt;h2 id=&quot;软间隔与正则化&quot;&gt;软间隔与正则化&lt;/h2&gt;
+
+&lt;p&gt;现实中难以确定合适的核函数使得训练样本线性可分,即使找到了也很难确定是不是由于过拟合造成的.
+&lt;br /&gt;
+软间隔允许某些样本不满足约束:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;y_i(w^Tx_i+b)&gt;=1&lt;/script&gt;
+
+&lt;p&gt;优化目标变为&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\min {w,b} \frac{1}{2}{\|w\|}^2 + C \sum _{i=1}^m l_{0/1}(y_i(w^Tx_i+b)-1)&lt;/script&gt;
+
+&lt;p&gt;ps:这个常数C岂不是很难确定
+&lt;br /&gt;
+与前面的硬间隔比较,少了s.t.条件多了优化的目标多了m项,当C无穷大的时候退化为硬间隔.0/1损失函数数学性质不好,常用三种代替&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;hinge Loss: \max (0,1-z)\\
+exponential Loss:exp(-z)\\
+logistic Loss : \log (1+exp(-z))&lt;/script&gt;
+
+&lt;p&gt;对于hinge损失,6.29,化为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\min {w,b} \frac{1}{2}{\|w\|}^2 + C \sum _{i=1}^m \max (0,1-y_i(w^Tx_i+b))&lt;/script&gt;
+
+&lt;p&gt;注意此处的z跟6.29不一样,不知道是不是作者的笔误.
+此处&lt;script type=&quot;math/tex&quot;&gt;1-y_i(w^Tx_i+b)&lt;/script&gt;正好代表了样本不满足约束的程度,也就是后面的松弛变量&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;(未知量,要求得w和b同时调整&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;的值使得loss最小,所以&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;也是参数变量)
+&lt;br /&gt;
+然后跟着书本把6.36化为6.40,过程基本跟硬间隔的一样,只是多了个&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;结果一样约束不同,注意到&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+C=\alpha _i +\mu _i,\mu _i&gt;0,所以,\alpha _i&lt;C %]]&gt;&lt;/script&gt;,得到书中的kkt条件,有一下结论:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\alpha =0&lt;/script&gt;该样本对f没有影响.想不出实际上&lt;script type=&quot;math/tex&quot;&gt;\alpha _i&lt;/script&gt;的意义是啥,但是可以想到这个样本应该是分类正确的不行的那种,头疼.&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\alpha _i&gt;0&lt;/script&gt; ,则&lt;script type=&quot;math/tex&quot;&gt;y_if(x_i)=1-\varepsilon _i&lt;/script&gt;,样本为支持向量,此处支持向量并不仅仅是边界上的点了.&lt;/li&gt;
+  &lt;li&gt;若&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\alpha _i&lt;C %]]&gt;&lt;/script&gt;,那么&lt;script type=&quot;math/tex&quot;&gt;\mu _i&gt;0,\varepsilon _i=0&lt;/script&gt;,那么样本刚好在边界上.&lt;/li&gt;
+  &lt;li&gt;若&lt;script type=&quot;math/tex&quot;&gt;\alpha _i=C&lt;/script&gt;,如果&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\varepsilon _i&lt;=1 %]]&gt;&lt;/script&gt;,那么样本在最大间隔的内部,如果&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&gt;1&lt;/script&gt;那么样本错误分类.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;用对率损失代替0/1损失几乎就是対率回归了(反正我不会去验证).提到了两者的优缺点:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;二者优化目标相当,性能相当.&lt;/li&gt;
+  &lt;li&gt;対率回归的输出具有自然的概率意义&lt;/li&gt;
+  &lt;li&gt;対率回归可直接用于多分类任务,(李宏毅的课也提到过)&lt;/li&gt;
+  &lt;li&gt;対率回归的解依赖于更多的训练样本开销更大&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;支持向量回归&quot;&gt;支持向量回归&lt;/h2&gt;
+&lt;p&gt;如果是传统回归模型,最小化的目标是均方误差,SVR最小化的目标是最小化间隔带:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\min _{w,b} \frac{1}{2} {\|w\|}^2+C\sum _{i=1}^m l_{\varepsilon}(f(x_i)-y_i)&lt;/script&gt;
+
+&lt;p&gt;引入松弛变量,一边一个松弛程度,应该是每个样例只会有一个松弛不为0(刚好在间隔带内都是0)&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+后面的核方法….随缘吧&lt;/p&gt;
+</description>
+        <pubDate>Sat, 17 Aug 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/supportVector.html</link>
+        <guid isPermaLink="true">/watermelon/supportVector.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
+    
+      <item>
+        <title>neural networks</title>
+        <description>&lt;h2 id=&quot;感知机与多层网络&quot;&gt;感知机与多层网络&lt;/h2&gt;
+
+&lt;p&gt;感知机由两层神经元组成&lt;script type=&quot;math/tex&quot;&gt;y=f(\sum _iw_ix_i-\theta)&lt;/script&gt;,从&lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt;的输入可以看出这是一个几何空间上的线性超平面&lt;script type=&quot;math/tex&quot;&gt;\sum _iw_ix_i-\theta&lt;/script&gt;．
+&lt;br /&gt;
+把&lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;的输入恒为1,可以把模型统一为对权重的学习&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;w_i=w_i+\Delta w_i\\
+\Delta w_i=\eta (y-\hat y)x_i&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;觉得上式不应该仅仅乘以xi还应该除以xi的绝对值．&lt;/strong&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+对于线性可分的问题感知机学习过程一定会收敛(与或非),否则则会发生振荡(异或).那么用两层感知机就可以解决异或问题&lt;strong&gt;(毕竟异或问题转变为与或非来表示,只是多套了一层)&lt;/strong&gt;.所以中间多加几层就是所谓的多层网络.多层前馈网络,每层之间都是全连接,不可跨层.&lt;/p&gt;
+
+&lt;h2 id=&quot;error-backpropagation&quot;&gt;error backpropagation&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;求导&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;求导&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;求导&lt;/strong&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;标准BP算法一次只使用一个样本,参数更新较为频繁需要更多次的迭代.&lt;br /&gt;
+累积BP算法每次使用全本的样本.&lt;br /&gt;
+很多任务中,累积误差下降到一定程度,进一步下降就非常缓慢.此时标准BP往往会更好,尤其数据非常大时.
+&lt;br /&gt;
+&lt;br /&gt;
+BP神经网络缓解过拟合的两种方法.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;早停.数据分开验证集和训练集,当验证集中的误差升高时停止.&lt;/li&gt;
+  &lt;li&gt;正则化.拒绝过大的权重.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;剩下的都没深入只是简单介绍在李宏毅那学好了&quot;&gt;剩下的都没深入只是简单介绍,在李宏毅那学好了&lt;/h2&gt;
+</description>
+        <pubDate>Thu, 15 Aug 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/neuralNetworks.html</link>
+        <guid isPermaLink="true">/watermelon/neuralNetworks.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
+    
+      <item>
+        <title>decision Tree</title>
+        <description>&lt;h2 id=&quot;基本流程&quot;&gt;基本流程&lt;/h2&gt;
+&lt;p&gt;下为treeGenerate(D,A)一次递归中的各种情形&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;D中的样本属于同一类C,标为叶子节点类别为C结束。(都是用一个类了,再分没有意义)&lt;/li&gt;
+  &lt;li&gt;A为空集,或D中样本取值全本相同,标为叶子节点类别为D中最多的类。(属性一样每办法分)&lt;/li&gt;
+  &lt;li&gt;选取最优划分属性,该属性每个取值一个子节点递归
+&lt;script type=&quot;math/tex&quot;&gt;treeGenerate(D_v,A/a)&lt;/script&gt;
+如果
+&lt;script type=&quot;math/tex&quot;&gt;D_v&lt;/script&gt;
+为空集该子节点为叶子节点类为D中最多的类&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;划分选择&quot;&gt;划分选择&lt;/h2&gt;
+
+&lt;h3 id=&quot;信息增益&quot;&gt;信息增益&lt;/h3&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Ent(D)=-\sum _{k=1}^{\|y\|}p_{k}\log_{2}p_{kj}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+上式中k表示第k类,这个东西信息论学过,均匀分布的时候信息熵最大。这从直觉上看也是可以理解的,均匀分布的时候信息无法猜测结果,当某一个类的概率大那么信息量就少。Ent(D)越小D的纯度越高。
+&lt;br /&gt;
+如果我们选取某个属性来进行划分,而这个属性又有v个取值,那么利用a进行划分的可以定义信息增益。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain(D,a)=Ent(D)-\sum _{v=1}^{V}\frac{\|D^{v}\|}{\|D\|}Ent(D^{v})&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+我们要做的就是越往下,样本的更加同属一个类,也就是信息熵越小。在某一个节点进行划分的时候Ent(D)已经是一个常数。子节点信息熵小,也就是Gain大纯度越高。&lt;/p&gt;
+
+&lt;h3 id=&quot;增益率&quot;&gt;增益率&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;然而信息增益准则对取值多的属性有所偏好&lt;/strong&gt;,定义增益率:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain\_ratio(D,a)=\frac{Gain(D,a)}{IV(a)},IV(a)=-\sum \frac{\|D^{v}\|}{\|D\|}\log_2\frac{\|D^{v}\|}{\|D\|}&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;增益率准则对所取的数目较少的属性有所偏好,实际中的做法是先用信息增益从中选取出高于平均水平的属性,在用信息率选取。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;基尼指数&quot;&gt;基尼指数&lt;/h3&gt;
+&lt;p&gt;基尼值定义为随即选取两个样本,类别不一样的概率,那么这个概率越高,纯度越低。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gini(D)=\sum _{k=1}^{\|y\|}\sum _{l!=k}p_kp_l \\
+=1-\sum _{k=1}^{\|y\|}p_k^2&lt;/script&gt;
+
+&lt;p&gt;定义基尼指数,也就是按a属性分类之后加权求和。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gini_index(D,a)=\sum _{v=1}^V\frac{\|D^v\|}{\|D\|}Gini(D^v)&lt;/script&gt;
+
+&lt;p&gt;选择划分后基尼指数最小的属性.&lt;/p&gt;
+
+&lt;h2 id=&quot;剪枝处理&quot;&gt;剪枝处理&lt;/h2&gt;
+&lt;p&gt;剪枝用于应对决策树分支过多导致的过拟合.&lt;/p&gt;
+
+&lt;h3 id=&quot;预剪枝&quot;&gt;预剪枝&lt;/h3&gt;
+
+&lt;p&gt;对节点划分时,若当前节点不能带来决策树泛华性能的提高,则停止并标为叶子节点.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;根据当前节点选取最优划分属性.&lt;/li&gt;
+  &lt;li&gt;先如果不进行划分把节点标为(好瓜 坏瓜)用验证集计算准确率.&lt;/li&gt;
+  &lt;li&gt;计算划分后的准确率.比较决定是否划分.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;预剪枝很多分支没有分开,降低了训练时间.但是基于贪心的原则有可能导致一些后续会提高泛华性能的分支没有展开,可能带来欠拟合的风险.&lt;/p&gt;
+
+&lt;h3 id=&quot;后剪枝&quot;&gt;后剪枝&lt;/h3&gt;
+
+&lt;p&gt;先生成完整的决策树,再通过与前面一样的计算,剪去泛化性能会提高的分支.
+&lt;br /&gt;
+一般后剪枝欠拟合风险小,泛化性能往往优于预剪枝.但开销大.&lt;/p&gt;
+
+&lt;h2 id=&quot;连续与缺失&quot;&gt;连续与缺失&lt;/h2&gt;
+
+&lt;h3 id=&quot;连续值处理&quot;&gt;连续值处理&lt;/h3&gt;
+
+&lt;p&gt;假如属性a是连续属性,D有n个样本,对D中的样本按a的大小排序,把D划分成两半(此处是二分类),那么划分点就是这n个排序的样本之间的n-1个位置,令划分的位置为t,位置集合为&lt;script type=&quot;math/tex&quot;&gt;T_a&lt;/script&gt;.那么信息增益为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain(D,a)=\max _{t\in T_a} Gain(D,a,t)\\
+=\max _{t\in T_a} Ent(D)-\sum _{\lambda \in \{-,+\}}\frac{\|D_t^{\lambda\|}}{\|D\|}Ent(D_t^{\lambda})&lt;/script&gt;
+
+&lt;h3 id=&quot;缺失值的处理&quot;&gt;缺失值的处理&lt;/h3&gt;
+
+&lt;p&gt;给定D和属性a,令&lt;script type=&quot;math/tex&quot;&gt;\hat D&lt;/script&gt;是属性a上没有缺失值的样本,&lt;script type=&quot;math/tex&quot;&gt;\hat D_k \hat D_v&lt;/script&gt;分别表示&lt;script type=&quot;math/tex&quot;&gt;\hat{D}&lt;/script&gt;上属于第k类的样本和属性a为v的样本.每个样本都有一个权值初始为1.可定义以下:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p=\frac{\sum _{x\in \hat D} w_x}{\sum _{x \in D}w_x}\\
+\hat{p_k}=\frac{\sum_{x\in \hat D_k}w_x}{\sum_{x\in \hat D}w_x}\\
+\hat r_v=\frac{\sum_{x\in \hat D_v w_x}}{\sum_{x\in \hat D w_x}}&lt;/script&gt;
+
+&lt;p&gt;三个式子直观上看,分别是&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;没有缺失值的样本对所有样本的加权比例&lt;/li&gt;
+  &lt;li&gt;没有缺失值的样本中各个类别的加权比例&lt;/li&gt;
+  &lt;li&gt;没有缺失值的样本中按a进行划分各个属性的加权比例&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;推广信息增益计算式:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain(D,a)=p \times Gain(\hat D,a)\\
+=p \times (Ent(\hat D) - \sum _{v=1}^V \hat r_v Ent(\hat D_v))&lt;/script&gt;
+
+&lt;p&gt;比较原来的信息增益的计算&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;计算仅仅用了不缺失的样本集(废话缺失怎么算),只是在外面套了一个p,表示缺失的样本越少增益越大.对缺失值少的属性有偏好.&lt;/li&gt;
+  &lt;li&gt;计算子集合的信息增益时又乘了一个 &lt;script type=&quot;math/tex&quot;&gt;\hat{r_v}&lt;/script&gt;,代表属性的权重.&lt;/li&gt;
+  &lt;li&gt;子集合的概率由&lt;script type=&quot;math/tex&quot;&gt;\hat p_k&lt;/script&gt;代替.不缺失的样本各个类别的权重.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;对于缺失了值的样本每个子节点都会划入,但是权重有所不同,权重调为&lt;script type=&quot;math/tex&quot;&gt;\hat{r_v}&lt;/script&gt;.
+&lt;strong&gt;真是他妈的复杂&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;多变量划分&quot;&gt;多变量划分&lt;/h2&gt;
+
+&lt;p&gt;没什么好讲的,就是一个节点使用变量进行划分使得划分超平面变斜.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 13 Aug 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/decisionTree.html</link>
+        <guid isPermaLink="true">/watermelon/decisionTree.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
+    
+      <item>
+        <title>linear model</title>
+        <description>&lt;h2 id=&quot;基本形式&quot;&gt;基本形式&lt;/h2&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;f(x)=w^{T}x+b&lt;/script&gt;
+书上说许多功能强大的nonlinear model 可在linear model的基础上通过层级结构或高维映射而得。&lt;br /&gt;
+&lt;strong&gt;然而我并不知道什么叫做层级结构或高维映射&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;然而我并不知道什么叫做层级结构或高维映射&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;然而我并不知道什么叫做层级结构或高维映射&lt;/strong&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;linear-regression&quot;&gt;linear regression&lt;/h2&gt;
+
+&lt;p&gt;linear regression就是预测&lt;strong&gt;实数值&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;离散属性的处理&quot;&gt;离散属性的处理&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;有序关系则化为一项属性的连续值如身高{高 中 矮}分别使 身高属性为1.0 0.5 0.0&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;无序关系的通过多个属性表示，瓜类{南瓜 冬瓜} 使得属性 南瓜 冬瓜为  1,0 或 0,1&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;一元线性回归的最小二乘法求解&quot;&gt;一元线性回归的最小二乘法求解&lt;/h3&gt;
+&lt;p&gt;我就不懂了，妈的求个导数叫个这么响的名字
+百度有一个定义觉得挺好：
+&lt;br /&gt;
+线性方程组（略）无解，求一组&lt;script type=&quot;math/tex&quot;&gt;(x_{1},x_{2},...,x_{n})&lt;/script&gt;使得这组X带进去方程组之后的平方和最小。
+下求解一元的情况&lt;br /&gt;
+f(x)=wx+b,共m组数据,那么就是m个方程组,最小化&lt;script type=&quot;math/tex&quot;&gt;\sum _{i=1}^{m} (f(x_{i})-y_{i})^{2}&lt;/script&gt;,
+看清楚这里的变量是什么,是w和b,求分别令偏导数为0得:&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\sum _{i=1}^{m}2(f(x_{i})-y_{i})\frac{\partial f(x_{i})}{\partial w}=
+\sum _{i=1}^{m}2(f(x_{i})-y_{i})x_{i}=书中的式子&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+对于b也是同理，可得书中的式子:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;b=\frac{1}{m}\sum_{i=1}^{m}(y_{i}-wx_{i})&lt;/script&gt;
+
+&lt;p&gt;把b变为:&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;b=\sum _{i=1}^{m} y_{i} -w\bar x&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+w的偏导数式子化为:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;0=w\sum _{i=1}^{m}x^{2}-\sum _{i=1}^{m}y_{i}x_{i}+\sum _{i=1}^{m}bx_{i}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+带入b:&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;0=w\sum _{i=1}^{m}x^{2}-\sum _{i=1}^{m}y_{i}x_{i}+\sum _{i=1}^{m}x_{i}\frac{1}{m}\sum _{j=1}^{m}y_{j}-\sum _{i=1}^{m}x_{i}w\bar x&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+把第三项的&lt;script type=&quot;math/tex&quot;&gt;\frac{1}{m}&lt;/script&gt;提前可以得到书中的&lt;script type=&quot;math/tex&quot;&gt;\bar x&lt;/script&gt;,仔细想一想&lt;script type=&quot;math/tex&quot;&gt;\sum _{i=1}^{m}x_{i}\bar x&lt;/script&gt;把&lt;script type=&quot;math/tex&quot;&gt;\frac{1}{m}&lt;/script&gt;提出来就是书中的
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{m}(\sum_{i=1}^{m}x_{i})^{2}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+把w提出来就是书中的式子了。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;写公式好难&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;写公式好难&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;写公式好难&lt;/strong&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;多元的求解&quot;&gt;多元的求解&lt;/h3&gt;
+
+&lt;p&gt;因为那个矩阵求导数死活理解不了只能暂时放下这里的推导过程了&lt;/p&gt;
+
+&lt;p&gt;令导数为0可得书中式子，&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;X^{T}X&lt;/script&gt;满秩就可以求逆矩阵得到唯一的解 &lt;script type=&quot;math/tex&quot;&gt;\hat w^{*}=(X^{T}X)^{-1}X^{T}y&lt;/script&gt;（此时必有m大于等于(d+1)，书中还加了一句或正定矩阵完全不用，正定必然满秩）&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;X^{T}X&lt;/script&gt;不满秩,就会有多个解使得均方误差最小，结果有归纳偏好决定&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;广义线性模型&quot;&gt;广义线性模型&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;单调可微单调可微单调可微&lt;/strong&gt;函数g(单调可微有逆函数),可得:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;y=g^{-1}(w^{T}x+b)&lt;/script&gt;
+
+&lt;h2 id=&quot;对数几率回归&quot;&gt;对数几率回归&lt;/h2&gt;
+
+&lt;p&gt;对数几率函数从图像轻易可以看出是x是类c的几率。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y=1|x)=\frac{e^{w^{T}x+b}}{1+e^{w^{T}x+b}}&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y=0|x)=\frac{1}{1+e^{w^{T}x+b}}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;利用极大似然估计(后面用书中的&lt;script type=&quot;math/tex&quot;&gt;\beta&lt;/script&gt;x也是指书中的后面的x)&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+目标是最大化下式
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;l(\beta)=\sum_{i=1}^{m} ln(p(y_{i}|x_{i};\beta))&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+此时应该要转换了，但是书中的&lt;strong&gt;公式3.27有误公式3.27有误公式3.27有误&lt;/strong&gt;，不知道是作者笔误还是没写清楚，害我化了半天还搞不出来，最后又跑区番自己的看李宏毅写的帖子和视频看了才发现这里错了。
+&lt;br /&gt;
+书中的式子是把这个带入:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y_{i}|x_{i};w,b)=y_{i}p_{1}(\hat x_{i};\beta)+(1-y_{i})p_{0}(\hat x_{i};\beta)&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+如果直接带入3.25是化不出来的，正确的式子应该是:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;ln(p(y_{i}|x_{i};w,b))=y_{i}ln(p_{1}(\hat x_{i};\beta))+(1-y_{i})ln(p_{0}(\hat x_{i};\beta))&lt;/script&gt;
+&lt;br /&gt;
+剩下的在李宏毅的网课那边的写过了。&lt;/p&gt;
+
+&lt;h2 id=&quot;线性判别分析linear-discrimination-analysis&quot;&gt;线性判别分析(Linear Discrimination Analysis)&lt;/h2&gt;
+
+&lt;p&gt;投影到线上,使得同类的尽可能近,不同类的中心点尽可能远。
+&lt;script type=&quot;math/tex&quot;&gt;X_{i}第i类的样本集合，\mu _{i} 第i类的均值向量 \sum _{i} 协方差矩阵&lt;/script&gt;
+同类样本尽可能近就是使协方差之和尽可能小,&lt;script type=&quot;math/tex&quot;&gt;w^{T}\sum _{0}w+w^{T}\sum _{1}w&lt;/script&gt;
+距离尽可能大，就是类中心之间的距离大,&lt;script type=&quot;math/tex&quot;&gt;(w^{T}\mu _{0} - w^{T}\mu _{1})^{2}&lt;/script&gt;。
+&lt;br /&gt;
+最大化的目标是书中的J，化简过程比较简单，一个用到的证明在mathwarning。
+化简之后是:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J=\frac{w^{T}S_{b}w}{w^{T}S_{w}w}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;!-- 从w中提取出常数可以上下约掉，所以w的大小不影响J的大小，且$$S_{b} S_{w}$$是常数，所以可以调节w的大小使得$$w^{T}S_{w}w=1$$,即任意方向的w可以通过调节w的大小使得这个式子等于0。 --&gt;
+&lt;script type=&quot;math/tex&quot;&gt;S_{b} S_{w}&lt;/script&gt;都是实数对角阵所以都是特征值分开后相乘,所以结果与w的大小无关。选定任一方向后w再调节大小可以保持&lt;script type=&quot;math/tex&quot;&gt;w^{T}S_{w}w=1&lt;/script&gt;接着拉格朗日求导一次后可得3.37。又&lt;script type=&quot;math/tex&quot;&gt;S_{b}&lt;/script&gt;的定义可以看出&lt;script type=&quot;math/tex&quot;&gt;S_{b}w&lt;/script&gt;的方向,调整&lt;script type=&quot;math/tex&quot;&gt;\lambda&lt;/script&gt;可以让&lt;script type=&quot;math/tex&quot;&gt;S_{b}w=\lambda(\mu_{0}-\mu_{1})&lt;/script&gt;
+ 。求出结果.&lt;/p&gt;
+
+&lt;h3 id=&quot;多分类学习&quot;&gt;多分类学习&lt;/h3&gt;
+
+&lt;h4 id=&quot;ovo-ovr&quot;&gt;OVO OVR&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;OVO
+一对一,N个类,每个类两两配对,同时训练N(N-1)/2个分类器。对于新样本交给所有的分类器进行二分类,然后投票给胜者。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;OVR
+N个类就N个分类器,每次选择一个类出来作为正类,其余的类作为反类,新样本作N次分类。如果有多个类分为正类,则考虑置信度。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;可以看出OVO的分类器多但是每次训练的样本较少,OVR分类器少但是样本多。所以在类别很多的时候OVO的训练时间开销通常比OVR少。&lt;/p&gt;
+
+&lt;h4 id=&quot;纠错输出码&quot;&gt;纠错输出码&lt;/h4&gt;
+&lt;p&gt;唔……….&lt;/p&gt;
+
+&lt;h3 id=&quot;类别不平衡&quot;&gt;类别不平衡&lt;/h3&gt;
+&lt;p&gt;对于预测正类的纪律y,当&lt;script type=&quot;math/tex&quot;&gt;\frac{y}{1-y}=&gt;\frac{m^{+}}{m^{-}}&lt;/script&gt;也就是&lt;script type=&quot;math/tex&quot;&gt;\frac{y}{1-y} \frac{m^{-}}{m^{+}}&gt;=1&lt;/script&gt;但这有一个前提是必须是无偏采样,也就是说观测几率就是实际的几率。
+&lt;br /&gt;
+现存的三大做法:欠采样(去掉多的),过采样(增加少的),阀值移动(基于原始数据进行学习,在训练好的分类器上用上式进行再缩放)。&lt;/p&gt;
+</description>
+        <pubDate>Fri, 26 Jul 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/linearModel.html</link>
+        <guid isPermaLink="true">/watermelon/linearModel.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
+    
+      <item>
+        <title>math warning</title>
+        <description>&lt;h2 id=&quot;梯度&quot;&gt;梯度&lt;/h2&gt;
+&lt;p&gt;从定义一步步出发&lt;/p&gt;
+
+&lt;h3 id=&quot;偏导数&quot;&gt;偏导数&lt;/h3&gt;
+&lt;p&gt;所谓偏导数，就是多元函数中，对于一个变量求导数，此时其余变量当作常量，直观地看就是函数在某一点沿着x方向的变化率，也就是说在这一点沿着x方向函数会增大多少。&lt;/p&gt;
+
+&lt;h3 id=&quot;方向导数&quot;&gt;方向导数&lt;/h3&gt;
+&lt;p&gt;顾名思义，跟偏导数相似，不过不是仅仅限于某个轴方向。回忆高中的物理分运动的思想，函数沿着某个方向的变化，可以分解成（此处当作3维）xyz三个方向的运动，从上面偏导数可以得到三个轴方向变化率，那么
+ds=(dx,dy,dz)分解成三个方向。即&lt;script type=&quot;math/tex&quot;&gt;ds=(dscos\alpha,dscos\beta,dscos\gamma)&lt;/script&gt;
+那么f的变化率就是&lt;script type=&quot;math/tex&quot;&gt;ds\cdot(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;当ds的方向跟三个偏导数组成的方向一致时，那么f的变化率最大。即:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(cos\alpha,cos\beta,cos\gamma)=c\cdot (\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})&lt;/script&gt;
+
+&lt;p&gt;由此可得到结论约束曲面与该曲面的梯度正交，例如：&lt;br /&gt;
+g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲面的切面方向与各个方向的偏导数的内积为0，即该曲面的切面方向与梯度(与各个方向的偏导数方向一样)内积为0，故正交。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;拉格朗日乘数&quot;&gt;拉格朗日乘数&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E6%95%B0&quot;&gt;维基百科&lt;/a&gt;
+&lt;a href=&quot;https://www.zhihu.com/question/38586401&quot;&gt;知乎&lt;/a&gt;
+此处说明一下如果两条线不是相切(梯度方向在同一直线上)就不会是极值点.在相切的点两个曲线的交点处(x,y)的梯度方向一致,又因为g是条件,所以此时在(x,y)的无穷小邻域内f沿着g的线走那么他的增量肯定为0(因为与梯度垂直),所以该点是条件极值点.同理如果不是相切那么f沿着g走增量不为0不是条件极值.根据梯度方向一致可知:(或看书本B1也可以理解)&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\frac{\partial f}{\partial x}}{\frac{\partial g}{\partial x}}=\frac{\frac{\partial f}{\partial y}}{\frac{\partial g}{\partial y}}=\lambda&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;L=f-\lambda g&lt;/script&gt;
+
+&lt;p&gt;书中的6.8式中令&lt;script type=&quot;math/tex&quot;&gt;\alpha &gt;0&lt;/script&gt;是为了排除那么在g&amp;lt;0的情况下存在比其小的值的相切点(书中是要求最值,排除个别极值是可行的).
+&lt;br /&gt;
+记住上式中拉格朗日常数因子的正负&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;矩阵&quot;&gt;矩阵&lt;/h2&gt;
+
+&lt;h3 id=&quot;矩阵乘法计算技巧&quot;&gt;矩阵乘法计算技巧&lt;/h3&gt;
+&lt;p&gt;A乘以列 后面的列选A的列
+行乘以A 前面的行选A的行
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;矩阵求导&quot;&gt;矩阵求导&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.cnblogs.com/pinard/p/10825264.html&quot;&gt;我就是个彩币&lt;/a&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;h4 id=&quot;标量的链式法则&quot;&gt;标量的链式法则&lt;/h4&gt;
+&lt;p&gt;z是标量,yx是矢量,z对x求导,即z对x上每一个分量&lt;script type=&quot;math/tex&quot;&gt;x_{i}&lt;/script&gt;求导之后拼在一起,那么z对于&lt;script type=&quot;math/tex&quot;&gt;x_{i}&lt;/script&gt;求导为:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial z}{\partial x_{i}}=\sum_{k}^{m}\frac{\partial z}{\partial y_{k}}\frac{\partial y_{k}}{\partial x_{i}}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+可以看到x每一个的每一个分量都是z对y求导之后与y对x的分量求导的结果相乘，那么后面的y对x的分量拼起来就是结果了，所以左边是一个
+&lt;script type=&quot;math/tex&quot;&gt;\frac{\partial z}{\partial y_{k}}&lt;/script&gt;
+右边是一个各个
+&lt;script type=&quot;math/tex&quot;&gt;x_{i}&lt;/script&gt;
+求导之后出来的分量组成的矩阵，即矢量y对矢量x求导的矩阵。这里还需要对其做一下转至使得他们符合矩阵相乘的定义，但不影响结果了，对准位置就可以。就可以得到&lt;a href=&quot;https://www.cnblogs.com/pinard/p/10825264.html&quot;&gt;这里&lt;/a&gt;的这个公式。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial z}{\partial y_{1}}=(\frac{\partial y_{n}}{\partial y_{n-1}} \frac{\partial y_{n-1}}{\partial y_{n-2}} ...\frac{\partial y_{2}}{\partial y_{1}})^{T}\frac{\partial z}{\partial y_{n}}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+那么书上的式子,
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{w}=(y-Xw)^{T}(y-Xw)=z^{T}z&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial E_{w}}{\partial w}=\frac{\partial E_{w}}{\partial z} \frac{\partial z}{\partial w}=-X*2z&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+上式定义法可以证z对w的导数&lt;/p&gt;
+
+&lt;h3 id=&quot;对角矩阵的性质&quot;&gt;对角矩阵的性质&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;必有n个特征值可对角化.&lt;/li&gt;
+  &lt;li&gt;书中P61的分母必不为0。&lt;script type=&quot;math/tex&quot;&gt;w^{T}(\sum _{0})w&lt;/script&gt;必定大于等于0(零矩阵或矢量都在特征值为0的维度),因为对角矩阵必有n个特征值,w可以分开在n个维度上的分量与对角阵相乘之后在相加,又因为正交所以不同维度的乘积必为0.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;部分计算记忆&quot;&gt;部分计算记忆&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;(\alpha ^{T}\beta)^{2}=\alpha ^{T}\beta\beta ^{T}\alpha，\alpha \beta 都是列向量&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial z^{T}z}{\partial z}=2z(z为矢量)&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;几何&quot;&gt;几何&lt;/h2&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;w^Tx+b=0&lt;/script&gt;表示一个超平面,向量x符合x与&lt;script type=&quot;math/tex&quot;&gt;w^T&lt;/script&gt;点乘之后结果都是-b,那么x在&lt;script type=&quot;math/tex&quot;&gt;w^T&lt;/script&gt;方向上的分量一样大.那么&lt;script type=&quot;math/tex&quot;&gt;w^Tx+b&gt;0&lt;/script&gt;与&lt;script type=&quot;math/tex&quot;&gt;w^Tx+b&gt;0&lt;/script&gt;的点刚好分布在超平面的两边.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 25 Jul 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/mathWarning.html</link>
+        <guid isPermaLink="true">/watermelon/mathWarning.html</guid>
+        
+        <category>math</category>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
+    
+      <item>
+        <title>assessment and selection of model</title>
+        <description>&lt;h2 id=&quot;经验误差与过拟合&quot;&gt;经验误差与过拟合&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;训练集上的误差:训练误差&lt;/li&gt;
+  &lt;li&gt;新样本上的误差:泛化误差&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;评估方法&quot;&gt;评估方法&lt;/h2&gt;
+&lt;h3 id=&quot;留出法&quot;&gt;留出法。&lt;/h3&gt;
+&lt;p&gt;注意要尽可能保持数据分布的一致性。例如在分类中保持类别比例相似。进行多次划分重复实验&lt;/p&gt;
+&lt;h3 id=&quot;交叉验证法&quot;&gt;交叉验证法。&lt;/h3&gt;
+&lt;p&gt;同样尽可能保持数据分布的一致性，分层采样。分类数k==样本数m时退化为leave one out。&lt;/p&gt;
+&lt;h3 id=&quot;自助法&quot;&gt;自助法。&lt;/h3&gt;
+&lt;p&gt;对于数据集D有放回抽样m次得到训练集E，由下式可知最少约36.8%的样本未在E中出现过。D\E用作测试集。&lt;center&gt;$$
+\lim_{x\to 0}(1-\frac{1}{m})^{m}=\frac{1}{e}\approx0.368$$&lt;/center&gt;&lt;/p&gt;
+&lt;p&gt;该方法适用于数据集较小的情况。但因为改变了初始数据集，这会引用估计误差。&lt;/p&gt;
+&lt;!-- 上面莫名其妙没了个p标签自己套上去。汗！ --&gt;
+
+&lt;h3 id=&quot;调参与最终模型&quot;&gt;调参与最终模型。&lt;/h3&gt;
+&lt;p&gt;原始数据集分为训练集和测试集。训练集分出验证集用于调参。训练集用于训练模型，测试集评估泛化性能。最后的模型用全部data训练。&lt;/p&gt;
+
+&lt;h2 id=&quot;性能度量&quot;&gt;性能度量&lt;/h2&gt;
+
+&lt;h3 id=&quot;查准查全率&quot;&gt;查准查全率&lt;/h3&gt;
+&lt;p&gt;markdown表格不能合并单元格，随后补新的&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;第一个字母代表了预测的结果对了还是错了。&lt;/li&gt;
+  &lt;li&gt;第二个字母代表预测的结果，预测是反还是正。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;真实情况&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;预测&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;结果&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;正例&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;反例&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;正例&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;TP&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;FN&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;反例&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;FP&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;TN&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;查准率P（猜测是正的对了多少）和查全率R（猜测是正的当中正例占总数正例的比例）&lt;/p&gt;
+&lt;center&gt;
+$$
+P=\frac{TP}{TP+FP}
+$$
+&lt;/center&gt;
+&lt;center&gt;
+$$
+R=\frac{TP}{TP+FN}
+$$
+&lt;/center&gt;
+
+&lt;h3 id=&quot;p-r曲线图&quot;&gt;P-R曲线图&lt;/h3&gt;
+
+&lt;p&gt;根据预测结果对样例排序。依次划分前面的正例后面的反例可以得到P-R曲线图。为了方便书中的图（2.3）是光滑的，实际曲线常是非光滑的。&lt;br /&gt;
+例如新进取的样本是正例那个分子分母都加1，P和R都会增大。如果是反例，P减小但R是不变的。
+&lt;br /&gt;
+分类器的P-R曲线完全包住另一个的可以断言前者好。
+&lt;br /&gt;
+BEP就是P=R的点。&lt;br /&gt;
+F1什么的又长又臭。记住F1是基于调和平均定义的就算了&lt;/p&gt;
+&lt;center&gt;
+$$
+\frac{1}{F1}=\frac{1}{2}(\frac{1}{P}+\frac{1}{R})
+$$
+&lt;/center&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;F_{B}&lt;/script&gt;则是加权调和。&lt;/p&gt;
+
+&lt;center&gt;
+&lt;br /&gt;
+$$
+F_{B}=\frac{1}{1+B^{2}}(\frac{1}{P}+\frac{B^{2}}{R})
+$$
+
+&lt;/center&gt;
+
+&lt;h3 id=&quot;roc与auc&quot;&gt;ROC与AUC&lt;/h3&gt;
+
+&lt;p&gt;TPR和FPR这个东西记住真的不容易，总结三点&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;首先一点分母一定是样本的全部正例或者反例。&lt;/li&gt;
+  &lt;li&gt;前两个字母所代表的样本真实结果是什么分母就是什么&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;所以TPR代表预测为正的占了全部正例的比例，FPR代表反力被预测为正例占全部反例的比例。同样根据预测结果对样例排序。依次划分前面的正例后面的反例，二者递增（分母不变一直分子增大）。
+&lt;br /&gt;
+依上面的过程以FPR为横轴TPR为纵轴可得RPC曲线。
+曲线是梯形图，分三种情况:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;新加入的点是正例，曲线树直向上。&lt;/li&gt;
+  &lt;li&gt;新加入的点是反例，曲线平行向右。&lt;/li&gt;
+  &lt;li&gt;划分点有两个点一个是反一个是正（这是存在的，因为预测结果是实数值排序，一个反例和一个正例刚好重合，后面的AUC的计算的二分之一就是因为这个。）。斜线一段，斜率由正例和反例的数量决定。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;同样ROC曲线包围另一个是前者性能好。
+AUC就是ROC包围的面积，公式的推算写在了书上。&lt;/p&gt;
+
+&lt;h3 id=&quot;remain&quot;&gt;remain&lt;/h3&gt;
+
+&lt;p&gt;剩下的代价敏感还好理解，但是那个基于分布的完全不知所云找不到现实案例无法理解，图2.5不动为什么那个就是期望总体代价，后面的比较检验的二项分布的假设检验不会，后面的都没看&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 23 Jul 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/assessAndSelect.html</link>
+        <guid isPermaLink="true">/watermelon/assessAndSelect.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
+    
+      <item>
+        <title>novel spider 2nd</title>
+        <description>&lt;h2 id=&quot;analysis&quot;&gt;analysis&lt;/h2&gt;
+&lt;p&gt;爬下面这个小说&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://big5.quanben5.com/n/zhongshengzhichaojifuerdai/xiaoshuo.html&quot;&gt;http://big5.quanben5.com/n/zhongshengzhichaojifuerdai/xiaoshuo.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;一开始直接xpath一写就搞定很开心，但是发现每一章小说都只有前面一半。打开其中一章的html，F12，然后查看网络，刷新。
+&lt;br /&gt;
+第一个就是&lt;strong&gt;get http://big5.quanben5.com/n/yidaoguantu/25859.html&lt;/strong&gt;
+&lt;br /&gt;
+发现返回的html文档中小说内容确实只有一半，往下找看到有一个post请求，返回的就是下一半小说的内容，然后看他的参数。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pinyin	yidaoguantu
+content_id	25859
+sky	1b76786fcfca2a471a8fc4463513f5d8
+t	1551849855
+_type	ajax
+rndval	1551836182529
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;其中多数参数可以理解含义。
+但是有两个看着像是时间戳的东西，和一个叫做sky的参数。不管了先试试是不是时间戳。post之后拿到了一个标准的404。病急乱求医复制sky参数在查看器。找到一段script&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ajax_post('book','ajax_content','pinyin','yidaoguantu','content_id','25859','sky','1b76786fcfca2a471a8fc4463513f5d8','t','1551849855')
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;然后找到了ajax_post的函数描述&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function ajax_post(){
+	var c = arguments[0] ? arguments[0] : '';
+	var a = arguments[1] ? arguments[1] : '';
+	for (var i=2;i&amp;lt;arguments.length;i=i+2){
+		var field_name=arguments[i] ? arguments[i] : '';
+		var field_value=arguments[i+1] ? arguments[i+1] : '';
+		ajax.setVar(field_name,field_value);
+	}
+	ajax.setVar('_type','ajax');
+	ajax.requestFile =_cms+'/index.php?c='+c+'&amp;amp;a='+a;
+	ajax.method='POST';
+	ajax.onCompletion = whenCompleted;
+	ajax.onError = whenError;
+	ajax.runAJAX();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;但是还是少一个叫rndval的参数,再search ajax可以在&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;script type=&quot;text/javascript&quot; src=&quot;/app_quanben5/view/skin/ajax.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;找到ajax这个对象的定义&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function ajax(file) {
+this.xmlhttp = null;
+this.resetData=function(){this.method=&quot;POST&quot;;this.queryStringSeparator=&quot;?&quot;;this.argumentSeparator=&quot;&amp;amp;&quot;;this.URLString=&quot;&quot;;this.encodeURIString=true;this.execute=false;this.element=null;this.elementObj=null;this.requestFile=file;this.vars=new Object();this.responseStatus=new Array(2)};
+this.resetFunctions=function(){this.onLoading=function(){};this.onLoaded=function(){};this.onInteractive=function(){};this.onCompletion=function(){};this.onError=function(){};this.onFail=function(){}};
+this.reset = function() {this.resetFunctions();this.resetData();};
+this.createAJAX=function(){try{this.xmlhttp=new ActiveXObject(&quot;Msxml2.XMLHTTP&quot;)}catch(e1){try{this.xmlhttp=new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;)}catch(e2){this.xmlhttp=null}}if(!this.xmlhttp){if(typeof XMLHttpRequest!=&quot;undefined&quot;){this.xmlhttp=new XMLHttpRequest()}else{this.failed=true}}};
+this.setVar = function(name,value){this.vars[name] = Array(value, false);};
+this.encVar = function(name,value,returnvars){if(true == returnvars){return Array(encodeURIComponent(name),encodeURIComponent(value));}else{this.vars[encodeURIComponent(name)] = Array(encodeURIComponent(value), true);}}
+this.processURLString=function(string,encode){encoded=encodeURIComponent(this.argumentSeparator);regexp=new RegExp(this.argumentSeparator+&quot;|&quot;+encoded);varArray=string.split(regexp);for(i=0;i&amp;lt;varArray.length;i++){urlVars=varArray[i].split(&quot;=&quot;);if(true==encode){this.encVar(urlVars[0],urlVars[1])}else{this.setVar(urlVars[0],urlVars[1])}}}
+this.createURLString=function(urlstring){if(this.encodeURIString&amp;amp;&amp;amp;this.URLString.length){this.processURLString(this.URLString,true)}if(urlstring){if(this.URLString.length){this.URLString+=this.argumentSeparator+urlstring}else{this.URLString=urlstring}}this.setVar(&quot;rndval&quot;,new Date().getTime());urlstringtemp=new Array();for(key in this.vars){if(false==this.vars[key][1]&amp;amp;&amp;amp;true==this.encodeURIString){encoded=this.encVar(key,this.vars[key][0],true);delete this.vars[key];this.vars[encoded[0]]=Array(encoded[1],true);key=encoded[0]}urlstringtemp[urlstringtemp.length]=key+&quot;=&quot;+this.vars[key][0]}if(urlstring){this.URLString+=this.argumentSeparator+urlstringtemp.join(this.argumentSeparator)}else{this.URLString+=urlstringtemp.join(this.argumentSeparator)}}
+this.runResponse = function() {eval(this.response);}
+this.runAJAX=function(urlstring){if(this.failed){this.onFail()}else{this.createURLString(urlstring);if(this.element){this.elementObj=document.getElementById(this.element)}if(this.xmlhttp){var self=this;if(this.method==&quot;GET&quot;){totalurlstring=this.requestFile+this.queryStringSeparator+this.URLString;this.xmlhttp.open(this.method,totalurlstring,true)}else{this.xmlhttp.open(this.method,this.requestFile,true);try{this.xmlhttp.setRequestHeader(&quot;Content-Type&quot;,&quot;application/x-www-form-urlencoded&quot;)}catch(e){}}this.xmlhttp.onreadystatechange=function(){switch(self.xmlhttp.readyState){case 1:self.onLoading();break;case 2:self.onLoaded();break;case 3:self.onInteractive();break;case 4:self.response=self.xmlhttp.responseText;self.responseXML=self.xmlhttp.responseXML;self.responseStatus[0]=self.xmlhttp.status;self.responseStatus[1]=self.xmlhttp.statusText;if(self.execute){self.runResponse()}if(self.elementObj){elemNodeName=self.elementObj.nodeName;elemNodeName.toLowerCase();if(elemNodeName==&quot;input&quot;||elemNodeName==&quot;select&quot;||elemNodeName==&quot;option&quot;||elemNodeName==&quot;textarea&quot;){self.elementObj.value=self.response}else{self.elementObj.innerHTML=self.response}}if(self.responseStatus[0]==&quot;200&quot;){self.onCompletion()}else{self.onError()}self.URLString=&quot;&quot;;break}};this.xmlhttp.send(this.URLString)}}};
+this.reset();
+this.createAJAX();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;注意这一行，最后一个未知参数找到确实是时间戳
+&lt;strong&gt;this.setVar(“rndval”,new Date().getTime());&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;##code&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import reqfun,re
+import lxml,time,requests,random
+ips=reqfun.getip()
+source=r'http://big5.quanben5.com/n/zhongshengzhichaojifuerdai/xiaoshuo.html'
+index=r'http://big5.quanben5.com/'
+a=reqfun.myget(source,proxies=random.choice(ips))
+a.encoding='utf8'
+b=lxml.etree.HTML(a.text)
+c=b.xpath(r'//ul[@class=&quot;list&quot;]/li/a')
+cc=[index+i.attrib['href'] for i in c]
+titles=[i.text for i in b.xpath(r'//ul[@class=&quot;list&quot;]/li/a/span')]
+headers={
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0',
+    'host':'big5.quanben5.com',
+    'DNT':'1',
+    'Content-Type': 'application/x-www-form-urlencoded'
+}
+def getText(href):
+    ret=r&quot;ajax_post\('book','ajax_content','pinyin','zhongshengzhichaojifuerdai','content_id','(\d\d\d\d)','sky','(.+?)','t','(\d{10})'&quot;
+    global headers
+    print(&quot;getting params &quot;)
+    while True:
+        response=reqfun.myget(href,proxies=random.choice(ips))
+        if response!=None:
+            break
+        print(&quot;return None ,sleeping now,rework after 60s&quot;)
+        time.sleep(60)
+    response.encoding='utf8'
+    par=re.findall(ret,response.text)[0]
+    ss=&quot;rndval=%s&quot;%(str(int(time.time())+2833)+str(random.randint(100,999)))
+    data='pinyin=zhongshengzhichaojifuerdai&amp;amp;content_id=%s&amp;amp;sky=%s&amp;amp;t=%s&amp;amp;_type=ajax&amp;amp;'%par
+    data+=ss
+    headers['Referer']=href
+    while True:
+        # response=requests.post(r'http://big5.quanben5.com/index.php?c=book&amp;amp;a=ajax_content',headers=headers,data=data,proxies={'http':'http://127.0.0.1:8080'})
+        print(&quot;posting&quot;)
+        response=requests.post(r'http://big5.quanben5.com/index.php?c=book&amp;amp;a=ajax_content',headers=headers,data=data,proxies=random.choice(ips))
+        if response!=None:
+            break
+        print(&quot;return None ,sleeping now,rework after 60s&quot;)
+        time.sleep(60)
+    response.encoding='utf8'
+    content=response.text
+    content=content.replace('\xa0','')
+    content=content.replace('&amp;lt;p&amp;gt;','\n')
+    content=content.replace('&amp;lt;/p&amp;gt;','')
+    return content
+    
+def save(title,text,number):
+    try:
+        with open(r'D:\python\myCode\zuiguizhizheng\重生之超级富二代.txt','a',encoding='utf8')as f:
+            f.write('\n'+title+'\n')
+            f.write(text)
+        print('save sucess'+str(number)+'  '+title)
+    except Exception as e:
+        print(e,title,number)
+
+num=8
+while num&amp;lt;len(cc):
+    save(titles[num],getText(cc[num]),num)
+    num+=1
+    time.sleep(0.2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Wed, 06 Mar 2019 00:00:00 +0800</pubDate>
+        <link>/coding/novelSpider2nd.html</link>
+        <guid isPermaLink="true">/coding/novelSpider2nd.html</guid>
+        
+        <category>spider</category>
+        
+        <category>coding</category>
+        
+        
+        <category>coding</category>
+        
+      </item>
+    
+      <item>
+        <title>sudo python package not found</title>
+        <description>&lt;h2 id=&quot;problem&quot;&gt;problem&lt;/h2&gt;
+&lt;p&gt;由于用scapy发包要用到root权限，发现了问题。直接sudo的话会出现module not found的错误。但是我的却已经安装了scapy的google一下是用sudo之后的模块导入路径与之前不一样。细想也应该是这么个事。因为这些模块都是我普通用户用 &lt;strong&gt;pip3&lt;/strong&gt; &lt;strong&gt;–user&lt;/strong&gt;装的。
+&lt;br /&gt;
+在普通用户下执行下面的shell命令&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 -c &quot;import sys;print(sys.path)&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;
+输出&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;['', '/usr/lib64/python37.zip', '/usr/lib64/python3.7', '/usr/lib64/python3.7/lib-dynload', '/home/jianjian/.local/lib/python3.7/site-packages',  '/usr/local/lib64/python3.7/site-packages', '/usr/local/lib/python3.7/site-packages', '/usr/lib64/python3.7/site-packages', '/usr/lib/python3.7/site-packages']
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;在root用户下执行下面的shell命令&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 -c &quot;import sys;print(sys.path)&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;['', '/usr/lib64/python37.zip', '/usr/lib64/python3.7', '/usr/lib64/python3.7/lib-dynload', '/usr/local/lib64/python3.7/site-packages', '/usr/local/lib/python3.7/site-packages', '/usr/lib64/python3.7/site-packages', '/usr/lib/python3.7/site-packages']
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;solution&lt;/h2&gt;
+&lt;p&gt;在&lt;a href=&quot;https://python3-cookbook.readthedocs.io/zh_CN/latest/c10/p09_add_directories_to_sys_path.html&quot;&gt;python的官方文档&lt;/a&gt;找到一些关于path和import module的说明。
+&lt;br /&gt;
+我平时装的module都是在 &lt;strong&gt;/home/jianjian/.local/lib/python3.7/site-packages&lt;/strong&gt;这个目录里。在root权限下的python的sys.path是没有这个path的。
+我自己在~/.local/lib/python3/site-packages下面是建有.pth文件的。但我又不想把他装到系统级的python解释其里面。想到个方法就是在每个需要运用root权限的py文件的头两行就加入两行&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import time,sys
+sys.path.append('/home/jianjian/.local/lib/python3.7/site-packages')#  your path to site-packages
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;成功sudo&lt;/p&gt;
+</description>
+        <pubDate>Sat, 09 Feb 2019 00:00:00 +0800</pubDate>
+        <link>/linux/sudoPackage.html</link>
+        <guid isPermaLink="true">/linux/sudoPackage.html</guid>
+        
+        <category>linux</category>
+        
+        <category>python</category>
+        
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>error with virtual when update python</title>
+        <description>&lt;h2 id=&quot;problem&quot;&gt;problem&lt;/h2&gt;
+&lt;p&gt;之前用的fedora28python的版本还是3.6的时候建立了一个virtualenv的环境但是在升级fedora的时候，python3也升级了。
+导致virtualenv中的python出现问题。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;error while loading shared libraries: libpython3.6m.so.1.0: cannot open shared object file: No such file or directory
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;solve&quot;&gt;solve&lt;/h2&gt;
+&lt;p&gt;用ldd查看会发现软连接指向的文件没找到。估计是因为升级旧的连接库就删除掉了。google一下知道是连接库的问题。
+&lt;a href=&quot;https://forum.manjaro.org/t/virtualenv-issue-after-update-to-python-3-7/55462/4&quot;&gt;指路&lt;/a&gt;
+&lt;br /&gt;
+有两种做法&lt;/p&gt;
+&lt;h3 id=&quot;replace-old-python&quot;&gt;replace old python&lt;/h3&gt;
+&lt;p&gt;That is your issue. Please create a new environment as the given one is still looking for python 3.6. In this case it is your ~/virtualenvs/pelican/bin/python which is looking for the non existing lib-file.
+&lt;br /&gt;
+Quick fix would be to create a new one and copy the bin/python over and update that broken environment. Always do a backup, though.&lt;/p&gt;
+
+&lt;p&gt;就是用新的python另外建一个virtualenv，把里面的python复制到旧的里面代替它，这样新的就是指向python3.7的连接库了。&lt;/p&gt;
+&lt;h3 id=&quot;use-always-copy-or-pyenv&quot;&gt;use –always-copy or pyenv&lt;/h3&gt;
+&lt;p&gt;You could use following parameter when creating your new virtualenv, when you want to decide when it’s time to upgrade your virtualenv to a newer python version.
+&lt;br /&gt;
+ –always-copy         Always copy files rather than symlinking.
+&lt;br /&gt;
+但是我的virtualenv用–always-copy会出错google了一顿也没找到答案
+Another approach is with pyenv, where you can install different python versions and then with mkvirtualenv you point to a specific python version.
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;for example:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pyenv install 3.6.6 
+mkvirtualenv -p ~/.pyenv/versions/3.6.6/bin/python testenv     
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Thu, 07 Feb 2019 00:00:00 +0800</pubDate>
+        <link>/linux/virtualenv.html</link>
+        <guid isPermaLink="true">/linux/virtualenv.html</guid>
+        
+        <category>linux</category>
+        
+        <category>python</category>
+        
+        
+        <category>linux</category>
+        
+      </item>
+    
+  </channel>
+</rss>

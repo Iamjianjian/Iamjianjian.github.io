@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/machine%20learning/deepLearning.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>deep learning</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="日常review插入review，一开始我们要做分类，通过classification知道二元分类的时候强行用一样的covariance最终找到的funciton是线性的。之后我们尝试直接找到w，b，而不是先假设概率分布再通过极大拟然估计求分布。之后我们把一个二元分类，之前知道p(c|x)=而z是线性的。然后f是...">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">deep learning</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="14 Jan 2019" itemprop="datePublished">Jan 14 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">ML</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>没有什么详细的内容好像比较简单</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="日常review">日常review</h2>
+<p>插入review，一开始我们要做分类，通过classification知道二元分类的时候强行用一样的covariance最终找到的funciton是线性的。之后我们尝试直接找到w，b，而不是先假设概率分布再通过极大拟然估计求分布。之后我们把一个二元分类，之前知道p(c|x)=<script type="math/tex">\frac{1}{1+e^{-z}}</script>而z是线性的。
+<img src="/img/logisticRegression/z.png" alt="z的表达式" />
+然后f是z的simog就是概率，data的概率相乘通过数学转换等价与于求cross entropy。然后通过gradient descent求最佳的function偏微分之后形式跟linear regression是一致的。之后对于多元分类，(老师没给出推到)说可以通过跟classification一样通过假设一样的covariance matrix，求到p{c|x}就是z做softmax得到的结果y（这里的的y是未知的他只是一个表达式）.最后用loss function也是跟二元的一样做cross entropy,之后就是求偏微分找最好的function了。</p>
+
+<h2 id="three-steps">three steps</h2>
+<p><img src="/img/deepLearning/threeSteps.png" alt="threeSteps" /></p>
+
+<h3 id="define-a-set-of-functions-也就是一个neuron-network">define a set of functions 也就是一个neuron network</h3>
+<p>把logistic regression（也可以不用logistic）连接在一起，一个logistic regression就是一个neuron，所有连接起来就是一个neuron network。每个logistic regression都有自己的parameter(weight,bias)，所有这些parameter就是neuron network的parameter。至于怎么连接是手动连接的，要自己设计。例如fully connect feedforward network。
+<img src="/img/deepLearning/fullyconnectfeedforwardnetwork.png" alt="fullyconnectfeedforwardnetwork" />
+我们定好一个neuron network的连接结构也就定好了一个function set，当我们定好了neuron network中每个logistic regression 的parameter ，那么我们的function就定下来了。通常用矩阵来做运算，这样可以用gpu加速。除了输入的data那一层和输出结果的那一层，中间的都是hiddenlayer。hidden对feature加工给最后一层的output layer作为输入。最后一层output layer司机哦一个multi-class classifier。多少层和多少个neuron只可以靠经验和直觉</p>
+<h3 id="goodness-of-a-function-cross-entropy">goodness of a function cross entropy</h3>
+<p>这一步就要找loss function拉，因为最后一层是multi class classifier,所以跟上节课的一样对y跟y hat用cross entropy就可以了。
+<img src="/img/deepLearning/loss.png" alt="loss" /></p>
+<h3 id="pick-the-best-function">pick the best function</h3>
+<p>emmmmmm……gradient descent</p>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=deep learning@&amp;url=/machine%20learning/deepLearning.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/machine%20learning/deepLearning.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/machine%20learning/deepLearning.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>

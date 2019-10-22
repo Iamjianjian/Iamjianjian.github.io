@@ -6,9 +6,75 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 19 Aug 2019 18:21:28 +0800</pubDate>
-    <lastBuildDate>Mon, 19 Aug 2019 18:21:28 +0800</lastBuildDate>
+    <pubDate>Tue, 22 Oct 2019 12:23:32 +0800</pubDate>
+    <lastBuildDate>Tue, 22 Oct 2019 12:23:32 +0800</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
+    
+      <item>
+        <title>writeup</title>
+        <description>&lt;h2 id=&quot;第一题签到题&quot;&gt;第一题签到题&lt;/h2&gt;
+
+&lt;p&gt;F12选取元素如下图:
+&lt;img src=&quot;/img/temp/1.png&quot; alt=&quot;1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;虽然我Html学得菜但是还是知道disable是不行的意思,去掉这个属性.&lt;/p&gt;
+
+&lt;h2 id=&quot;第二题cat&quot;&gt;第二题Cat&lt;/h2&gt;
+
+&lt;p&gt;直接F12发现是一个png图片,找个黑背景把猫贴上去就有flag
+&lt;img src=&quot;/img/temp/2.png&quot; alt=&quot;1&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;第三题2077&quot;&gt;第三题2077&lt;/h2&gt;
+
+&lt;p&gt;进去发现html的数字在变,F12找js&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(function () {
+      var now = new Date().toUTCString()
+      var main = document.getElementsByTagName('main')[0]
+      var ua = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) HEICORE/49.1.2623.213 Safari/537.36'
+      fetch('flag.txt', {method: 'POST', headers: {'If-Unmodified-Since': now, 'User-Agent': ua}}).then(function (res) {
+        if (res.ok) {
+          res.text().then(function (text) {
+            main.innerText = 'The flag is &quot;' + text + '&quot;.'
+          })
+        } else {
+          var lastModified = res.headers.get('Last-Modified')
+          setInterval(function () {
+            var diff = (new Date(lastModified).getTime() - Date.now()) / 1000
+            var diffSeconds = Math.floor(diff % 86400), diffDays = Math.floor(diff / 86400)
+            main.innerText = 'Not yet! The competition will start after ' + diffDays + ' days and ' + diffSeconds + ' seconds.'
+          }, 1000)
+        }
+      })
+    })()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;稍微看一下,if那块代码是打印出来flag,else在改时间.js没学过还是看懂了res应该是fetch返回的结果.可以看到fetch参数的请求头有个&lt;strong&gt;If-Unmodified-Since&lt;/strong&gt; ,ua就没什么可以怀疑的了.
+&lt;br /&gt;
+所以F12调到网络看见有flag.txt请求返回失败.
+&lt;img src=&quot;/img/temp/31.png&quot; alt=&quot;1&quot; /&gt;
+再次感叹一下老夫英语实在太牛逼了,一个过去式&lt;strong&gt;modified&lt;/strong&gt;,一个否定过去式&lt;strong&gt;Unmodified&lt;/strong&gt;.编辑重发把 &lt;strong&gt;If-Unmodified-Since&lt;/strong&gt;的日期改到2077年10月之后.返回flag
+&lt;img src=&quot;/img/temp/32.png&quot; alt=&quot;1&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;第五题网页读取&quot;&gt;第五题网页读取&lt;/h2&gt;
+
+&lt;p&gt;觉得这是在考python
+答案如下:
+&lt;br /&gt;
+&lt;strong&gt;http://web1/flag?@example.com&lt;/strong&gt;
+&lt;br /&gt;
+了解一下url的格式吧,?后面跟的好像是参数,?前面的用来拿flag,后面的用来欺骗.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 22 Oct 2019 00:00:00 +0800</pubDate>
+        <link>/introduce/writeup.html</link>
+        <guid isPermaLink="true">/introduce/writeup.html</guid>
+        
+        <category>ctf</category>
+        
+        
+        <category>introduce</category>
+        
+      </item>
     
       <item>
         <title>support vector</title>
@@ -932,90 +998,6 @@ mkvirtualenv -p ~/.pyenv/versions/3.6.6/bin/python testenv
         
         
         <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>novel spider</title>
-        <description>&lt;h2 id=&quot;劳模&quot;&gt;劳模&lt;/h2&gt;
-&lt;p&gt;过了一年回到家。发现一件惊悚的事情。我妈竟然用手机看小说。更惊悚的是她在微信公众号看了。这中公众号多如牛毛，其实都不是原创，都是从别人那里爬下来，然后让这群傻逼大妈有钱的充钱买没钱的来签到。更更家惊悚的是老妈竟然 &lt;strong&gt;连续&lt;/strong&gt;&lt;strong&gt;连续&lt;/strong&gt;&lt;strong&gt;连续&lt;/strong&gt; 签到了 &lt;strong&gt;200&lt;/strong&gt; &lt;strong&gt;200&lt;/strong&gt; &lt;strong&gt;200&lt;/strong&gt; 多天。我拿过来一看还是那种不太健康的言情小说。我的天啊都100多斤的人了，还有一颗少女心稳重点ok？看着她的连续200多天签到我都于心不忍。&lt;/p&gt;
-
-&lt;h2 id=&quot;spider&quot;&gt;spider&lt;/h2&gt;
-&lt;p&gt;一般小说的网页结构都比较简单。就是一个目录，目录下面就是第几张第几张。&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source=r'https://www.kanshu.la/75/75996/'
-a=reqfun.myget(source)
-a.encoding='utf8'
-b=lxml.etree.HTML(a.text,parser=lxml.etree.HTMLParser())#用HTMLParser的容错能力强
-c=b.xpath(r'/html/body/div[1]/div[5]/div[2]/div/dl/dd/a')#xpath直接用浏览器F12 copy下来copy自己的正确的
-cc=[index+i.attrib['href'] for i in c][14:]#拿到标签的href属性就可以组合成每一章小说的连接了
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;拿到没一章的连接之后，直接打开xpath把title跟内容拿下来就可以了&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def getText(href,titleXpath,contentXpath):
-    response=reqfun.myget(href)
-    response.encoding='utf8'
-    #用HTMLParser 的容错性比较高
-    lt=lxml.etree.HTML(response.text,parser=lxml.etree.HTMLParser())
-    title=lt.xpath(titleXpath)[0].text
-    content=lt.xpath(contentXpath)[0].xpath('string(.)')
-    return (title,content)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;然后就是保存，注意可能有一些字符的无法decode的，如果有就直接replace成’‘就可以了&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def save(title,text,number,filePath):
-    try:
-        with open(filePath,'a',encoding='utf8')as f:
-            f.write('\n'+title+'\n')
-            f.write(text)
-        print('save sucess'+str(number)+'  '+title)
-    except Exception as e:
-        print(e,title,number)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;code&quot;&gt;code&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import reqfun
-import lxml
-def getText(href,titleXpath,contentXpath):
-    response=reqfun.myget(href)
-    response.encoding='utf8'
-    #用HTMLParser 的容错性比较高
-    lt=lxml.etree.HTML(response.text,parser=lxml.etree.HTMLParser())
-    title=lt.xpath(titleXpath)[0].text
-    content=lt.xpath(contentXpath)[0].xpath('string(.)')
-    return (title,content)
-    
-def save(title,text,number,filePath):
-    try:
-        with open(filePath,'a',encoding='utf8')as f:
-            f.write('\n'+title+'\n')
-            f.write(text)
-        print('save sucess'+str(number)+'  '+title)
-    except Exception as e:
-        print(e,title,number)
-
-
-def download(source,hxp,txp,cxp,fp):
-    source=r'https://www.kanshu.la/75/75996/'
-    index=r'https://www.kanshu.la/'
-    a=reqfun.myget(source)
-    a.encoding='utf8'
-    b=lxml.etree.HTML(a.text,parser=lxml.etree.HTMLParser())
-    # c=b.xpath(r'/html/body/div[1]/div[5]/div[2]/div/dl/dd/a')
-    c=b.xpath(hxp)
-    cc=[index+i.attrib['href'] for i in c][14:]
-    num=0
-    while num&amp;lt;len(cc):
-        save(*getText(cc[num],txp,cxp),num,fp)
-        num+=1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-        <pubDate>Wed, 06 Feb 2019 00:00:00 +0800</pubDate>
-        <link>/coding/novelSpider.html</link>
-        <guid isPermaLink="true">/coding/novelSpider.html</guid>
-        
-        <category>spider</category>
-        
-        <category>coding</category>
-        
-        
-        <category>coding</category>
         
       </item>
     

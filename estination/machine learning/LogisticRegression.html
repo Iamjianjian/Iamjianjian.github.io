@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/machine%20learning/LogisticRegression.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Logistic Regression</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="review老规矩review，这是我看了第一遍之后在回来做的review，蓝瘦×3!      linear regression,之前一直记的都是一个参数的linear regression。这里review一下多个参数的function,，看清楚了这里的输入x是vector。Loss Function,。用...">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">Logistic Regression</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="12 Jan 2019" itemprop="datePublished">Jan 12 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">ML</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>Logistic Regression 第五课，又要回忆之前的知识要不学不下去，感觉难受得跟狗一样</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="review">review</h2>
+<p>老规矩review，这是我看了第一遍之后在回来做的review，蓝瘦×3!</p>
+<ol>
+  <li>
+    <p>linear regression,之前一直记的都是一个参数的linear regression。这里review一下多个参数的function,<script type="math/tex">f(x)=\Sigma w_{i}x_{i}</script>，看清楚了这里的输入x是vector。Loss Function,<script type="math/tex">L(w,b)=(\hat y-(w_{i}*x_{i}+b))^{2}</script>。用 gradient descent 求偏导数update参数,<script type="math/tex">w_{i+1}=w_{i}-\eta \frac{\partial f(x)}{\partial w_{i}}\|_{w=w_{i},b=b{i}}</script> 。看清楚这里的updata过程的对L求偏导的结果<script type="math/tex">-2(\hat{y}-f(x))   \frac{\partial f}{\partial w_{i}}</script>,而<script type="math/tex">\frac{\partial f}{\partial w}=x</script>。</p>
+  </li>
+  <li>
+    <p>回忆上次的classification，抽样知道P(c1),P(c2),令p(x|c1)为多维正太分布<script type="math/tex">f_{\mu,\Sigma}(x)=\frac{1}{(2\pi)^{\frac{D}{2}}}\frac{1}{\left \| \Sigma \right \|^{\frac{1}{2}}}exp\{-\frac{1}{2}(x-\mu)\Sigma ^{-1}\} (x-\mu)</script>(note：左边这个公式的sigma是一个绝对值,那是绝对值号应该是一个竖线),此处的covariance<script type="math/tex">\Sigma</script>是矩阵,x <script type="math/tex">\mu</script>都是vector。令两个class的<script type="math/tex">\Sigma</script>一致，求出mean及 covariance,那么gaussian就出来了。对于每一个数据代入函数之后都会得到一个概率p(c|x)，如果大于0.5就是class1否则class2(二元分类)。</p>
+  </li>
+  <li>
+    <p>上次classification最后欠下的债，最后的warning of math，以为例行的听不懂第二天的太阳还是会升起来，但是最后的结论很重要，如果我们通过数学在covariance一致的情况下化简一下，发现z是线性的<br /><script type="math/tex">z=\Sigma w_{i}x_{i}</script>,<script type="math/tex">p(c\|x)=\frac{1}{1+e^{-z}}</script>那么我们可不可以直接找出w和b呢，这就是这节课做的事情。</p>
+  </li>
+</ol>
+
+<h2 id="discrimination">discrimination</h2>
+
+<p><strong>首先我们的function set 跟上一次课用的generative是一致的(covariance一致的时候).</strong>
+<img src="/img/logisticRegression/functionSet.png" alt="functionSet" />
+<br />
+然后我们就要training这个function出来了，写出概率的函数</p>
+
+<p>注意了，一定要理解清楚意义，这个函数f是我们要求的那个概率函数(就是training的那个),图片上面的x跟y是data
+<img src="/img/logisticRegression/logisticGoodness.png" alt="logisticGoodness" />
+然后做一些数学转换
+<img src="/img/logisticRegression/mathConvert.png" alt="mathConvert，图片有部分错误等待新图" />
+转换完之后就要用gradient descent做偏微分了，理解下图的公式中字母的意义，L是概率函数，y跟x都是data，n其实是sigma的标号
+<img src="/img/logisticRegression/findBest.png" alt="findBest" />
+<br />
+那么找出来的结果，我们可以看到update参数的式子跟linear regression的是一样的
+<img src="/img/logisticRegression/outcome.png" alt="outcome" />
+<img src="/img/logisticRegression/compare.png" alt="compare" /></p>
+
+<h2 id="why-onto-square-error">why onto square error</h2>
+
+<p>无论<script type="math/tex">\hat{y}</script>是1还是0，距离目标特别远或特别近，偏微分都几乎是0(理论上微分应该大一点，这样速度大),所以用像linear regression一样的Loss function的时候f(x)在接近0或者1的时候都非常的慢跟在target差不多</p>
+
+<h2 id="discrimination-vs-generative">discrimination vs generative</h2>
+<p>前面提到了两者的function set 是一致的，显然我们通过两种方法找到的w跟b 是不一样的。在discrimination中我们对w和b是没有任何假设的，而我们在generative中是由假设的，例如我们把它假设为gaussian。二在实际中discrimination通常比generative结果要好。老师举了一个naive bays的例子说为什么，但是我觉得这样是因为认为的用naive bays，这个例子没有说服力。
+<img src="/img/logisticRegression/naive.png" alt="naive" />
+<br /></p>
+<h2 id="benefits-of-generative-model">benefits of generative model</h2>
+<ol>
+  <li>当只有很少data的时候可以依靠generative的”脑补”能力(因为他要假设概率模型)来提高准确率</li>
+  <li>more robust to noise</li>
+  <li>说是p(c)跟P(x|c)可以分开算，这里视频里面老师举的例子没有出现，估计是现场有其他的设备展示(蓝瘦！)。</li>
+</ol>
+
+<h2 id="multi-class-classificatin">multi-class classificatin</h2>
+
+<p>如下图，在多个class的时候呢。我们用softmax就可以直接求到概率<script type="math/tex">\hat{y}=</script>\p(c1|x),
+<img src="/img/logisticRegression/softmax.png" alt="softmax" />
+老师说从一开始假设Gaussian而且共用covariance matrix出发可以推导出来这个式子，然而他没有讲怎么推导。然后就有把cross entropy的式子丢出来了，没有推导多个class的情况二是直接给出来 (cross entropy的表达式)。也就是说p(c|x)=<script type="math/tex">y_{i} =\frac{e^{z_{i}}}{\sum_{j=1}^{n} e^{z_{j}}}</script>。由feature data求得的<script type="math/tex">y_{i}</script>跟data<script type="math/tex">\hat{y}</script>cross entropy之后就可以等到概率L的表达式.
+<img src="/img/logisticRegression/multiCrossEntropy.png" alt="multiCrossEntropy" /></p>
+
+<h2 id="limitation-of-logistic-regression">limitation of logistic regression</h2>
+
+<p>如题啊。如图，一条线无法分开这两个class，可以通过feature transformation 来解决。这是用来引出下节课要讲的内容deep learning。
+<img src="/img/logisticRegression/limitation.png" alt="limitation" />
+<strong>终于写完了好他妈长</strong></p>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=Logistic Regression@&amp;url=/machine%20learning/LogisticRegression.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/machine%20learning/LogisticRegression.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/machine%20learning/LogisticRegression.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>

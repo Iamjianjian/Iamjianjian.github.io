@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/machine%20learning/classification.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>classification</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="如果当作regression来做存在的问题  由于regression的使ef尽可能接近曲线的特性，会被一些非常正确的点,如图显然右边regression得到的结果是不好的  如果用数字表示某类，而用regression来做，由于数字接近的class在regression上面意味着它们有某种关系，而这是不一定的，...">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">classification</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="11 Jan 2019" itemprop="datePublished">Jan 11 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">ML</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>machine learning 第四课介绍classification,找一个function,这个function输入一个x输出类别</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="如果当作regression来做存在的问题">如果当作regression来做存在的问题</h2>
+<ol>
+  <li>由于regression的使ef尽可能接近曲线的特性，会被一些非常正确的点,如图显然右边regression得到的结果是不好的</li>
+  <li>如果用数字表示某类，而用regression来做，由于数字接近的class在regression上面意味着它们有某种关系，而这是不一定的，因为数字是我们人为设定的。
+<img src="/img/classification/tooCorrect.png" alt="tooCorrect" /></li>
+</ol>
+
+<h2 id="ideal-alternative">ideal alternative</h2>
+<p>尝试用regression，但是这存在很多问题。
+虽然可以用perceptron或SVM，但目前只学过gradient descent 我们不会training function
+<img src="/img/classification/idealAlternative.png" alt="idealAlternative" /></p>
+
+<h2 id="generative-model">generative model</h2>
+<p>然后介绍正确的做法了，就像是用贝叶斯公式一样，(假设是二元分类)如果我们知道p(c1),p(c2)和p(x|c1),p(x|c2)我们就可以求到p(c1|x)和p(c2|x)。
+由training data可以得到,P(c1) P(c2) (如data中有79个水系小精灵，61个普通系，那么P(c1)=79/140)。
+<img src="/img/classification/generativeModel.png" alt="generativeModel" />
+然后不同的class的feature服从不同的分布,只要找出这个分布就可以知道P(x|c)，老师用的是正太的概率分布。
+<img src="/img/classification/gaussian.png" alt="gaussian" />
+然后由极大拟然估计估计先出mean(算出来mean就是均值拉)再求出covariance(对称矩阵).
+<img src="/img/classification/maxiLike.png" alt="maxiLike" />
+<br />
+<strong>注意图片当中的x是vector(例子中是二维，一个是防御力，一个是特殊防御力)</strong>
+<br />
+<img src="/img/classification/meanCovariance.png" alt="meanCovariance" />
+因为二元分类，老师的例子只要判断p(c|x)&gt;0.5就可以分类，然后
+<br />
+<strong>老师就gg了，老师就gg了，老师就gg了……，二维结果只有47%，7维只有54%</strong></p>
+
+<h2 id="modifying-model">modifying model</h2>
+<p><strong>老师说两个class都用不同的covariance的话他们的参数太多，那么variance就太大，所以强制让他们的covariance相同(这样子就缩小了model的fucntion set 从而减小了variance，而增大了bias)。为什么可以这么做可以在bishop4.2.2找答案。期望值的计算方法还是跟covariance不一样的时候(54%那个)一样的极大似然估计方法,结果也是均值。而新的covariance是原来的两个covariance的加权平均。最后做出来的结果正确率有73%</strong>
+<img src="/img/classification/sameCovariance.png" alt="sameCovariance" /></p>
+
+<h2 id="three-steps">three steps</h2>
+<p>总结做法，分三部，确定model，也就是贝叶斯公式拉！然后就是定一个class的distribution求出参数确定这个分布(就是这里老师强制各个分类的covariance相等提高了正确率),这样就有P(x|c)拉，加上算一下training data中各个分类的个数就有p(c)拉，就可以作估计了。
+<img src="/img/classification/threeStep.png" alt="threeStep" /></p>
+
+<h2 id="probability-distribution">probability distribution</h2>
+<p>model的选择(probability distribution)是人为选择的。但是同样的，简单的distribution的bias大，复杂的variance大。
+如果人为去掉各个feature之间的相关性，当作他们独立的话叫naive bayes classifier，但pokemon的例子gg了</p>
+
+<p>最后又是warning of math的时间了，证明了为什么强制不同的类用一样的covariance之后它的图像是直线(二维中)的。</p>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=classification@&amp;url=/machine%20learning/classification.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/machine%20learning/classification.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/machine%20learning/classification.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>
