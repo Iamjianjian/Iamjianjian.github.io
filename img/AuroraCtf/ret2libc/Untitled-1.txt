@@ -1,0 +1,36 @@
+linux 五个段 data(已经全局变量) .bss段(未初始化的全局变量)  stack heap(动态) .text(代码)
+got表其他模块的全局变量,plt.got其他模块的函数的地址
+
+不开启 DEP 保护编译：
+gcc -fno-stack-protector -z execstack -o ret2lib ret2lib.c
+
+查看权限命令：
+cat /proc/[pid]/maps
+
+关闭aslr
+echo 0 > /proc/sys/kernel/randomize_va_space
+
+checksec查看安全防护：
+
+ldd ret2libc
+
+objdump -T libc.so.6 |grep system
+
+ROPgadget --binary libc.so.6 --string "/bin/sh"
+
+
+from pwn import *
+
+p=process("./a.elf")
+p.sendline(bytes)
+p64()
+
+gdb filename
+file filename
+
+b main
+b*main+100
+
+r < pl
+
+x/10x addr

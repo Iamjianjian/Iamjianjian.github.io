@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/watermelon/assessAndSelect.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>assessment and selection of model</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="经验误差与过拟合  训练集上的误差:训练误差  新样本上的误差:泛化误差">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">assessment and selection of model</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="23 Jul 2019" itemprop="datePublished">Jul 23 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">ML</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>西瓜书第二章</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="经验误差与过拟合">经验误差与过拟合</h2>
+<ol>
+  <li>训练集上的误差:训练误差</li>
+  <li>新样本上的误差:泛化误差</li>
+</ol>
+
+<h2 id="评估方法">评估方法</h2>
+<h3 id="留出法">留出法。</h3>
+<p>注意要尽可能保持数据分布的一致性。例如在分类中保持类别比例相似。进行多次划分重复实验</p>
+<h3 id="交叉验证法">交叉验证法。</h3>
+<p>同样尽可能保持数据分布的一致性，分层采样。分类数k==样本数m时退化为leave one out。</p>
+<h3 id="自助法">自助法。</h3>
+<p>对于数据集D有放回抽样m次得到训练集E，由下式可知最少约36.8%的样本未在E中出现过。D\E用作测试集。<center>$$
+\lim_{x\to 0}(1-\frac{1}{m})^{m}=\frac{1}{e}\approx0.368$$</center></p>
+<p>该方法适用于数据集较小的情况。但因为改变了初始数据集，这会引用估计误差。</p>
+<!-- 上面莫名其妙没了个p标签自己套上去。汗！ -->
+
+<h3 id="调参与最终模型">调参与最终模型。</h3>
+<p>原始数据集分为训练集和测试集。训练集分出验证集用于调参。训练集用于训练模型，测试集评估泛化性能。最后的模型用全部data训练。</p>
+
+<h2 id="性能度量">性能度量</h2>
+
+<h3 id="查准查全率">查准查全率</h3>
+<p>markdown表格不能合并单元格，随后补新的</p>
+
+<ol>
+  <li>第一个字母代表了预测的结果对了还是错了。</li>
+  <li>第二个字母代表预测的结果，预测是反还是正。</li>
+</ol>
+
+<table>
+  <thead>
+    <tr>
+      <th>真实情况</th>
+      <th style="text-align: center">预测</th>
+      <th style="text-align: center">结果</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td> </td>
+      <td style="text-align: center">正例</td>
+      <td style="text-align: center">反例</td>
+    </tr>
+    <tr>
+      <td>正例</td>
+      <td style="text-align: center">TP</td>
+      <td style="text-align: center">FN</td>
+    </tr>
+    <tr>
+      <td>反例</td>
+      <td style="text-align: center">FP</td>
+      <td style="text-align: center">TN</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>查准率P（猜测是正的对了多少）和查全率R（猜测是正的当中正例占总数正例的比例）</p>
+<center>
+$$
+P=\frac{TP}{TP+FP}
+$$
+</center>
+<center>
+$$
+R=\frac{TP}{TP+FN}
+$$
+</center>
+
+<h3 id="p-r曲线图">P-R曲线图</h3>
+
+<p>根据预测结果对样例排序。依次划分前面的正例后面的反例可以得到P-R曲线图。为了方便书中的图（2.3）是光滑的，实际曲线常是非光滑的。<br />
+例如新进取的样本是正例那个分子分母都加1，P和R都会增大。如果是反例，P减小但R是不变的。
+<br />
+分类器的P-R曲线完全包住另一个的可以断言前者好。
+<br />
+BEP就是P=R的点。<br />
+F1什么的又长又臭。记住F1是基于调和平均定义的就算了</p>
+<center>
+$$
+\frac{1}{F1}=\frac{1}{2}(\frac{1}{P}+\frac{1}{R})
+$$
+</center>
+<p><script type="math/tex">F_{B}</script>则是加权调和。</p>
+
+<center>
+<br />
+$$
+F_{B}=\frac{1}{1+B^{2}}(\frac{1}{P}+\frac{B^{2}}{R})
+$$
+
+</center>
+
+<h3 id="roc与auc">ROC与AUC</h3>
+
+<p>TPR和FPR这个东西记住真的不容易，总结三点</p>
+<ol>
+  <li>首先一点分母一定是样本的全部正例或者反例。</li>
+  <li>前两个字母所代表的样本真实结果是什么分母就是什么</li>
+</ol>
+
+<p>所以TPR代表预测为正的占了全部正例的比例，FPR代表反力被预测为正例占全部反例的比例。同样根据预测结果对样例排序。依次划分前面的正例后面的反例，二者递增（分母不变一直分子增大）。
+<br />
+依上面的过程以FPR为横轴TPR为纵轴可得RPC曲线。
+曲线是梯形图，分三种情况:</p>
+<ol>
+  <li>新加入的点是正例，曲线树直向上。</li>
+  <li>新加入的点是反例，曲线平行向右。</li>
+  <li>划分点有两个点一个是反一个是正（这是存在的，因为预测结果是实数值排序，一个反例和一个正例刚好重合，后面的AUC的计算的二分之一就是因为这个。）。斜线一段，斜率由正例和反例的数量决定。</li>
+</ol>
+
+<p>同样ROC曲线包围另一个是前者性能好。
+AUC就是ROC包围的面积，公式的推算写在了书上。</p>
+
+<h3 id="remain">remain</h3>
+
+<p>剩下的代价敏感还好理解，但是那个基于分布的完全不知所云找不到现实案例无法理解，图2.5不动为什么那个就是期望总体代价，后面的比较检验的二项分布的假设检验不会，后面的都没看</p>
+
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=assessment and selection of model@&amp;url=/watermelon/assessAndSelect.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/watermelon/assessAndSelect.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/watermelon/assessAndSelect.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>

@@ -6,9 +6,374 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 08 Aug 2019 16:10:40 +0800</pubDate>
-    <lastBuildDate>Thu, 08 Aug 2019 16:10:40 +0800</lastBuildDate>
+    <pubDate>Mon, 24 Feb 2020 10:11:29 +0800</pubDate>
+    <lastBuildDate>Mon, 24 Feb 2020 10:11:29 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>v2ray初次尝试</title>
+        <description>&lt;h2 id=&quot;前言&quot;&gt;前言&lt;/h2&gt;
+&lt;p&gt;一直作死用的ss没加密，反正一直没啥事的，后来国庆ip被禁了，70周年躲一下风头，过了之后花了我10多刀换了个ip继续作死。换了ip之后，没多久就开始封我端口，春节几天没用竟然又封了我ip。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;去你妈的小熊维尼，老子的钱大风刮来的吗&lt;/strong&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;去你妈的小熊维尼，老子的钱大风刮来的吗&lt;/strong&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;去你妈的小熊维尼，老子的钱大风刮来的吗&lt;/strong&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后琢磨一下咋办。不整不知道，原来自己真的跟不上时代了，v2ray？CDN啥东西。&lt;/p&gt;
+
+&lt;h2 id=&quot;v2ray&quot;&gt;v2ray&lt;/h2&gt;
+&lt;p&gt;V2Ray 是 Project V 下的一个工具。Project V 是一个包含一系列构建特定网络环境工具的项目，而 V2Ray 属于最核心的一个。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.v2ray.com/&quot;&gt;projectV的官网&lt;/a&gt;
+&lt;br /&gt;
+安装真的是简单得一笔&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash &amp;lt;(curl -L -s https://install.direct/go.sh)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;一般的linux系统基本没什么问题，安装完成之后会出现一个uuid相当于密码，但这个关系不大，只是本地连接的端口的密码，都是可以改的。
+&lt;br /&gt;
+如果下载了V2Ray，可以直接用–local安装，下面图是下载好了安装包安装的图
+&lt;img src=&quot;/img/v2ray/installLocal.png&quot; alt=&quot;v2ray安装&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;v2ray的配置内容比较多，&lt;a href=&quot;https://toutyrater.github.io/&quot;&gt;具体的可以看白话文教程&lt;/a&gt;。照着白话文vmess协议那节的配置就基本可以，意思也是十分明了。
+客户端的话可以下载v2rayN(还是这种比较适合我啊)。
+其实也就那回事，只是vmess对抗检测的能力更强，v2ray可以配置的东西更多，万变不离其宗，都只是代理罢了。&lt;/p&gt;
+
+&lt;h2 id=&quot;cdn&quot;&gt;CDN&lt;/h2&gt;
+
+&lt;p&gt;虽然搭好了v2ray，但是梯子的ip还是访问不了的。这里就需要使用CDN的节点来转发。幸好老夫还有个垃圾域名，要不又要掏钱了。这里解释一下CDN，以前没接触过。&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+假设现在我们有一台国内的主机A（ip101），一台国外主机B(被墙ip201)，假设blog.woshijianjian.xyz解释为主机B的ip201&lt;/p&gt;
+
+&lt;h3 id=&quot;无cdn&quot;&gt;无CDN&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;主机A访问blog.woshijianjian.xyz&lt;/li&gt;
+  &lt;li&gt;通过DNS解释直接得到的是主机B的地址201&lt;/li&gt;
+  &lt;li&gt;主机A访问201被墙&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;有cdn&quot;&gt;有CDN&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;主机A访问blog.woshijianjian.xyz&lt;/li&gt;
+  &lt;li&gt;通过DNS解释直接得到的是CDN节点C的地址20x，这个ip地址是有可能变的&lt;/li&gt;
+  &lt;li&gt;主机A访问CDN节点C(20x)&lt;/li&gt;
+  &lt;li&gt;C受到A的请求后，如果A请求的内容它刚好缓存有，那个C直接向A返回其所需内容，如果没有那么C将带着请求访问主机B&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;如此只要确保每次的内容C都没有，那个CDN节点C就会充当了我们的中间代理了。&lt;/p&gt;
+
+&lt;p&gt;所以搭好v2ray之后，我们有以下几点要做&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;有域名&lt;/li&gt;
+  &lt;li&gt;把域名解析服务器换到cloudflare(我用的是cloudflare的CDN)&lt;/li&gt;
+  &lt;li&gt;在cloudflare添加一个A记录xx.name.xxx(我的就是x.woshijianjian.xyz),ip地址是主机B的地址201，并启用CDN。&lt;/li&gt;
+  &lt;li&gt;服务器用ws协议&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;我试过了，使用这个CDN节点一定要用80端口，443没试过&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/v2ray/cloudflare.png&quot; alt=&quot;此处欠一张图&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 24 Feb 2020 00:00:00 +0800</pubDate>
+        <link>/linux/v2ray.html</link>
+        <guid isPermaLink="true">/linux/v2ray.html</guid>
+        
+        <category>linux</category>
+        
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>support vector</title>
+        <description>&lt;h2 id=&quot;间隔与支持向量&quot;&gt;间隔与支持向量&lt;/h2&gt;
+&lt;p&gt;对于一个二分类问题,在几何上我们可以用一个线性超平面把他们划分为两部分(回忆一下三维上的平面表达式).那么方程如下:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;w^Tx+b=0&lt;/script&gt;
+
+&lt;p&gt;样本空间中样本x到该空间的距离可以表示为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;r=\frac{\|w^Tx+b\|}{\|w^T\|}(回忆三维的几何距离)&lt;/script&gt;
+
+&lt;p&gt;书中的式子:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+w^Tx_i+b&gt;=1,y_i=1\\
+w^Tx_i+b&lt;=-1,y_i=-1 %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;此处的正负一对任何可以wb都可以除以常量变为1.距离超平面最近的几个样本点使得上式成立(看书中图6.3),这些样本就称为支持向量,两个异类支持向量到超平面的距离之和为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\gamma=\frac{2}{\|w\|}&lt;/script&gt;
+
+&lt;p&gt;称为间隔.&lt;/p&gt;
+
+&lt;p&gt;那么我们现在的问题是找到一个符合上面要求的w和b,使得间隔最大即:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\max {\frac{2}{\|w\|}} s.t. y_i(w^Tx_i+b)&gt;=1 \\
+i=1,2,3......m&lt;/script&gt;
+
+&lt;p&gt;也就是最小化&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\max {\|w\|}^2&lt;/script&gt;
+
+&lt;p&gt;这就是支持向量机的基本型.&lt;/p&gt;
+
+&lt;h2 id=&quot;对偶问题&quot;&gt;对偶问题&lt;/h2&gt;
+&lt;p&gt;对于上一节的问题转化为条件&lt;strong&gt;最值&lt;/strong&gt;问题,由于这里要求的是最小值,所以书中的拉格朗日乘数&lt;script type=&quot;math/tex&quot;&gt;\alpha _i&gt;0&lt;/script&gt;,可得6.8式:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;L(w,b,\alpha)=\frac{1}{2}{\|w\|}^2+\sum _{i=1} ^m \alpha _i(1-y_i(w^Tx_i+b))&lt;/script&gt;
+
+&lt;p&gt;6.9 6.10代入进去可以得:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{2}{\|w\|}^2-{\|w\|}^2+\sum _{i=1} ^m \alpha _i -\alpha _iy_ib&lt;/script&gt;
+
+&lt;p&gt;得书中6.11(式子中没有w了,所以不用6.9的条件)&lt;/p&gt;
+
+&lt;h2 id=&quot;软间隔与正则化&quot;&gt;软间隔与正则化&lt;/h2&gt;
+
+&lt;p&gt;现实中难以确定合适的核函数使得训练样本线性可分,即使找到了也很难确定是不是由于过拟合造成的.
+&lt;br /&gt;
+软间隔允许某些样本不满足约束:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;y_i(w^Tx_i+b)&gt;=1&lt;/script&gt;
+
+&lt;p&gt;优化目标变为&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\min {w,b} \frac{1}{2}{\|w\|}^2 + C \sum _{i=1}^m l_{0/1}(y_i(w^Tx_i+b)-1)&lt;/script&gt;
+
+&lt;p&gt;ps:这个常数C岂不是很难确定
+&lt;br /&gt;
+与前面的硬间隔比较,少了s.t.条件多了优化的目标多了m项,当C无穷大的时候退化为硬间隔.0/1损失函数数学性质不好,常用三种代替&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;hinge Loss: \max (0,1-z)\\
+exponential Loss:exp(-z)\\
+logistic Loss : \log (1+exp(-z))&lt;/script&gt;
+
+&lt;p&gt;对于hinge损失,6.29,化为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\min {w,b} \frac{1}{2}{\|w\|}^2 + C \sum _{i=1}^m \max (0,1-y_i(w^Tx_i+b))&lt;/script&gt;
+
+&lt;p&gt;注意此处的z跟6.29不一样,不知道是不是作者的笔误.
+此处&lt;script type=&quot;math/tex&quot;&gt;1-y_i(w^Tx_i+b)&lt;/script&gt;正好代表了样本不满足约束的程度,也就是后面的松弛变量&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;(未知量,要求得w和b同时调整&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;的值使得loss最小,所以&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;也是参数变量)
+&lt;br /&gt;
+然后跟着书本把6.36化为6.40,过程基本跟硬间隔的一样,只是多了个&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&lt;/script&gt;结果一样约束不同,注意到&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+C=\alpha _i +\mu _i,\mu _i&gt;0,所以,\alpha _i&lt;C %]]&gt;&lt;/script&gt;,得到书中的kkt条件,有一下结论:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\alpha =0&lt;/script&gt;该样本对f没有影响.想不出实际上&lt;script type=&quot;math/tex&quot;&gt;\alpha _i&lt;/script&gt;的意义是啥,但是可以想到这个样本应该是分类正确的不行的那种,头疼.&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\alpha _i&gt;0&lt;/script&gt; ,则&lt;script type=&quot;math/tex&quot;&gt;y_if(x_i)=1-\varepsilon _i&lt;/script&gt;,样本为支持向量,此处支持向量并不仅仅是边界上的点了.&lt;/li&gt;
+  &lt;li&gt;若&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\alpha _i&lt;C %]]&gt;&lt;/script&gt;,那么&lt;script type=&quot;math/tex&quot;&gt;\mu _i&gt;0,\varepsilon _i=0&lt;/script&gt;,那么样本刚好在边界上.&lt;/li&gt;
+  &lt;li&gt;若&lt;script type=&quot;math/tex&quot;&gt;\alpha _i=C&lt;/script&gt;,如果&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\varepsilon _i&lt;=1 %]]&gt;&lt;/script&gt;,那么样本在最大间隔的内部,如果&lt;script type=&quot;math/tex&quot;&gt;\varepsilon _i&gt;1&lt;/script&gt;那么样本错误分类.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;用对率损失代替0/1损失几乎就是対率回归了(反正我不会去验证).提到了两者的优缺点:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;二者优化目标相当,性能相当.&lt;/li&gt;
+  &lt;li&gt;対率回归的输出具有自然的概率意义&lt;/li&gt;
+  &lt;li&gt;対率回归可直接用于多分类任务,(李宏毅的课也提到过)&lt;/li&gt;
+  &lt;li&gt;対率回归的解依赖于更多的训练样本开销更大&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;支持向量回归&quot;&gt;支持向量回归&lt;/h2&gt;
+&lt;p&gt;如果是传统回归模型,最小化的目标是均方误差,SVR最小化的目标是最小化间隔带:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\min _{w,b} \frac{1}{2} {\|w\|}^2+C\sum _{i=1}^m l_{\varepsilon}(f(x_i)-y_i)&lt;/script&gt;
+
+&lt;p&gt;引入松弛变量,一边一个松弛程度,应该是每个样例只会有一个松弛不为0(刚好在间隔带内都是0)&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+后面的核方法….随缘吧&lt;/p&gt;
+</description>
+        <pubDate>Sat, 17 Aug 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/supportVector.html</link>
+        <guid isPermaLink="true">/watermelon/supportVector.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
+    
+      <item>
+        <title>neural networks</title>
+        <description>&lt;h2 id=&quot;感知机与多层网络&quot;&gt;感知机与多层网络&lt;/h2&gt;
+
+&lt;p&gt;感知机由两层神经元组成&lt;script type=&quot;math/tex&quot;&gt;y=f(\sum _iw_ix_i-\theta)&lt;/script&gt;,从&lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt;的输入可以看出这是一个几何空间上的线性超平面&lt;script type=&quot;math/tex&quot;&gt;\sum _iw_ix_i-\theta&lt;/script&gt;．
+&lt;br /&gt;
+把&lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;的输入恒为1,可以把模型统一为对权重的学习&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;w_i=w_i+\Delta w_i\\
+\Delta w_i=\eta (y-\hat y)x_i&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;觉得上式不应该仅仅乘以xi还应该除以xi的绝对值．&lt;/strong&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+对于线性可分的问题感知机学习过程一定会收敛(与或非),否则则会发生振荡(异或).那么用两层感知机就可以解决异或问题&lt;strong&gt;(毕竟异或问题转变为与或非来表示,只是多套了一层)&lt;/strong&gt;.所以中间多加几层就是所谓的多层网络.多层前馈网络,每层之间都是全连接,不可跨层.&lt;/p&gt;
+
+&lt;h2 id=&quot;error-backpropagation&quot;&gt;error backpropagation&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;求导&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;求导&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;求导&lt;/strong&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;标准BP算法一次只使用一个样本,参数更新较为频繁需要更多次的迭代.&lt;br /&gt;
+累积BP算法每次使用全本的样本.&lt;br /&gt;
+很多任务中,累积误差下降到一定程度,进一步下降就非常缓慢.此时标准BP往往会更好,尤其数据非常大时.
+&lt;br /&gt;
+&lt;br /&gt;
+BP神经网络缓解过拟合的两种方法.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;早停.数据分开验证集和训练集,当验证集中的误差升高时停止.&lt;/li&gt;
+  &lt;li&gt;正则化.拒绝过大的权重.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;剩下的都没深入只是简单介绍在李宏毅那学好了&quot;&gt;剩下的都没深入只是简单介绍,在李宏毅那学好了&lt;/h2&gt;
+</description>
+        <pubDate>Thu, 15 Aug 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/neuralNetworks.html</link>
+        <guid isPermaLink="true">/watermelon/neuralNetworks.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
+    
+      <item>
+        <title>decision Tree</title>
+        <description>&lt;h2 id=&quot;基本流程&quot;&gt;基本流程&lt;/h2&gt;
+&lt;p&gt;下为treeGenerate(D,A)一次递归中的各种情形&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;D中的样本属于同一类C,标为叶子节点类别为C结束。(都是用一个类了,再分没有意义)&lt;/li&gt;
+  &lt;li&gt;A为空集,或D中样本取值全本相同,标为叶子节点类别为D中最多的类。(属性一样每办法分)&lt;/li&gt;
+  &lt;li&gt;选取最优划分属性,该属性每个取值一个子节点递归
+&lt;script type=&quot;math/tex&quot;&gt;treeGenerate(D_v,A/a)&lt;/script&gt;
+如果
+&lt;script type=&quot;math/tex&quot;&gt;D_v&lt;/script&gt;
+为空集该子节点为叶子节点类为D中最多的类&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;划分选择&quot;&gt;划分选择&lt;/h2&gt;
+
+&lt;h3 id=&quot;信息增益&quot;&gt;信息增益&lt;/h3&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Ent(D)=-\sum _{k=1}^{\|y\|}p_{k}\log_{2}p_{kj}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+上式中k表示第k类,这个东西信息论学过,均匀分布的时候信息熵最大。这从直觉上看也是可以理解的,均匀分布的时候信息无法猜测结果,当某一个类的概率大那么信息量就少。Ent(D)越小D的纯度越高。
+&lt;br /&gt;
+如果我们选取某个属性来进行划分,而这个属性又有v个取值,那么利用a进行划分的可以定义信息增益。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain(D,a)=Ent(D)-\sum _{v=1}^{V}\frac{\|D^{v}\|}{\|D\|}Ent(D^{v})&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+我们要做的就是越往下,样本的更加同属一个类,也就是信息熵越小。在某一个节点进行划分的时候Ent(D)已经是一个常数。子节点信息熵小,也就是Gain大纯度越高。&lt;/p&gt;
+
+&lt;h3 id=&quot;增益率&quot;&gt;增益率&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;然而信息增益准则对取值多的属性有所偏好&lt;/strong&gt;,定义增益率:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain\_ratio(D,a)=\frac{Gain(D,a)}{IV(a)},IV(a)=-\sum \frac{\|D^{v}\|}{\|D\|}\log_2\frac{\|D^{v}\|}{\|D\|}&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;增益率准则对所取的数目较少的属性有所偏好,实际中的做法是先用信息增益从中选取出高于平均水平的属性,在用信息率选取。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;基尼指数&quot;&gt;基尼指数&lt;/h3&gt;
+&lt;p&gt;基尼值定义为随即选取两个样本,类别不一样的概率,那么这个概率越高,纯度越低。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gini(D)=\sum _{k=1}^{\|y\|}\sum _{l!=k}p_kp_l \\
+=1-\sum _{k=1}^{\|y\|}p_k^2&lt;/script&gt;
+
+&lt;p&gt;定义基尼指数,也就是按a属性分类之后加权求和。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gini_index(D,a)=\sum _{v=1}^V\frac{\|D^v\|}{\|D\|}Gini(D^v)&lt;/script&gt;
+
+&lt;p&gt;选择划分后基尼指数最小的属性.&lt;/p&gt;
+
+&lt;h2 id=&quot;剪枝处理&quot;&gt;剪枝处理&lt;/h2&gt;
+&lt;p&gt;剪枝用于应对决策树分支过多导致的过拟合.&lt;/p&gt;
+
+&lt;h3 id=&quot;预剪枝&quot;&gt;预剪枝&lt;/h3&gt;
+
+&lt;p&gt;对节点划分时,若当前节点不能带来决策树泛华性能的提高,则停止并标为叶子节点.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;根据当前节点选取最优划分属性.&lt;/li&gt;
+  &lt;li&gt;先如果不进行划分把节点标为(好瓜 坏瓜)用验证集计算准确率.&lt;/li&gt;
+  &lt;li&gt;计算划分后的准确率.比较决定是否划分.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;预剪枝很多分支没有分开,降低了训练时间.但是基于贪心的原则有可能导致一些后续会提高泛华性能的分支没有展开,可能带来欠拟合的风险.&lt;/p&gt;
+
+&lt;h3 id=&quot;后剪枝&quot;&gt;后剪枝&lt;/h3&gt;
+
+&lt;p&gt;先生成完整的决策树,再通过与前面一样的计算,剪去泛化性能会提高的分支.
+&lt;br /&gt;
+一般后剪枝欠拟合风险小,泛化性能往往优于预剪枝.但开销大.&lt;/p&gt;
+
+&lt;h2 id=&quot;连续与缺失&quot;&gt;连续与缺失&lt;/h2&gt;
+
+&lt;h3 id=&quot;连续值处理&quot;&gt;连续值处理&lt;/h3&gt;
+
+&lt;p&gt;假如属性a是连续属性,D有n个样本,对D中的样本按a的大小排序,把D划分成两半(此处是二分类),那么划分点就是这n个排序的样本之间的n-1个位置,令划分的位置为t,位置集合为&lt;script type=&quot;math/tex&quot;&gt;T_a&lt;/script&gt;.那么信息增益为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain(D,a)=\max _{t\in T_a} Gain(D,a,t)\\
+=\max _{t\in T_a} Ent(D)-\sum _{\lambda \in \{-,+\}}\frac{\|D_t^{\lambda\|}}{\|D\|}Ent(D_t^{\lambda})&lt;/script&gt;
+
+&lt;h3 id=&quot;缺失值的处理&quot;&gt;缺失值的处理&lt;/h3&gt;
+
+&lt;p&gt;给定D和属性a,令&lt;script type=&quot;math/tex&quot;&gt;\hat D&lt;/script&gt;是属性a上没有缺失值的样本,&lt;script type=&quot;math/tex&quot;&gt;\hat D_k \hat D_v&lt;/script&gt;分别表示&lt;script type=&quot;math/tex&quot;&gt;\hat{D}&lt;/script&gt;上属于第k类的样本和属性a为v的样本.每个样本都有一个权值初始为1.可定义以下:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p=\frac{\sum _{x\in \hat D} w_x}{\sum _{x \in D}w_x}\\
+\hat{p_k}=\frac{\sum_{x\in \hat D_k}w_x}{\sum_{x\in \hat D}w_x}\\
+\hat r_v=\frac{\sum_{x\in \hat D_v w_x}}{\sum_{x\in \hat D w_x}}&lt;/script&gt;
+
+&lt;p&gt;三个式子直观上看,分别是&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;没有缺失值的样本对所有样本的加权比例&lt;/li&gt;
+  &lt;li&gt;没有缺失值的样本中各个类别的加权比例&lt;/li&gt;
+  &lt;li&gt;没有缺失值的样本中按a进行划分各个属性的加权比例&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;推广信息增益计算式:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Gain(D,a)=p \times Gain(\hat D,a)\\
+=p \times (Ent(\hat D) - \sum _{v=1}^V \hat r_v Ent(\hat D_v))&lt;/script&gt;
+
+&lt;p&gt;比较原来的信息增益的计算&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;计算仅仅用了不缺失的样本集(废话缺失怎么算),只是在外面套了一个p,表示缺失的样本越少增益越大.对缺失值少的属性有偏好.&lt;/li&gt;
+  &lt;li&gt;计算子集合的信息增益时又乘了一个 &lt;script type=&quot;math/tex&quot;&gt;\hat{r_v}&lt;/script&gt;,代表属性的权重.&lt;/li&gt;
+  &lt;li&gt;子集合的概率由&lt;script type=&quot;math/tex&quot;&gt;\hat p_k&lt;/script&gt;代替.不缺失的样本各个类别的权重.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;对于缺失了值的样本每个子节点都会划入,但是权重有所不同,权重调为&lt;script type=&quot;math/tex&quot;&gt;\hat{r_v}&lt;/script&gt;.
+&lt;strong&gt;真是他妈的复杂&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;多变量划分&quot;&gt;多变量划分&lt;/h2&gt;
+
+&lt;p&gt;没什么好讲的,就是一个节点使用变量进行划分使得划分超平面变斜.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 13 Aug 2019 00:00:00 +0800</pubDate>
+        <link>/watermelon/decisionTree.html</link>
+        <guid isPermaLink="true">/watermelon/decisionTree.html</guid>
+        
+        <category>ML</category>
+        
+        
+        <category>waterMelon</category>
+        
+      </item>
     
       <item>
         <title>linear model</title>
@@ -129,22 +494,46 @@ w的偏导数式子化为:
 
 &lt;h2 id=&quot;线性判别分析linear-discrimination-analysis&quot;&gt;线性判别分析(Linear Discrimination Analysis)&lt;/h2&gt;
 
-&lt;p&gt;投影到线上,使得同类的尽可能近,不同类的中心点尽可能远。&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;X_{i}第i类的样本集合，\mu _{i} 第i类的均值向量 \sum _{i} 协方差矩阵&lt;/script&gt;
-
-&lt;p&gt;同类样本尽可能近就是使协方差之和尽可能小
-&lt;script type=&quot;math/tex&quot;&gt;w^{T}\sum _{0}w+w^{T}\sum _{1}w&lt;/script&gt;
+&lt;p&gt;投影到线上,使得同类的尽可能近,不同类的中心点尽可能远。
+&lt;script type=&quot;math/tex&quot;&gt;X_{i}第i类的样本集合，\mu _{i} 第i类的均值向量 \sum _{i} 协方差矩阵&lt;/script&gt;
+同类样本尽可能近就是使协方差之和尽可能小,&lt;script type=&quot;math/tex&quot;&gt;w^{T}\sum _{0}w+w^{T}\sum _{1}w&lt;/script&gt;
+距离尽可能大，就是类中心之间的距离大,&lt;script type=&quot;math/tex&quot;&gt;(w^{T}\mu _{0} - w^{T}\mu _{1})^{2}&lt;/script&gt;。
 &lt;br /&gt;
-距离尽可能大，就是类中心之间的距离大,&lt;script type=&quot;math/tex&quot;&gt;(w^{T}\mu _{0} - w^{T}\mu _{1})^{2}&lt;/script&gt;&lt;/p&gt;
+最大化的目标是书中的J，化简过程比较简单，一个用到的证明在mathwarning。
+化简之后是:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J=\frac{w^{T}S_{b}w}{w^{T}S_{w}w}&lt;/script&gt;
 
 &lt;p&gt;&lt;br /&gt;
-最大化的目标是书中的J，化简过程比较简单，一个用到的证明在mathwarning，过程写在了书上。
-化简之后是:
+&lt;!-- 从w中提取出常数可以上下约掉，所以w的大小不影响J的大小，且$$S_{b} S_{w}$$是常数，所以可以调节w的大小使得$$w^{T}S_{w}w=1$$,即任意方向的w可以通过调节w的大小使得这个式子等于0。 --&gt;
+&lt;script type=&quot;math/tex&quot;&gt;S_{b} S_{w}&lt;/script&gt;都是实数对角阵所以都是特征值分开后相乘,所以结果与w的大小无关。选定任一方向后w再调节大小可以保持&lt;script type=&quot;math/tex&quot;&gt;w^{T}S_{w}w=1&lt;/script&gt;接着拉格朗日求导一次后可得3.37。又&lt;script type=&quot;math/tex&quot;&gt;S_{b}&lt;/script&gt;的定义可以看出&lt;script type=&quot;math/tex&quot;&gt;S_{b}w&lt;/script&gt;的方向,调整&lt;script type=&quot;math/tex&quot;&gt;\lambda&lt;/script&gt;可以让&lt;script type=&quot;math/tex&quot;&gt;S_{b}w=\lambda(\mu_{0}-\mu_{1})&lt;/script&gt;
+ 。求出结果.&lt;/p&gt;
+
+&lt;h3 id=&quot;多分类学习&quot;&gt;多分类学习&lt;/h3&gt;
+
+&lt;h4 id=&quot;ovo-ovr&quot;&gt;OVO OVR&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;OVO
+一对一,N个类,每个类两两配对,同时训练N(N-1)/2个分类器。对于新样本交给所有的分类器进行二分类,然后投票给胜者。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;OVR
+N个类就N个分类器,每次选择一个类出来作为正类,其余的类作为反类,新样本作N次分类。如果有多个类分为正类,则考虑置信度。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;可以看出OVO的分类器多但是每次训练的样本较少,OVR分类器少但是样本多。所以在类别很多的时候OVO的训练时间开销通常比OVR少。&lt;/p&gt;
+
+&lt;h4 id=&quot;纠错输出码&quot;&gt;纠错输出码&lt;/h4&gt;
+&lt;p&gt;唔……….&lt;/p&gt;
+
+&lt;h3 id=&quot;类别不平衡&quot;&gt;类别不平衡&lt;/h3&gt;
+&lt;p&gt;对于预测正类的纪律y,当&lt;script type=&quot;math/tex&quot;&gt;\frac{y}{1-y}=&gt;\frac{m^{+}}{m^{-}}&lt;/script&gt;也就是&lt;script type=&quot;math/tex&quot;&gt;\frac{y}{1-y} \frac{m^{-}}{m^{+}}&gt;=1&lt;/script&gt;但这有一个前提是必须是无偏采样,也就是说观测几率就是实际的几率。
 &lt;br /&gt;
-&lt;script type=&quot;math/tex&quot;&gt;J=\frac{w^{T}S_{b}w}{w^{T}S_{w}w}&lt;/script&gt;
-&lt;br /&gt;
-从w中提取出常数可以上下约掉，所以w的大小不影响J的大小，且&lt;script type=&quot;math/tex&quot;&gt;S_{b} S_{w}&lt;/script&gt;是常数，所以可以调节w的大小使得&lt;script type=&quot;math/tex&quot;&gt;w^{T}S_{w}w=1&lt;/script&gt;,即任意方向的w可以通过调节w的大小使得这个式子等于0。&lt;/p&gt;
+现存的三大做法:欠采样(去掉多的),过采样(增加少的),阀值移动(基于原始数据进行学习,在训练好的分类器上用上式进行再缩放)。&lt;/p&gt;
 </description>
         <pubDate>Fri, 26 Jul 2019 00:00:00 +0800</pubDate>
         <link>/watermelon/linearModel.html</link>
@@ -161,6 +550,7 @@ w的偏导数式子化为:
         <title>math warning</title>
         <description>&lt;h2 id=&quot;梯度&quot;&gt;梯度&lt;/h2&gt;
 &lt;p&gt;从定义一步步出发&lt;/p&gt;
+
 &lt;h3 id=&quot;偏导数&quot;&gt;偏导数&lt;/h3&gt;
 &lt;p&gt;所谓偏导数，就是多元函数中，对于一个变量求导数，此时其余变量当作常量，直观地看就是函数在某一点沿着x方向的变化率，也就是说在这一点沿着x方向函数会增大多少。&lt;/p&gt;
 
@@ -170,10 +560,28 @@ ds=(dx,dy,dz)分解成三个方向。即&lt;script type=&quot;math/tex&quot;&gt;
 那么f的变化率就是&lt;script type=&quot;math/tex&quot;&gt;ds\cdot(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;当ds的方向跟三个偏导数组成的方向一致时，那么f的变化率最大。即:
-&lt;br /&gt;&lt;script type=&quot;math/tex&quot;&gt;(cos\alpha,cos\beta,cos\gamma)=c\cdot (\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})&lt;/script&gt;&lt;/p&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(cos\alpha,cos\beta,cos\gamma)=c\cdot (\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z})&lt;/script&gt;
 
 &lt;p&gt;由此可得到结论约束曲面与该曲面的梯度正交，例如：&lt;br /&gt;
-g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲面的切面方向与各个方向的偏导数的内积为0，即该曲面的切面方向与梯度(与各个方向的偏导数方向一样)内积为0，故正交。&lt;/p&gt;
+g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲面的切面方向与各个方向的偏导数的内积为0，即该曲面的切面方向与梯度(与各个方向的偏导数方向一样)内积为0，故正交。
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;拉格朗日乘数&quot;&gt;拉格朗日乘数&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E6%95%B0&quot;&gt;维基百科&lt;/a&gt;
+&lt;a href=&quot;https://www.zhihu.com/question/38586401&quot;&gt;知乎&lt;/a&gt;
+此处说明一下如果两条线不是相切(梯度方向在同一直线上)就不会是极值点.在相切的点两个曲线的交点处(x,y)的梯度方向一致,又因为g是条件,所以此时在(x,y)的无穷小邻域内f沿着g的线走那么他的增量肯定为0(因为与梯度垂直),所以该点是条件极值点.同理如果不是相切那么f沿着g走增量不为0不是条件极值.根据梯度方向一致可知:(或看书本B1也可以理解)&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\frac{\partial f}{\partial x}}{\frac{\partial g}{\partial x}}=\frac{\frac{\partial f}{\partial y}}{\frac{\partial g}{\partial y}}=\lambda&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;L=f-\lambda g&lt;/script&gt;
+
+&lt;p&gt;书中的6.8式中令&lt;script type=&quot;math/tex&quot;&gt;\alpha &gt;0&lt;/script&gt;是为了排除那么在g&amp;lt;0的情况下存在比其小的值的相切点(书中是要求最值,排除个别极值是可行的).
+&lt;br /&gt;
+记住上式中拉格朗日常数因子的正负&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;&lt;/script&gt;
 
 &lt;h2 id=&quot;矩阵&quot;&gt;矩阵&lt;/h2&gt;
 
@@ -182,15 +590,58 @@ g(x)=0此处x为矢量，可见g(x)是常量即函数值不变，即沿着该曲
 行乘以A 前面的行选A的行
 &lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;写方差矩阵的定义和部分性质&quot;&gt;写方差矩阵的定义和部分性质&lt;/h3&gt;
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\sum _{x\epsilon X_{0} (x-\mu _{0})(x-\mu _{0})^{T}}&lt;/script&gt;
-&lt;br /&gt;
-性质:
-回去看概率论吧&lt;/p&gt;
+&lt;h3 id=&quot;矩阵求导&quot;&gt;矩阵求导&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.cnblogs.com/pinard/p/10825264.html&quot;&gt;我就是个彩币&lt;/a&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;h4 id=&quot;标量的链式法则&quot;&gt;标量的链式法则&lt;/h4&gt;
+&lt;p&gt;z是标量,yx是矢量,z对x求导,即z对x上每一个分量&lt;script type=&quot;math/tex&quot;&gt;x_{i}&lt;/script&gt;求导之后拼在一起,那么z对于&lt;script type=&quot;math/tex&quot;&gt;x_{i}&lt;/script&gt;求导为:
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial z}{\partial x_{i}}=\sum_{k}^{m}\frac{\partial z}{\partial y_{k}}\frac{\partial y_{k}}{\partial x_{i}}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+可以看到x每一个的每一个分量都是z对y求导之后与y对x的分量求导的结果相乘，那么后面的y对x的分量拼起来就是结果了，所以左边是一个
+&lt;script type=&quot;math/tex&quot;&gt;\frac{\partial z}{\partial y_{k}}&lt;/script&gt;
+右边是一个各个
+&lt;script type=&quot;math/tex&quot;&gt;x_{i}&lt;/script&gt;
+求导之后出来的分量组成的矩阵，即矢量y对矢量x求导的矩阵。这里还需要对其做一下转至使得他们符合矩阵相乘的定义，但不影响结果了，对准位置就可以。就可以得到&lt;a href=&quot;https://www.cnblogs.com/pinard/p/10825264.html&quot;&gt;这里&lt;/a&gt;的这个公式。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial z}{\partial y_{1}}=(\frac{\partial y_{n}}{\partial y_{n-1}} \frac{\partial y_{n-1}}{\partial y_{n-2}} ...\frac{\partial y_{2}}{\partial y_{1}})^{T}\frac{\partial z}{\partial y_{n}}&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+那么书上的式子,
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{w}=(y-Xw)^{T}(y-Xw)=z^{T}z&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial E_{w}}{\partial w}=\frac{\partial E_{w}}{\partial z} \frac{\partial z}{\partial w}=-X*2z&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+上式定义法可以证z对w的导数&lt;/p&gt;
+
+&lt;h3 id=&quot;对角矩阵的性质&quot;&gt;对角矩阵的性质&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;必有n个特征值可对角化.&lt;/li&gt;
+  &lt;li&gt;书中P61的分母必不为0。&lt;script type=&quot;math/tex&quot;&gt;w^{T}(\sum _{0})w&lt;/script&gt;必定大于等于0(零矩阵或矢量都在特征值为0的维度),因为对角矩阵必有n个特征值,w可以分开在n个维度上的分量与对角阵相乘之后在相加,又因为正交所以不同维度的乘积必为0.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;部分计算记忆&quot;&gt;部分计算记忆&lt;/h3&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;(\alpha ^{T}\beta)^{2}=\alpha ^{T}\beta\beta ^{T}\alpha，\alpha \beta 都是列向量&lt;/script&gt;
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;(\alpha ^{T}\beta)^{2}=\alpha ^{T}\beta\beta ^{T}\alpha，\alpha \beta 都是列向量&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial z^{T}z}{\partial z}=2z(z为矢量)&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;几何&quot;&gt;几何&lt;/h2&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;w^Tx+b=0&lt;/script&gt;表示一个超平面,向量x符合x与&lt;script type=&quot;math/tex&quot;&gt;w^T&lt;/script&gt;点乘之后结果都是-b,那么x在&lt;script type=&quot;math/tex&quot;&gt;w^T&lt;/script&gt;方向上的分量一样大.那么&lt;script type=&quot;math/tex&quot;&gt;w^Tx+b&gt;0&lt;/script&gt;与&lt;script type=&quot;math/tex&quot;&gt;w^Tx+b&gt;0&lt;/script&gt;的点刚好分布在超平面的两边.&lt;/p&gt;
 </description>
         <pubDate>Thu, 25 Jul 2019 00:00:00 +0800</pubDate>
         <link>/watermelon/mathWarning.html</link>
@@ -564,301 +1015,6 @@ mkvirtualenv -p ~/.pyenv/versions/3.6.6/bin/python testenv
         
         
         <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>novel spider</title>
-        <description>&lt;h2 id=&quot;劳模&quot;&gt;劳模&lt;/h2&gt;
-&lt;p&gt;过了一年回到家。发现一件惊悚的事情。我妈竟然用手机看小说。更惊悚的是她在微信公众号看了。这中公众号多如牛毛，其实都不是原创，都是从别人那里爬下来，然后让这群傻逼大妈有钱的充钱买没钱的来签到。更更家惊悚的是老妈竟然 &lt;strong&gt;连续&lt;/strong&gt;&lt;strong&gt;连续&lt;/strong&gt;&lt;strong&gt;连续&lt;/strong&gt; 签到了 &lt;strong&gt;200&lt;/strong&gt; &lt;strong&gt;200&lt;/strong&gt; &lt;strong&gt;200&lt;/strong&gt; 多天。我拿过来一看还是那种不太健康的言情小说。我的天啊都100多斤的人了，还有一颗少女心稳重点ok？看着她的连续200多天签到我都于心不忍。&lt;/p&gt;
-
-&lt;h2 id=&quot;spider&quot;&gt;spider&lt;/h2&gt;
-&lt;p&gt;一般小说的网页结构都比较简单。就是一个目录，目录下面就是第几张第几张。&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source=r'https://www.kanshu.la/75/75996/'
-a=reqfun.myget(source)
-a.encoding='utf8'
-b=lxml.etree.HTML(a.text,parser=lxml.etree.HTMLParser())#用HTMLParser的容错能力强
-c=b.xpath(r'/html/body/div[1]/div[5]/div[2]/div/dl/dd/a')#xpath直接用浏览器F12 copy下来copy自己的正确的
-cc=[index+i.attrib['href'] for i in c][14:]#拿到标签的href属性就可以组合成每一章小说的连接了
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;拿到没一章的连接之后，直接打开xpath把title跟内容拿下来就可以了&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def getText(href,titleXpath,contentXpath):
-    response=reqfun.myget(href)
-    response.encoding='utf8'
-    #用HTMLParser 的容错性比较高
-    lt=lxml.etree.HTML(response.text,parser=lxml.etree.HTMLParser())
-    title=lt.xpath(titleXpath)[0].text
-    content=lt.xpath(contentXpath)[0].xpath('string(.)')
-    return (title,content)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;然后就是保存，注意可能有一些字符的无法decode的，如果有就直接replace成’‘就可以了&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def save(title,text,number,filePath):
-    try:
-        with open(filePath,'a',encoding='utf8')as f:
-            f.write('\n'+title+'\n')
-            f.write(text)
-        print('save sucess'+str(number)+'  '+title)
-    except Exception as e:
-        print(e,title,number)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;code&quot;&gt;code&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import reqfun
-import lxml
-def getText(href,titleXpath,contentXpath):
-    response=reqfun.myget(href)
-    response.encoding='utf8'
-    #用HTMLParser 的容错性比较高
-    lt=lxml.etree.HTML(response.text,parser=lxml.etree.HTMLParser())
-    title=lt.xpath(titleXpath)[0].text
-    content=lt.xpath(contentXpath)[0].xpath('string(.)')
-    return (title,content)
-    
-def save(title,text,number,filePath):
-    try:
-        with open(filePath,'a',encoding='utf8')as f:
-            f.write('\n'+title+'\n')
-            f.write(text)
-        print('save sucess'+str(number)+'  '+title)
-    except Exception as e:
-        print(e,title,number)
-
-
-def download(source,hxp,txp,cxp,fp):
-    source=r'https://www.kanshu.la/75/75996/'
-    index=r'https://www.kanshu.la/'
-    a=reqfun.myget(source)
-    a.encoding='utf8'
-    b=lxml.etree.HTML(a.text,parser=lxml.etree.HTMLParser())
-    # c=b.xpath(r'/html/body/div[1]/div[5]/div[2]/div/dl/dd/a')
-    c=b.xpath(hxp)
-    cc=[index+i.attrib['href'] for i in c][14:]
-    num=0
-    while num&amp;lt;len(cc):
-        save(*getText(cc[num],txp,cxp),num,fp)
-        num+=1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-        <pubDate>Wed, 06 Feb 2019 00:00:00 +0800</pubDate>
-        <link>/coding/novelSpider.html</link>
-        <guid isPermaLink="true">/coding/novelSpider.html</guid>
-        
-        <category>spider</category>
-        
-        <category>coding</category>
-        
-        
-        <category>coding</category>
-        
-      </item>
-    
-      <item>
-        <title>Hello World</title>
-        <description>&lt;h2 id=&quot;安装keras&quot;&gt;安装keras&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;弱鸡不要用centos&lt;/strong&gt;&lt;br /&gt;
-&lt;strong&gt;弱鸡不要用centos&lt;/strong&gt;&lt;br /&gt;
-&lt;strong&gt;弱鸡不要用centos&lt;/strong&gt;&lt;br /&gt;
-一开始用的centos，别提多坑爹了，各种gcc版本低，各种g++链接库不匹配。装完一个又一个，没完没了。直接pip安装tensorflow和keras就可以，只是服务器(ubuntu)没有pip，安装还会缺少某些东西，百度一下就好了。&lt;/p&gt;
-
-&lt;h2 id=&quot;swap&quot;&gt;swap&lt;/h2&gt;
-&lt;p&gt;一开始还是紧紧跟着老师的步伐。用老师的手写字识别的例子。keras上面可以下载数据，昨晚睡觉前用服务器下载就去睡了（服务器：委屈）。在此load进来。接下来又到了喜闻乐见的ctrl c ctrl v 时间了。照着视频敲。
-&lt;br /&gt;
-好景不长啊！从mnist down下来的数据是二维数组不可以直接用。要先换为一维数组。本来想在py上换了保存下来的。但python会自己被kill掉，百度一下发现是因为py占用内存过高。用的腾讯学生版服务器内存就2g，free看看发现没有swap分区，建个文件分区&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dd if=/dev/zero of=~/swapfile bs=1M count=1024
-mkswap ~/swapfile
-swapon /root/swapfile
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;hello-world&quot;&gt;hello world&lt;/h2&gt;
-
-&lt;p&gt;然后用代码换一下保存成numpy数组&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from keras.layers import Dense,Activation
-from keras.models import Sequential,model_from_json
-import keras
-import numpy as np
-def func(xtrain,ytrain,name):
-    xx=[]
-    for i in xtrain:
-        temp=[]
-        for ii in i:
-            temp+=list(ii)
-        xx.append(temp)
-    xxx=np.array(xx,np.uint8)
-    del xx
-    yy=[]
-    for i in ytrain:
-        temp=[0 for ii in range(10)]
-        temp[i]=1
-        yy.append(temp)
-    yyy=np.array(yy,np.uint8)
-    np.save('x'+name+'.npy',xxx)
-    np.save('y'+name+'.npy',yyy)
-    print(&quot;save success&quot;)
-(xtr,ytr)=keras.datasets.mnist.load_data()[0]
-func(xtr,ytr,'train')
-(xtr,ytr)=keras.datasets.mnist.load_data()[1]
-func(xtr,ytr,'test')
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;接下来training出来结果保存就ok&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from keras.layers import Dense,Activation
-from keras.models import Sequential,model_from_json
-import keras
-import numpy as np
-xxx=np.load('xtrain.npy')
-yyy=np.load('ytrain.npy')
-model=keras.models.Sequential()
-model.add(Dense(input_dim=28*28,output_dim=500))
-model.add(Activation('sigmoid'))
-model.add(Dense(output_dim=500))
-model.add(Activation('sigmoid'))
-model.add(Dense(output_dim=10))
-model.add(Activation('softmax'))
-model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
-model.fit(xxx,yyy,batch_size=60,epochs=30)
-json_string = model.to_json()
-try:
-    with open(r'/home/ubuntu/my_model_architecture.json','w') as f:
-        f.write(json_string)
-    model.save_weights(r'/home/ubuntu/my_model_weights.h5')
-except Exception as e:
-    with open(r'/home/ubuntu/exception','w')as f:
-        f.write(str(e))
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;loadModel&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loadModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model_from_json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'my_model_architecture.json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; 
-    &lt;span class=&quot;k&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load_weights&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'my_model_weights.h5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;model&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;arg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;28&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;之前看一下结果还不错，就不会去截图来了&lt;/p&gt;
-</description>
-        <pubDate>Tue, 05 Feb 2019 00:00:00 +0800</pubDate>
-        <link>/machine%20learning/MLhelloWorld.html</link>
-        <guid isPermaLink="true">/machine%20learning/MLhelloWorld.html</guid>
-        
-        <category>ML</category>
-        
-        
-        <category>machine learning</category>
-        
-      </item>
-    
-      <item>
-        <title>deep learning</title>
-        <description>&lt;h2 id=&quot;日常review&quot;&gt;日常review&lt;/h2&gt;
-&lt;p&gt;插入review，一开始我们要做分类，通过classification知道二元分类的时候强行用一样的covariance最终找到的funciton是线性的。之后我们尝试直接找到w，b，而不是先假设概率分布再通过极大拟然估计求分布。之后我们把一个二元分类，之前知道p(c|x)=&lt;script type=&quot;math/tex&quot;&gt;\frac{1}{1+e^{-z}}&lt;/script&gt;而z是线性的。
-&lt;img src=&quot;/img/logisticRegression/z.png&quot; alt=&quot;z的表达式&quot; /&gt;
-然后f是z的simog就是概率，data的概率相乘通过数学转换等价与于求cross entropy。然后通过gradient descent求最佳的function偏微分之后形式跟linear regression是一致的。之后对于多元分类，(老师没给出推到)说可以通过跟classification一样通过假设一样的covariance matrix，求到p{c|x}就是z做softmax得到的结果y（这里的的y是未知的他只是一个表达式）.最后用loss function也是跟二元的一样做cross entropy,之后就是求偏微分找最好的function了。&lt;/p&gt;
-
-&lt;h2 id=&quot;three-steps&quot;&gt;three steps&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/img/deepLearning/threeSteps.png&quot; alt=&quot;threeSteps&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;define-a-set-of-functions-也就是一个neuron-network&quot;&gt;define a set of functions 也就是一个neuron network&lt;/h3&gt;
-&lt;p&gt;把logistic regression（也可以不用logistic）连接在一起，一个logistic regression就是一个neuron，所有连接起来就是一个neuron network。每个logistic regression都有自己的parameter(weight,bias)，所有这些parameter就是neuron network的parameter。至于怎么连接是手动连接的，要自己设计。例如fully connect feedforward network。
-&lt;img src=&quot;/img/deepLearning/fullyconnectfeedforwardnetwork.png&quot; alt=&quot;fullyconnectfeedforwardnetwork&quot; /&gt;
-我们定好一个neuron network的连接结构也就定好了一个function set，当我们定好了neuron network中每个logistic regression 的parameter ，那么我们的function就定下来了。通常用矩阵来做运算，这样可以用gpu加速。除了输入的data那一层和输出结果的那一层，中间的都是hiddenlayer。hidden对feature加工给最后一层的output layer作为输入。最后一层output layer司机哦一个multi-class classifier。多少层和多少个neuron只可以靠经验和直觉&lt;/p&gt;
-&lt;h3 id=&quot;goodness-of-a-function-cross-entropy&quot;&gt;goodness of a function cross entropy&lt;/h3&gt;
-&lt;p&gt;这一步就要找loss function拉，因为最后一层是multi class classifier,所以跟上节课的一样对y跟y hat用cross entropy就可以了。
-&lt;img src=&quot;/img/deepLearning/loss.png&quot; alt=&quot;loss&quot; /&gt;&lt;/p&gt;
-&lt;h3 id=&quot;pick-the-best-function&quot;&gt;pick the best function&lt;/h3&gt;
-&lt;p&gt;emmmmmm……gradient descent&lt;/p&gt;
-</description>
-        <pubDate>Mon, 14 Jan 2019 00:00:00 +0800</pubDate>
-        <link>/machine%20learning/deepLearning.html</link>
-        <guid isPermaLink="true">/machine%20learning/deepLearning.html</guid>
-        
-        <category>ML</category>
-        
-        
-        <category>machine learning</category>
-        
-      </item>
-    
-      <item>
-        <title>Logistic Regression</title>
-        <description>&lt;h2 id=&quot;review&quot;&gt;review&lt;/h2&gt;
-&lt;p&gt;老规矩review，这是我看了第一遍之后在回来做的review，蓝瘦×3!&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;linear regression,之前一直记的都是一个参数的linear regression。这里review一下多个参数的function,&lt;script type=&quot;math/tex&quot;&gt;f(x)=\Sigma w_{i}x_{i}&lt;/script&gt;，看清楚了这里的输入x是vector。Loss Function,&lt;script type=&quot;math/tex&quot;&gt;L(w,b)=(\hat y-(w_{i}*x_{i}+b))^{2}&lt;/script&gt;。用 gradient descent 求偏导数update参数,&lt;script type=&quot;math/tex&quot;&gt;w_{i+1}=w_{i}-\eta \frac{\partial f(x)}{\partial w_{i}}\|_{w=w_{i},b=b{i}}&lt;/script&gt; 。看清楚这里的updata过程的对L求偏导的结果&lt;script type=&quot;math/tex&quot;&gt;-2(\hat{y}-f(x))   \frac{\partial f}{\partial w_{i}}&lt;/script&gt;,而&lt;script type=&quot;math/tex&quot;&gt;\frac{\partial f}{\partial w}=x&lt;/script&gt;。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;回忆上次的classification，抽样知道P(c1),P(c2),令p(x|c1)为多维正太分布&lt;script type=&quot;math/tex&quot;&gt;f_{\mu,\Sigma}(x)=\frac{1}{(2\pi)^{\frac{D}{2}}}\frac{1}{\left \| \Sigma \right \|^{\frac{1}{2}}}exp\{-\frac{1}{2}(x-\mu)\Sigma ^{-1}\} (x-\mu)&lt;/script&gt;(note：左边这个公式的sigma是一个绝对值,那是绝对值号应该是一个竖线),此处的covariance&lt;script type=&quot;math/tex&quot;&gt;\Sigma&lt;/script&gt;是矩阵,x &lt;script type=&quot;math/tex&quot;&gt;\mu&lt;/script&gt;都是vector。令两个class的&lt;script type=&quot;math/tex&quot;&gt;\Sigma&lt;/script&gt;一致，求出mean及 covariance,那么gaussian就出来了。对于每一个数据代入函数之后都会得到一个概率p(c|x)，如果大于0.5就是class1否则class2(二元分类)。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;上次classification最后欠下的债，最后的warning of math，以为例行的听不懂第二天的太阳还是会升起来，但是最后的结论很重要，如果我们通过数学在covariance一致的情况下化简一下，发现z是线性的&lt;br /&gt;&lt;script type=&quot;math/tex&quot;&gt;z=\Sigma w_{i}x_{i}&lt;/script&gt;,&lt;script type=&quot;math/tex&quot;&gt;p(c\|x)=\frac{1}{1+e^{-z}}&lt;/script&gt;那么我们可不可以直接找出w和b呢，这就是这节课做的事情。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;discrimination&quot;&gt;discrimination&lt;/h2&gt;
-
-&lt;p&gt;&lt;strong&gt;首先我们的function set 跟上一次课用的generative是一致的(covariance一致的时候).&lt;/strong&gt;
-&lt;img src=&quot;/img/logisticRegression/functionSet.png&quot; alt=&quot;functionSet&quot; /&gt;
-&lt;br /&gt;
-然后我们就要training这个function出来了，写出概率的函数&lt;/p&gt;
-
-&lt;p&gt;注意了，一定要理解清楚意义，这个函数f是我们要求的那个概率函数(就是training的那个),图片上面的x跟y是data
-&lt;img src=&quot;/img/logisticRegression/logisticGoodness.png&quot; alt=&quot;logisticGoodness&quot; /&gt;
-然后做一些数学转换
-&lt;img src=&quot;/img/logisticRegression/mathConvert.png&quot; alt=&quot;mathConvert，图片有部分错误等待新图&quot; /&gt;
-转换完之后就要用gradient descent做偏微分了，理解下图的公式中字母的意义，L是概率函数，y跟x都是data，n其实是sigma的标号
-&lt;img src=&quot;/img/logisticRegression/findBest.png&quot; alt=&quot;findBest&quot; /&gt;
-&lt;br /&gt;
-那么找出来的结果，我们可以看到update参数的式子跟linear regression的是一样的
-&lt;img src=&quot;/img/logisticRegression/outcome.png&quot; alt=&quot;outcome&quot; /&gt;
-&lt;img src=&quot;/img/logisticRegression/compare.png&quot; alt=&quot;compare&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;why-onto-square-error&quot;&gt;why onto square error&lt;/h2&gt;
-
-&lt;p&gt;无论&lt;script type=&quot;math/tex&quot;&gt;\hat{y}&lt;/script&gt;是1还是0，距离目标特别远或特别近，偏微分都几乎是0(理论上微分应该大一点，这样速度大),所以用像linear regression一样的Loss function的时候f(x)在接近0或者1的时候都非常的慢跟在target差不多&lt;/p&gt;
-
-&lt;h2 id=&quot;discrimination-vs-generative&quot;&gt;discrimination vs generative&lt;/h2&gt;
-&lt;p&gt;前面提到了两者的function set 是一致的，显然我们通过两种方法找到的w跟b 是不一样的。在discrimination中我们对w和b是没有任何假设的，而我们在generative中是由假设的，例如我们把它假设为gaussian。二在实际中discrimination通常比generative结果要好。老师举了一个naive bays的例子说为什么，但是我觉得这样是因为认为的用naive bays，这个例子没有说服力。
-&lt;img src=&quot;/img/logisticRegression/naive.png&quot; alt=&quot;naive&quot; /&gt;
-&lt;br /&gt;&lt;/p&gt;
-&lt;h2 id=&quot;benefits-of-generative-model&quot;&gt;benefits of generative model&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;当只有很少data的时候可以依靠generative的”脑补”能力(因为他要假设概率模型)来提高准确率&lt;/li&gt;
-  &lt;li&gt;more robust to noise&lt;/li&gt;
-  &lt;li&gt;说是p(c)跟P(x|c)可以分开算，这里视频里面老师举的例子没有出现，估计是现场有其他的设备展示(蓝瘦！)。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;multi-class-classificatin&quot;&gt;multi-class classificatin&lt;/h2&gt;
-
-&lt;p&gt;如下图，在多个class的时候呢。我们用softmax就可以直接求到概率&lt;script type=&quot;math/tex&quot;&gt;\hat{y}=&lt;/script&gt;\p(c1|x),
-&lt;img src=&quot;/img/logisticRegression/softmax.png&quot; alt=&quot;softmax&quot; /&gt;
-老师说从一开始假设Gaussian而且共用covariance matrix出发可以推导出来这个式子，然而他没有讲怎么推导。然后就有把cross entropy的式子丢出来了，没有推导多个class的情况二是直接给出来 (cross entropy的表达式)。也就是说p(c|x)=&lt;script type=&quot;math/tex&quot;&gt;y_{i} =\frac{e^{z_{i}}}{\sum_{j=1}^{n} e^{z_{j}}}&lt;/script&gt;。由feature data求得的&lt;script type=&quot;math/tex&quot;&gt;y_{i}&lt;/script&gt;跟data&lt;script type=&quot;math/tex&quot;&gt;\hat{y}&lt;/script&gt;cross entropy之后就可以等到概率L的表达式.
-&lt;img src=&quot;/img/logisticRegression/multiCrossEntropy.png&quot; alt=&quot;multiCrossEntropy&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;limitation-of-logistic-regression&quot;&gt;limitation of logistic regression&lt;/h2&gt;
-
-&lt;p&gt;如题啊。如图，一条线无法分开这两个class，可以通过feature transformation 来解决。这是用来引出下节课要讲的内容deep learning。
-&lt;img src=&quot;/img/logisticRegression/limitation.png&quot; alt=&quot;limitation&quot; /&gt;
-&lt;strong&gt;终于写完了好他妈长&lt;/strong&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sat, 12 Jan 2019 00:00:00 +0800</pubDate>
-        <link>/machine%20learning/LogisticRegression.html</link>
-        <guid isPermaLink="true">/machine%20learning/LogisticRegression.html</guid>
-        
-        <category>ML</category>
-        
-        
-        <category>machine learning</category>
         
       </item>
     

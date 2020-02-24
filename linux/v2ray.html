@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/linux/v2ray.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>v2ray初次尝试</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="前言一直作死用的ss没加密，反正一直没啥事的，后来国庆ip被禁了，70周年躲一下风头，过了之后花了我10多刀换了个ip继续作死。换了ip之后，没多久就开始封我端口，春节几天没用竟然又封了我ip。">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">v2ray初次尝试</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="24 Feb 2020" itemprop="datePublished">Feb 24 2020</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">linux</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>救救老人家的梯子</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="前言">前言</h2>
+<p>一直作死用的ss没加密，反正一直没啥事的，后来国庆ip被禁了，70周年躲一下风头，过了之后花了我10多刀换了个ip继续作死。换了ip之后，没多久就开始封我端口，春节几天没用竟然又封了我ip。
+<br /></p>
+
+<p><strong>去你妈的小熊维尼，老子的钱大风刮来的吗</strong>
+<br /></p>
+
+<p><strong>去你妈的小熊维尼，老子的钱大风刮来的吗</strong>
+<br /></p>
+
+<p><strong>去你妈的小熊维尼，老子的钱大风刮来的吗</strong>
+<br /></p>
+
+<p>然后琢磨一下咋办。不整不知道，原来自己真的跟不上时代了，v2ray？CDN啥东西。</p>
+
+<h2 id="v2ray">v2ray</h2>
+<p>V2Ray 是 Project V 下的一个工具。Project V 是一个包含一系列构建特定网络环境工具的项目，而 V2Ray 属于最核心的一个。
+<br /></p>
+
+<p><a href="https://www.v2ray.com/">projectV的官网</a>
+<br />
+安装真的是简单得一笔</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash &lt;(curl -L -s https://install.direct/go.sh)
+</code></pre></div></div>
+<p>一般的linux系统基本没什么问题，安装完成之后会出现一个uuid相当于密码，但这个关系不大，只是本地连接的端口的密码，都是可以改的。
+<br />
+如果下载了V2Ray，可以直接用–local安装，下面图是下载好了安装包安装的图
+<img src="/img/v2ray/installLocal.png" alt="v2ray安装" /></p>
+
+<p>v2ray的配置内容比较多，<a href="https://toutyrater.github.io/">具体的可以看白话文教程</a>。照着白话文vmess协议那节的配置就基本可以，意思也是十分明了。
+客户端的话可以下载v2rayN(还是这种比较适合我啊)。
+其实也就那回事，只是vmess对抗检测的能力更强，v2ray可以配置的东西更多，万变不离其宗，都只是代理罢了。</p>
+
+<h2 id="cdn">CDN</h2>
+
+<p>虽然搭好了v2ray，但是梯子的ip还是访问不了的。这里就需要使用CDN的节点来转发。幸好老夫还有个垃圾域名，要不又要掏钱了。这里解释一下CDN，以前没接触过。</p>
+
+<p><br />
+假设现在我们有一台国内的主机A（ip101），一台国外主机B(被墙ip201)，假设blog.woshijianjian.xyz解释为主机B的ip201</p>
+
+<h3 id="无cdn">无CDN</h3>
+<ol>
+  <li>主机A访问blog.woshijianjian.xyz</li>
+  <li>通过DNS解释直接得到的是主机B的地址201</li>
+  <li>主机A访问201被墙</li>
+</ol>
+
+<h3 id="有cdn">有CDN</h3>
+<ol>
+  <li>主机A访问blog.woshijianjian.xyz</li>
+  <li>通过DNS解释直接得到的是CDN节点C的地址20x，这个ip地址是有可能变的</li>
+  <li>主机A访问CDN节点C(20x)</li>
+  <li>C受到A的请求后，如果A请求的内容它刚好缓存有，那个C直接向A返回其所需内容，如果没有那么C将带着请求访问主机B</li>
+</ol>
+
+<p>如此只要确保每次的内容C都没有，那个CDN节点C就会充当了我们的中间代理了。</p>
+
+<p>所以搭好v2ray之后，我们有以下几点要做</p>
+<ol>
+  <li>有域名</li>
+  <li>把域名解析服务器换到cloudflare(我用的是cloudflare的CDN)</li>
+  <li>在cloudflare添加一个A记录xx.name.xxx(我的就是x.woshijianjian.xyz),ip地址是主机B的地址201，并启用CDN。</li>
+  <li>服务器用ws协议</li>
+</ol>
+
+<p><strong>我试过了，使用这个CDN节点一定要用80端口，443没试过</strong></p>
+
+<p><img src="/img/v2ray/cloudflare.png" alt="此处欠一张图" /></p>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=v2ray初次尝试@&amp;url=/linux/v2ray.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/linux/v2ray.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/linux/v2ray.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>

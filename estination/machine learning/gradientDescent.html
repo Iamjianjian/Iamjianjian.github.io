@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/machine%20learning/gradientDescent.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>gradient descent</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="review首先回忆一下什么是gradient descent。为training一个function:f=b+wx我们定义出来一个Loss Function:,Loss Function是为了找到Loss最小的参数。过程中首先init参数，然后tip1:tuning LR一句话LR别太小或太大adaptive ...">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">gradient descent</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="09 Jan 2019" itemprop="datePublished">Jan 9 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">ML</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>machine learning 第三课介绍介绍gradient descent需要注意的点。总的来说这次没多难，只是介绍性的内容。</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="review">review</h2>
+<p>首先回忆一下什么是gradient descent。为training一个function:f=b+wx我们定义出来一个Loss Function:<img src="/img/formula/lossFunc.gif" alt="lossFunc" />,Loss Function是为了找到Loss最小的参数。
+过程中首先init参数，然后<img src="/img/gradientDescent/GDprocess.png" alt="GDprocess" /></p>
+
+<h2 id="tip1tuning-lr">tip1:tuning LR</h2>
+<p>一句话LR别太小或太大
+<img src="/img/gradientDescent/tuningLR.png" alt="tuningLR" /></p>
+<h3 id="adaptive-learging-rate">adaptive Learging Rate</h3>
+<p>之后是调节LR的方法,LR应该动态改变，给出了两个点:</p>
+<ol>
+  <li>开始我们离destination远之后近，所以呢LR要大，之后LR要小</li>
+  <li>不同的参数要不同的LR</li>
+</ol>
+
+<p>介绍了adagrad
+<img src="/img/gradientDescent/ada1.png" alt="ada1.png" />
+<img src="/img/gradientDescent/ada2.png" alt="ada2.png" /></p>
+
+<p><strong>然后提出了一个contradiction，在原来的gradient descent中梯度越大，learning越大，但是在adagrad中呢，就越小。(觉得这里说的不对，应该是这一次之后的LR越小)</strong>。
+<br />然后老师解释了，为什么要这样。他是从二元二次函数的角度出发的，说adagrad的分母是二次导数的近似。而我觉得这屁关系没有，所以就不写下来了。
+<br />
+还有adagrad在最后LR会特别的小，小的令人发指。</p>
+
+<h2 id="tip-2-stochastic-gradient-descent">Tip 2: Stochastic Gradient Descent</h2>
+<p>很简单Gradient Descent每一次更新参数都是用所以的data的偏导，Stochastic则是随机选一个或者按序轮流都可以
+<img src="/img/gradientDescent/stochastic.png" alt="stochastic.png" /></p>
+
+<h2 id="tip-3-feature-scaling">Tip 3: Feature Scaling</h2>
+<p>就是有一些输入的参数特别大的时候，对输入参数进行调整。如果不作调整一些参数影响会过大，调整之后的在图像上更像一个圆形(二维)。
+<img src="/img/gradientDescent/circle.png" alt="circle.png" />
+下面是调整的方法
+<img src="/img/gradientDescent/featureScaling.png" alt="featureScaling.png" />
+最后是gradient descent的数学正确性证明了，好像还是挺简单，不赘述。但是要注意一点，gradient descent正确是建立在LR足够小的前提下，着也就说明了开始的时候为什么LR过大会出现我们不喜欢的情况。</p>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=gradient descent@&amp;url=/machine%20learning/gradientDescent.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/machine%20learning/gradientDescent.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/machine%20learning/gradientDescent.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>

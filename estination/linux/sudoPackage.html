@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS -->
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="/linux/sudoPackage.html">
+  <link rel="alternate" type="application/rss+xml" title="sofiesJian" href="/feed.xml">
+
+<!-- Google font -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto Sans"> -->
+
+<!-- font awesome -->
+
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+
+  <!--  -->
+
+  
+
+  </head>
+
+  <body>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>sudo python package not found</title>
+  <link rel="icon" href="/img/madaoIcon.ico" type="image/x-icon">
+  <meta name="description" content="problem由于用scapy发包要用到root权限，发现了问题。直接sudo的话会出现module not found的错误。但是我的却已经安装了scapy的google一下是用sudo之后的模块导入路径与之前不一样。细想也应该是这么个事。因为这些模块都是我普通用户用 pip3 –user装的。在普通用户下执行...">
+</head>
+
+
+  <div class="wrapper">
+          <header class="post-header">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=default"></script>
+    <center><div class="post-title" itemprop="name headline">sudo python package not found</div>
+
+		<div class="post-meta"><i class="fa fa-calendar-o"></i> <time datetime="09 Feb 2019" itemprop="datePublished">Feb 9 2019</time>
+
+		&nbsp;&nbsp;•&nbsp;&nbsp;<i class="fa fa-user-secret"></i> <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">sofiesJian</span>
+        
+		<br>
+	</div>
+
+        
+        <div class="post-tags">
+        
+		<a class="post-tags-item" href="/tags/">linux</a>
+        
+		<a class="post-tags-item" href="/tags/">python</a>
+        
+	</div>
+    </center>
+    
+</header>
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-content">
+    <center>
+	
+	<p>fedora 下sudo发生module not found 的错误</p>
+	
+    </center>
+	<h2>Directory</h2>
+</div>
+
+<div id="category"></div>
+
+<div class="post-content" itemprop="articleBody">
+    <h2 id="problem">problem</h2>
+<p>由于用scapy发包要用到root权限，发现了问题。直接sudo的话会出现module not found的错误。但是我的却已经安装了scapy的google一下是用sudo之后的模块导入路径与之前不一样。细想也应该是这么个事。因为这些模块都是我普通用户用 <strong>pip3</strong> <strong>–user</strong>装的。
+<br />
+在普通用户下执行下面的shell命令</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 -c "import sys;print(sys.path)"
+</code></pre></div></div>
+<p><br />
+输出</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['', '/usr/lib64/python37.zip', '/usr/lib64/python3.7', '/usr/lib64/python3.7/lib-dynload', '/home/jianjian/.local/lib/python3.7/site-packages',  '/usr/local/lib64/python3.7/site-packages', '/usr/local/lib/python3.7/site-packages', '/usr/lib64/python3.7/site-packages', '/usr/lib/python3.7/site-packages']
+</code></pre></div></div>
+<p>在root用户下执行下面的shell命令</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 -c "import sys;print(sys.path)"
+</code></pre></div></div>
+<p><br /></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['', '/usr/lib64/python37.zip', '/usr/lib64/python3.7', '/usr/lib64/python3.7/lib-dynload', '/usr/local/lib64/python3.7/site-packages', '/usr/local/lib/python3.7/site-packages', '/usr/lib64/python3.7/site-packages', '/usr/lib/python3.7/site-packages']
+</code></pre></div></div>
+
+<h2 id="solution">solution</h2>
+<p>在<a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c10/p09_add_directories_to_sys_path.html">python的官方文档</a>找到一些关于path和import module的说明。
+<br />
+我平时装的module都是在 <strong>/home/jianjian/.local/lib/python3.7/site-packages</strong>这个目录里。在root权限下的python的sys.path是没有这个path的。
+我自己在~/.local/lib/python3/site-packages下面是建有.pth文件的。但我又不想把他装到系统级的python解释其里面。想到个方法就是在每个需要运用root权限的py文件的头两行就加入两行</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import time,sys
+sys.path.append('/home/jianjian/.local/lib/python3.7/site-packages')#  your path to site-packages
+</code></pre></div></div>
+<p>成功sudo</p>
+
+</div>
+
+<div>
+	
+	<div class="eof"></div>
+	
+</div>
+
+<!-- <div class="share">
+    <p>Share this post with: </p>
+	<a href="https://twitter.com/intent/tweet?text=sudo python package not found@&amp;url=/linux/sudoPackage.html" class="twitter-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://www.facebook.com/sharer/sharer.php?u=/linux/sudoPackage.html" class="facebook-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+    
+	<a href="https://plus.google.com/share?url=/linux/sudoPackage.html" class="googleplus-share">
+		<span class="fa-stack fa-lg">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span>
+	</a>
+</div>
+ -->
+
+<div id="disqus_thread"></div>
+
+
+ 
+</div>
+
+
+</article>
+
+  </div>
+
+</body>
+
+<foot>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <center>
+        
+		<p><a class="link" href="/archive/">Archive</a> /
+		<a class="link" href="/category/">Category</a> / 
+		<a class="link" href="/tags/">Tags</a> / 
+		<!-- <a class="link" href="/about/">About</a> / -->
+		<!-- <a class="link" href="/contact/">Contact</a> -->
+        </p>
+
+        <span><script>document.write(new Date().getFullYear());</script></span>
+        <span>&copy;</span>
+        
+		<a class="link" href="https://github.com/Iamjianjian">sofiesJian</a>
+		<br>
+		<span>我们不生产代码,我们只是gayhub的搬运工 </span>
+
+    </center>
+    
+  </div>
+
+</footer>
+
+    <foot>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Derictory -->
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="https://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+<!-- Hit analytics -->
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Directory -->
+
+<script src="/js/main.js"></script>
+
+</foot>
+
+
+</foot>
+
+</html>
