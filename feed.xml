@@ -6,8 +6,8 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 24 Feb 2020 10:15:28 +0800</pubDate>
-    <lastBuildDate>Mon, 24 Feb 2020 10:15:28 +0800</lastBuildDate>
+    <pubDate>Tue, 25 Feb 2020 09:06:34 +0800</pubDate>
+    <lastBuildDate>Tue, 25 Feb 2020 09:06:34 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -78,9 +78,10 @@
   &lt;li&gt;服务器用ws协议&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;strong&gt;我试过了，使用这个CDN节点一定要用80端口，443没试过&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;cloudflare开CDN
+&lt;img src=&quot;/img/v2ray/cloudflare.png&quot; alt=&quot;此处欠一张图&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/v2ray/cloudflare.png&quot; alt=&quot;此处欠一张图&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;我试过了，使用这个CDN节点一定要用80端口，443没试过&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 24 Feb 2020 00:00:00 +0800</pubDate>
         <link>/linux/v2ray.html</link>
